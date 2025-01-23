@@ -1,5 +1,3 @@
-<a href="https://www.fluentassertions.com"><img src="assets/images/fluent_assertions_analyzers_large_horizontal.svg" style="width:400px"/></a>
-
 # Extension methods to fluently assert the outcome of .NET tests
 
 [![CI](https://github.com/awesomeassertions/awesomeassertions.anazlyers/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/awesomeassertions/awesomeassertions.anazlyers/actions/workflows/ci.yml)
