@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
-    <RootNamespace>FluentAssertions.Analyzers</RootNamespace>
+    <RootNamespace>AwesomeAssertions.Analyzers</RootNamespace>
 
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
@@ -13,20 +13,20 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>FluentAssertions.Analyzers</PackageId>
+    <PackageId>AwesomeAssertions.Analyzers</PackageId>
     <Version>0.17.3</Version>
     <Authors>Meir Blachman</Authors>
     <Copyright>Copyright Meir Blachman 2017-$([System.DateTime]::Now.ToString('yyyy'))</Copyright>
 
-    <Description>Analyzers to help writing fluentassertions the right way.</Description>
-    <PackageTags>FluentAssertions Analyzers</PackageTags>
+    <Description>Analyzers to help writing awesomeassertions the right way.</Description>
+    <PackageTags>FluentAssertions AwesomeAssertions Analyzers</PackageTags>
     <PackageReleaseNotes>See https://github.com/fluentassertions/fluentassertions.analyzers/releases/</PackageReleaseNotes>
     
     <PackageReadmeFile>docs\README.md</PackageReadmeFile>
     <PackageIcon>FluentAssertions.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/fluentassertions/fluentassertions.analyzers</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/fluentassertions/fluentassertions.analyzers</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/awesomeassertions/awesomeassertions.analyzers</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/awesomeassertions/awesomeassertions.analyzers</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 	
