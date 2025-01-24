@@ -1,14 +1,14 @@
 # Extension methods to fluently assert the outcome of .NET tests
 
-[![CI](https://github.com/awesomeassertions/awesomeassertions.anazlyers/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/awesomeassertions/awesomeassertions.anazlyers/actions/workflows/ci.yml)
-[![](https://img.shields.io/github/release/awesomeassertions/awesomeassertions.anazlyers.svg?label=latest%20release&color=007edf)](https://github.com/awesomeassertions/awesomeassertions.anazlyers/releases/latest)
-[![](https://img.shields.io/nuget/dt/fluentassertions.analyzers.svg?label=downloads&color=007edf&logo=nuget)](https://www.nuget.org/packages/fluentassertions.analyzers)
-[![](https://img.shields.io/librariesio/dependents/nuget/fluentassertions.analyzers.svg?label=dependent%20libraries)](https://libraries.io/nuget/fluentassertions.analyzers)
-[![GitHub Repo stars](https://img.shields.io/github/stars/awesomeassertions/awesomeassertions.anazlyers)](https://github.com/awesomeassertions/awesomeassertions.anazlyers/stargazers)
-[![GitHub contributors](https://img.shields.io/github/contributors/awesomeassertions/awesomeassertions.anazlyers)](https://github.com/awesomeassertions/awesomeassertions.anazlyers/graphs/contributors)
-[![GitHub last commit](https://img.shields.io/github/last-commit/awesomeassertions/awesomeassertions.anazlyers)](https://github.com/awesomeassertions/awesomeassertions.anazlyers)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/awesomeassertions/awesomeassertions.anazlyers)](https://github.com/awesomeassertions/awesomeassertions.anazlyers/graphs/commit-activity)
-[![open issues](https://img.shields.io/github/issues/awesomeassertions/awesomeassertions.anazlyers)](https://github.com/awesomeassertions/awesomeassertions.anazlyers/issues)
+[![CI](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/actions/workflows/ci.yml)
+[![](https://img.shields.io/github/release/awesomeassertions/AwesomeAssertions.Analyzers.svg?label=latest%20release&color=007edf)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/releases/latest)
+[![](https://img.shields.io/nuget/dt/AwesomeAssertions.Analyzers.svg?label=downloads&color=007edf&logo=nuget)](https://www.nuget.org/packages/AwesomeAssertions.Analyzers)
+[![](https://img.shields.io/librariesio/dependents/nuget/AwesomeAssertions.Analyzers.svg?label=dependent%20libraries)](https://libraries.io/nuget/AwesomeAssertions.Analyzers)
+[![GitHub Repo stars](https://img.shields.io/github/stars/awesomeassertions/AwesomeAssertions.Analyzers)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/stargazers)
+[![GitHub contributors](https://img.shields.io/github/contributors/awesomeassertions/AwesomeAssertions.Analyzers)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/graphs/contributors)
+[![GitHub last commit](https://img.shields.io/github/last-commit/awesomeassertions/AwesomeAssertions.Analyzers)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/awesomeassertions/AwesomeAssertions.Analyzers)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/graphs/commit-activity)
+[![open issues](https://img.shields.io/github/issues/awesomeassertions/AwesomeAssertions.Analyzers)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/issues)
 
 A collection of Analyzers based on the best practices [tips](https://fluentassertions.com/tips/).
 
