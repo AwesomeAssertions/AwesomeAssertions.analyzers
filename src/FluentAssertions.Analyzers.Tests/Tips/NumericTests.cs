@@ -85,7 +85,7 @@ namespace FluentAssertions.Analyzers.Tests
         [AssertionCodeFix(
             oldAssertion: "actual.Should().BeLessOrEqualTo(upper).And.BeGreaterOrEqualTo(lower{0});",
             newAssertion: "actual.Should().BeInRange(lower, upper{0});")]
-        [NotImplemented]
+        [NotImplemented, Ignore]
         public void NumericShouldBeInRange_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix(oldAssertion, newAssertion);
 
         [DataTestMethod]

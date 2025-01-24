@@ -14,7 +14,7 @@ public static class FluentAssertionAnalyzerDocsUtils
     public static string ReplaceStackTrace(string messageIncludingStacktrace)
     {
         var currentFullPath = Path.GetFullPath(_fluentAssertionsAnalyzersDocsDirectory) + Path.DirectorySeparatorChar;
-        var repoRootIndex = currentFullPath.LastIndexOf(Path.DirectorySeparatorChar + "fluentassertions.analyzers" + Path.DirectorySeparatorChar, StringComparison.Ordinal);
+        var repoRootIndex = currentFullPath.LastIndexOf(Path.DirectorySeparatorChar + "AwesomeAssertions.analyzers" + Path.DirectorySeparatorChar, StringComparison.Ordinal);
         var unixFullPath = currentFullPath
             .Replace(currentFullPath.Substring(0, repoRootIndex), "/Users/runner/work")
             .Replace(Path.DirectorySeparatorChar, _unixDirectorySeparator);
