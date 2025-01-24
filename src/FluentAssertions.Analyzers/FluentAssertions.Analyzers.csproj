@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
-
+    <RootNamespace>FluentAssertions.Analyzers</RootNamespace>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
     <DevelopmentDependency>true</DevelopmentDependency>
@@ -17,9 +17,9 @@
     <Authors>Meir Blachman</Authors>
     <Copyright>Copyright Meir Blachman 2017-$([System.DateTime]::Now.ToString('yyyy'))</Copyright>
 
-    <Description>Analyzers to help writing awesomeassertions the right way.</Description>
+    <Description>Analyzers to help writing AwesomeAssertions the right way.</Description>
     <PackageTags>FluentAssertions AwesomeAssertions Analyzers</PackageTags>
-    <PackageReleaseNotes>See https://github.com/fluentassertions/fluentassertions.analyzers/releases/</PackageReleaseNotes>
+    <PackageReleaseNotes>See https://github.com/awesomeassertions/awesomeassertions.analyzers/releases/</PackageReleaseNotes>
     
     <PackageReadmeFile>docs\README.md</PackageReadmeFile>
     <PackageIcon>FluentAssertions.png</PackageIcon>
