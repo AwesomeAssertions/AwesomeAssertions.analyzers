@@ -15,7 +15,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.x'
+          dotnet-version: '8.x'
 
       - name: Restore dependencies
         run: dotnet restore
@@ -34,5 +34,5 @@ jobs:
             Write-Host "Pushing symbols $symbol";
             $nupkg = $symbol.Replace(".symbols.nupkg",".nupkg");
             Write-Host "Pushing nupkg $nupkg";
-            dotnet nuget push $nupkg --skip-duplicate --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json;
+            dotnet nuget push $nupkg --skip-duplicate --api-key ${{ secrets.NUGETAPIKEY }} --source https://api.nuget.org/v3/index.json;
           }
