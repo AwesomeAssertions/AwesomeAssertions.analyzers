@@ -22,7 +22,7 @@
     <PackageReleaseNotes>See https://github.com/awesomeassertions/awesomeassertions.analyzers/releases/</PackageReleaseNotes>
     
     <PackageReadmeFile>docs\README.md</PackageReadmeFile>
-    <PackageIcon>FluentAssertions.png</PackageIcon>
+    <PackageIcon>AwesomeAssertions.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/awesomeassertions/awesomeassertions.analyzers</PackageProjectUrl>
     <RepositoryUrl>https://github.com/awesomeassertions/awesomeassertions.analyzers</RepositoryUrl>
@@ -41,7 +41,7 @@
 
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="docs" />
-    <None Include="..\..\assets\FluentAssertions.png" Pack="true" PackagePath="" />
+    <None Include="..\..\assets\AwesomeAssertions.png" Pack="true" PackagePath="" />
     <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
