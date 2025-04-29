@@ -21,7 +21,7 @@ namespace FluentAssertions.Analyzers.Tests.Tips
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithDiagnosticAnalyzer<FluentAssertionsAnalyzer>()
                 .WithSources(Code(assertion))
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
                 .WithExpectedDiagnostics(new DiagnosticResult
                 {
                     Id = FluentAssertionsAnalyzer.DiagnosticId,
@@ -46,7 +46,7 @@ namespace FluentAssertions.Analyzers.Tests.Tips
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithDiagnosticAnalyzer<FluentAssertionsAnalyzer>()
                 .WithSources(Code(assertion))
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
             );
         }
 

@@ -16,7 +16,7 @@ public class NunitTests
         DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
             .WithAllAnalyzers()
             .WithSources(source)
-            .WithPackageReferences(PackageReference.FluentAssertions_6_12_0, PackageReference.Nunit_3_14_0)
+            .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, PackageReference.Nunit_3_14_0)
             .WithAnalyzerConfigOption("ffa_excluded_methods", "M:NUnit.Framework.Assert.IsTrue(System.Boolean)")
             .WithExpectedDiagnostics()
         );
@@ -1953,7 +1953,7 @@ public class NunitTests
         DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
             .WithAllAnalyzers()
             .WithSources(source)
-            .WithPackageReferences(PackageReference.FluentAssertions_6_12_0, nunit)
+            .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, nunit)
             .WithExpectedDiagnostics(new DiagnosticResult
             {
                 Id = AssertAnalyzer.NUnitRule.Id,
@@ -1974,7 +1974,7 @@ public class NunitTests
             .WithCodeFixProvider<NunitCodeFixProvider>()
             .WithSources(oldSource)
             .WithFixedSources(newSource)
-            .WithPackageReferences(PackageReference.FluentAssertions_6_12_0, nunit)
+            .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, nunit)
         );
     }
     private void VerifyNoFix(string source, PackageReference nunit)
@@ -1983,7 +1983,7 @@ public class NunitTests
             .WithDiagnosticAnalyzer<AssertAnalyzer>()
             .WithCodeFixProvider<NunitCodeFixProvider>()
             .WithSources(source)
-            .WithPackageReferences(PackageReference.FluentAssertions_6_12_0, nunit)
+            .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, nunit)
         );
     }
     private void VerifyNoDiagnostic(string source, PackageReference nunit)
@@ -1991,7 +1991,7 @@ public class NunitTests
         DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
             .WithAllAnalyzers()
             .WithSources(source)
-            .WithPackageReferences(PackageReference.FluentAssertions_6_12_0, nunit)
+            .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, nunit)
         );
     }
 }
