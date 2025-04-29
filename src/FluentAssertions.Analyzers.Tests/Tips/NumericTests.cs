@@ -67,7 +67,7 @@ namespace FluentAssertions.Analyzers.Tests
                 DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                     .WithSources(source)
                     .WithAllAnalyzers()
-                    .WithPackageReferences(PackageReference.FluentAssertions_6_12_0)
+                    .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
                 );
             }
         }
@@ -119,7 +119,7 @@ namespace FluentAssertions.Analyzers.Tests
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithSources(source)
                 .WithAllAnalyzers()
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
                 .WithExpectedDiagnostics(new DiagnosticResult
                 {
                     Id = FluentAssertionsAnalyzer.DiagnosticId,
@@ -151,7 +151,7 @@ namespace FluentAssertions.Analyzers.Tests
                 .WithDiagnosticAnalyzer<FluentAssertionsAnalyzer>()
                 .WithSources(oldSource)
                 .WithFixedSources(newSource)
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
             );
         }
     }

@@ -16,7 +16,7 @@ namespace FluentAssertions.Analyzers.Tests.Tips
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithAllAnalyzers()
                 .WithSources(source)
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0, PackageReference.MSTestTestFramework_3_1_1)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, PackageReference.MSTestTestFramework_3_1_1)
                 .WithAnalyzerConfigOption("ffa_excluded_methods", "M:Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(System.Boolean)")
                 .WithExpectedDiagnostics()
             );
@@ -31,7 +31,7 @@ namespace FluentAssertions.Analyzers.Tests.Tips
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithAllAnalyzers()
                 .WithSources(GenerateCode.MsTestAssertion(string.Empty, assertion))
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0, PackageReference.MSTestTestFramework_3_1_1)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, PackageReference.MSTestTestFramework_3_1_1)
             );
         }
 
@@ -865,7 +865,7 @@ namespace FluentAssertions.Analyzers.Tests.Tips
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithAllAnalyzers()
                 .WithSources(source)
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0, PackageReference.MSTestTestFramework_3_1_1)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, PackageReference.MSTestTestFramework_3_1_1)
                 .WithExpectedDiagnostics(new DiagnosticResult
                 {
                     Id = AssertAnalyzer.MSTestsRule.Id,
@@ -891,7 +891,7 @@ namespace FluentAssertions.Analyzers.Tests.Tips
                 .WithDiagnosticAnalyzer<AssertAnalyzer>()
                 .WithSources(oldSource)
                 .WithFixedSources(newSource)
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0, PackageReference.MSTestTestFramework_3_1_1)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, PackageReference.MSTestTestFramework_3_1_1)
             );
         }
     }

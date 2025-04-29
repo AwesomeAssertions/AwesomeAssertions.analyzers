@@ -122,7 +122,7 @@ namespace FluentAssertions.Analyzers.Tests.Tips
                 .WithFixedSources(newSource)
                 .WithDiagnosticAnalyzer<FluentAssertionsAnalyzer>()
                 .WithCodeFixProvider<FluentAssertionsCodeFixProvider>()
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
             );
     }
 }

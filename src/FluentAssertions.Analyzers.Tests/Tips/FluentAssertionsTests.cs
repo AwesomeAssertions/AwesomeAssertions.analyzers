@@ -53,7 +53,7 @@ namespace TestProject
 
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithDiagnosticAnalyzer<FluentAssertionsAnalyzer>()
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
                 .WithSources(source)
             );
         }
@@ -118,7 +118,7 @@ namespace TestProject
             DiagnosticVerifier.VerifyFix(new CodeFixVerifierArguments()
                 .WithDiagnosticAnalyzer<AssertAnalyzer>()
                 .WithCodeFixProvider<TCodeFixProvider>()
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0, testingLibraryReference)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, testingLibraryReference)
                 .WithSources(source)
                 .WithFixedSources(newSource)
             );
@@ -155,7 +155,7 @@ namespace TestProject
             DiagnosticVerifier.VerifyFix(new CodeFixVerifierArguments()
                 .WithDiagnosticAnalyzer<AssertAnalyzer>()
                 .WithCodeFixProvider<TCodeFixProvider>()
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0, testingLibraryReference)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, testingLibraryReference)
                 .WithSources(source, globalUsings)
                 .WithFixedSources(newSource)
             );
@@ -193,7 +193,7 @@ namespace TestProject
             DiagnosticVerifier.VerifyFix(new CodeFixVerifierArguments()
                 .WithDiagnosticAnalyzer<AssertAnalyzer>()
                 .WithCodeFixProvider<TCodeFixProvider>()
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0, testingLibraryReference)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, testingLibraryReference)
                 .WithSources(source)
                 .WithFixedSources(newSource)
             );

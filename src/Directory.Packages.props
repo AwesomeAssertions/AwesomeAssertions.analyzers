@@ -9,7 +9,7 @@
         <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.CodeFix.Testing" Version="1.1.2" />
         <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing" Version="1.1.2" />
 
-        <PackageVersion Include="AwesomeAssertions" Version="7.0.0" />
+        <PackageVersion Include="AwesomeAssertions" Version="7.2.1" />
 
         <PackageVersion Include="NUnit3TestAdapter" Version="4.6.0" />
         <PackageVersion Include="NUnit" Version="4.2.2" />

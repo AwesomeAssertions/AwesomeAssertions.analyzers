@@ -282,7 +282,7 @@ namespace TestProject
                 .WithDiagnosticAnalyzer<AssertAnalyzer>()
                 .WithSources(oldSource)
                 .WithFixedSources(newSource)
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0, PackageReference.MSTestTestFramework_3_1_1)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, PackageReference.MSTestTestFramework_3_1_1)
             );
         }
 
@@ -312,7 +312,7 @@ public class TestClass
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithSources(source, globalUsings)
                 .WithAllAnalyzers()
-                .WithPackageReferences(PackageReference.XunitAssert_2_5_1, PackageReference.FluentAssertions_6_12_0)
+                .WithPackageReferences(PackageReference.XunitAssert_2_5_1, PackageReference.AwesomeAssertions_7_latest)
                 .WithExpectedDiagnostics(new DiagnosticResult()
                 {
                     Id = AssertAnalyzer.XunitRule.Id,
@@ -359,7 +359,7 @@ public class TestType3
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithSources(source)
                 .WithAllAnalyzers()
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
                 .WithExpectedDiagnostics(new DiagnosticResult()
                 {
                     Id = FluentAssertionsAnalyzer.DiagnosticId,
@@ -405,7 +405,7 @@ public class OtherComponent
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithSources(source)
                 .WithAllAnalyzers()
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
             );
         }
 
@@ -438,7 +438,7 @@ public class MyCollectionType { }";
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithSources(source)
                 .WithAllAnalyzers()
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
                 .WithExpectedDiagnostics(new DiagnosticResult()
                 {
                     Id = FluentAssertionsAnalyzer.DiagnosticId,
@@ -502,7 +502,7 @@ public class Parent
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithSources(source)
                 .WithAllAnalyzers()
-                .WithPackageReferences(PackageReference.FluentAssertions_6_12_0)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
             );
         }
     }
