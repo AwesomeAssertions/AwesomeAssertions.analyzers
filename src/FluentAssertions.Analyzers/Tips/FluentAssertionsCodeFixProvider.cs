@@ -145,12 +145,12 @@ public sealed partial class FluentAssertionsCodeFixProvider : CodeFixProviderBas
                 return RemoveExpressionBeforeShouldAndRenameAssertion("HaveCount");
             case nameof(DiagnosticMetadata.CollectionShouldHaveCount_LengthShouldBe):
                 return RemoveExpressionBeforeShouldAndRenameAssertion("HaveCount");
-            case nameof(DiagnosticMetadata.CollectionShouldHaveCountGreaterOrEqualTo_CountShouldBeGreaterOrEqualTo):
-                return RemoveExpressionBeforeShouldAndRenameAssertion("HaveCountGreaterOrEqualTo");
+            case nameof(DiagnosticMetadata.CollectionShouldHaveCountGreaterThanOrEqualTo_CountShouldBeGreaterThanOrEqualTo):
+                return RemoveExpressionBeforeShouldAndRenameAssertion("HaveCountGreaterThanOrEqualTo");
             case nameof(DiagnosticMetadata.CollectionShouldHaveCountGreaterThan_CountShouldBeGreaterThan):
                 return RemoveExpressionBeforeShouldAndRenameAssertion("HaveCountGreaterThan");
-            case nameof(DiagnosticMetadata.CollectionShouldHaveCountLessOrEqualTo_CountShouldBeLessOrEqualTo):
-                return RemoveExpressionBeforeShouldAndRenameAssertion("HaveCountLessOrEqualTo");
+            case nameof(DiagnosticMetadata.CollectionShouldHaveCountLessThanOrEqualTo_CountShouldBeLessThanOrEqualTo):
+                return RemoveExpressionBeforeShouldAndRenameAssertion("HaveCountLessThanOrEqualTo");
             case nameof(DiagnosticMetadata.CollectionShouldHaveCountLessThan_CountShouldBeLessThan):
                 return RemoveExpressionBeforeShouldAndRenameAssertion("HaveCountLessThan");
             case nameof(DiagnosticMetadata.CollectionShouldIntersectWith_IntersectShouldNotBeEmpty):
@@ -235,15 +235,15 @@ public sealed partial class FluentAssertionsCodeFixProvider : CodeFixProviderBas
                 return RenameAssertionAndRemoveFirstAssertionArgument("BePositive");
             case nameof(DiagnosticMetadata.NumericShouldBeNegative_ShouldBeLessThan):
                 return RenameAssertionAndRemoveFirstAssertionArgument("BeNegative");
-            case nameof(DiagnosticMetadata.NumericShouldBeInRange_BeGreaterOrEqualToAndBeLessOrEqualTo):
+            case nameof(DiagnosticMetadata.NumericShouldBeInRange_BeGreaterThanOrEqualToAndBeLessThanOrEqualTo):
                 return RewriteFluentChainedAssertion(assertion, context, [
                     FluentChainedAssertionEditAction.CombineAssertionsWithNameAndArguments("BeInRange", strategy: CombineAssertionArgumentsStrategy.InsertFirstAssertionIntoIndex1OfSecondAssertion),
                 ]);
-            case nameof(DiagnosticMetadata.NumericShouldBeInRange_BeLessOrEqualToAndBeGreaterOrEqualTo):
+            case nameof(DiagnosticMetadata.NumericShouldBeInRange_BeLessThanOrEqualToAndBeGreaterThanOrEqualTo):
                 return RewriteFluentChainedAssertion(assertion, context, [
                     FluentChainedAssertionEditAction.CombineAssertionsWithNameAndArguments("BeInRange", strategy: CombineAssertionArgumentsStrategy.InsertSecondAssertionIntoIndex1OfFirstAssertion)
                 ]);
-            case nameof(DiagnosticMetadata.NumericShouldBeApproximately_MathAbsShouldBeLessOrEqualTo):
+            case nameof(DiagnosticMetadata.NumericShouldBeApproximately_MathAbsShouldBeLessThanOrEqualTo):
                 return RewriteFluentAssertion(assertion, context, [
                     FluentAssertionsEditAction.RenameAssertion("BeApproximately"),
                     (editor, context) => {

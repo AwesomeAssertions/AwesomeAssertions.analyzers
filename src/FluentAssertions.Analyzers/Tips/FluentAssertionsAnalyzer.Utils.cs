@@ -60,7 +60,7 @@ public partial class FluentAssertionsAnalyzer
             AssertionExtensions = compilation.GetTypeByMetadataName("FluentAssertions.AssertionExtensions");
             ReferenceTypeAssertionsOfT2 = compilation.GetTypeByMetadataName("FluentAssertions.Primitives.ReferenceTypeAssertions`2");
             ObjectAssertionsOfT2 = compilation.GetTypeByMetadataName("FluentAssertions.Primitives.ObjectAssertions`2");
-            NumericAssertionsOfT2 = compilation.GetTypeByMetadataName("FluentAssertions.Numeric.NumericAssertions`2");
+            NumericAssertionsBaseOfT3 = compilation.GetTypeByMetadataName("FluentAssertions.Numeric.NumericAssertionsBase`3");
             BooleanAssertionsOfT1 = compilation.GetTypeByMetadataName("FluentAssertions.Primitives.BooleanAssertions`1");
             GenericCollectionAssertionsOfT3 = compilation.GetTypeByMetadataName("FluentAssertions.Collections.GenericCollectionAssertions`3");
             GenericDictionaryAssertionsOfT4 = compilation.GetTypeByMetadataName("FluentAssertions.Collections.GenericDictionaryAssertions`4");
@@ -96,7 +96,7 @@ public partial class FluentAssertionsAnalyzer
         public INamedTypeSymbol ICollectionOfT { get; }
         public INamedTypeSymbol IReadonlyCollectionOfT { get; }
         public INamedTypeSymbol BooleanAssertionsOfT1 { get; }
-        public INamedTypeSymbol NumericAssertionsOfT2 { get; }
+        public INamedTypeSymbol NumericAssertionsBaseOfT3 { get; }
         public INamedTypeSymbol Enumerable { get; }
         public INamedTypeSymbol IEnumerable { get; }
         public INamedTypeSymbol Math { get; }

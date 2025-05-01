@@ -549,30 +549,30 @@ public class FluentAssertionsAnalyzerTests
     }
 
     [TestMethod]
-    public void CollectionShouldHaveCountGreaterOrEqualTo_CountShouldBeGreaterOrEqualTo()
+    public void CollectionShouldHaveCountGreaterThanOrEqualTo_CountShouldBeGreaterThanOrEqualTo()
     {
         // arrange
         var collection = new List<int> { 1, 2, 3 };
 
         // old assertion:
-        collection.Count().Should().BeGreaterOrEqualTo(3);
+        collection.Count().Should().BeGreaterThanOrEqualTo(3);
 
         // new assertion:
-        collection.Should().HaveCountGreaterOrEqualTo(3);
+        collection.Should().HaveCountGreaterThanOrEqualTo(3);
     }
 
     [TestMethod, ExpectedException(typeof(AssertFailedException))]
-    public void CollectionShouldHaveCountGreaterOrEqualTo_CountShouldBeGreaterOrEqualTo_Failure()
+    public void CollectionShouldHaveCountGreaterThanOrEqualTo_CountShouldBeGreaterThanOrEqualTo_Failure()
     {
         using var scope = new AssertionScope();
         // arrange
         var collection = new List<int> { 1, 2 };
 
         // old assertion:
-        collection.Count().Should().BeGreaterOrEqualTo(3);
+        collection.Count().Should().BeGreaterThanOrEqualTo(3);
 
         // new assertion:
-        collection.Should().HaveCountGreaterOrEqualTo(3);
+        collection.Should().HaveCountGreaterThanOrEqualTo(3);
     }
 
     [TestMethod]
@@ -603,30 +603,30 @@ public class FluentAssertionsAnalyzerTests
     }
 
     [TestMethod]
-    public void CollectionShouldHaveCountLessOrEqualTo_CountShouldBeLessOrEqualTo()
+    public void CollectionShouldHaveCountLessThanOrEqualTo_CountShouldBeLessThanOrEqualTo()
     {
         // arrange
         var collection = new List<int> { 1, 2, 3 };
 
         // old assertion:
-        collection.Count().Should().BeLessOrEqualTo(3);
+        collection.Count().Should().BeLessThanOrEqualTo(3);
 
         // new assertion:
-        collection.Should().HaveCountLessOrEqualTo(3);
+        collection.Should().HaveCountLessThanOrEqualTo(3);
     }
 
     [TestMethod, ExpectedException(typeof(AssertFailedException))]
-    public void CollectionShouldHaveCountLessOrEqualTo_CountShouldBeLessOrEqualTo_Failure()
+    public void CollectionShouldHaveCountLessThanOrEqualTo_CountShouldBeLessThanOrEqualTo_Failure()
     {
         using var scope = new AssertionScope();
         // arrange
         var collection = new List<int> { 1, 2, 3, 4 };
 
         // old assertion:
-        collection.Count().Should().BeLessOrEqualTo(3);
+        collection.Count().Should().BeLessThanOrEqualTo(3);
 
         // new assertion:
-        collection.Should().HaveCountLessOrEqualTo(3);
+        collection.Should().HaveCountLessThanOrEqualTo(3);
     }
 
     [TestMethod]

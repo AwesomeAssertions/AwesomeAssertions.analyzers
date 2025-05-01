@@ -16,7 +16,7 @@ public class NunitTests
         DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
             .WithAllAnalyzers()
             .WithSources(source)
-            .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, PackageReference.Nunit_3_14_0)
+            .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest, PackageReference.Nunit_3_14_0)
             .WithAnalyzerConfigOption("ffa_excluded_methods", "M:NUnit.Framework.Assert.IsTrue(System.Boolean)")
             .WithExpectedDiagnostics()
         );
@@ -768,13 +768,13 @@ public class NunitTests
     [DataTestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.GreaterOrEqual(arg1, arg2{0});",
-        newAssertion: "arg1.Should().BeGreaterOrEqualTo(arg2{0});")]
+        newAssertion: "arg1.Should().BeGreaterThanOrEqualTo(arg2{0});")]
     [AssertionCodeFix(
         oldAssertion: "Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2){0});",
-        newAssertion: "arg1.Should().BeGreaterOrEqualTo(arg2{0});")]
+        newAssertion: "arg1.Should().BeGreaterThanOrEqualTo(arg2{0});")]
     [AssertionCodeFix(
         oldAssertion: "Assert.That(arg1, Is.AtLeast(arg2){0});",
-        newAssertion: "arg1.Should().BeGreaterOrEqualTo(arg2{0});")]
+        newAssertion: "arg1.Should().BeGreaterThanOrEqualTo(arg2{0});")]
     [Implemented]
     public void Nunit3_AssertGreaterOrEqual_TestCodeFix(string oldAssertion, string newAssertion)
     {
@@ -787,13 +787,13 @@ public class NunitTests
     [DataTestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.GreaterOrEqual(arg1, arg2{0});",
-        newAssertion: "arg1.Should().BeGreaterOrEqualTo(arg2{0});")]
+        newAssertion: "arg1.Should().BeGreaterThanOrEqualTo(arg2{0});")]
     [AssertionCodeFix(
         oldAssertion: "Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2));",
-        newAssertion: "arg1.Should().BeGreaterOrEqualTo(arg2);")]
+        newAssertion: "arg1.Should().BeGreaterThanOrEqualTo(arg2);")]
     [AssertionCodeFix(
         oldAssertion: "Assert.That(arg1, Is.AtLeast(arg2));",
-        newAssertion: "arg1.Should().BeGreaterOrEqualTo(arg2);")]
+        newAssertion: "arg1.Should().BeGreaterThanOrEqualTo(arg2);")]
     [Implemented]
     public void Nunit4_AssertGreaterOrEqual_TestCodeFix(string oldAssertion, string newAssertion)
     {
@@ -888,13 +888,13 @@ public class NunitTests
     [DataTestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.LessOrEqual(arg1, arg2{0});",
-        newAssertion: "arg1.Should().BeLessOrEqualTo(arg2{0});")]
+        newAssertion: "arg1.Should().BeLessThanOrEqualTo(arg2{0});")]
     [AssertionCodeFix(
         oldAssertion: "Assert.That(arg1, Is.LessThanOrEqualTo(arg2){0});",
-        newAssertion: "arg1.Should().BeLessOrEqualTo(arg2{0});")]
+        newAssertion: "arg1.Should().BeLessThanOrEqualTo(arg2{0});")]
     [AssertionCodeFix(
         oldAssertion: "Assert.That(arg1, Is.AtMost(arg2){0});",
-        newAssertion: "arg1.Should().BeLessOrEqualTo(arg2{0});")]
+        newAssertion: "arg1.Should().BeLessThanOrEqualTo(arg2{0});")]
     [Implemented]
     public void Nunit3_AssertLessOrEqual_TestCodeFix(string oldAssertion, string newAssertion)
     {
@@ -907,13 +907,13 @@ public class NunitTests
     [DataTestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.LessOrEqual(arg1, arg2{0});",
-        newAssertion: "arg1.Should().BeLessOrEqualTo(arg2{0});")]
+        newAssertion: "arg1.Should().BeLessThanOrEqualTo(arg2{0});")]
     [AssertionCodeFix(
         oldAssertion: "Assert.That(arg1, Is.LessThanOrEqualTo(arg2));",
-        newAssertion: "arg1.Should().BeLessOrEqualTo(arg2);")]
+        newAssertion: "arg1.Should().BeLessThanOrEqualTo(arg2);")]
     [AssertionCodeFix(
         oldAssertion: "Assert.That(arg1, Is.AtMost(arg2));",
-        newAssertion: "arg1.Should().BeLessOrEqualTo(arg2);")]
+        newAssertion: "arg1.Should().BeLessThanOrEqualTo(arg2);")]
     [Implemented]
     public void Nunit4_AssertLessOrEqual_TestCodeFix(string oldAssertion, string newAssertion)
     {
@@ -1953,7 +1953,7 @@ public class NunitTests
         DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
             .WithAllAnalyzers()
             .WithSources(source)
-            .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, nunit)
+            .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest, nunit)
             .WithExpectedDiagnostics(new DiagnosticResult
             {
                 Id = AssertAnalyzer.NUnitRule.Id,
@@ -1974,7 +1974,7 @@ public class NunitTests
             .WithCodeFixProvider<NunitCodeFixProvider>()
             .WithSources(oldSource)
             .WithFixedSources(newSource)
-            .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, nunit)
+            .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest, nunit)
         );
     }
     private void VerifyNoFix(string source, PackageReference nunit)
@@ -1983,7 +1983,7 @@ public class NunitTests
             .WithDiagnosticAnalyzer<AssertAnalyzer>()
             .WithCodeFixProvider<NunitCodeFixProvider>()
             .WithSources(source)
-            .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, nunit)
+            .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest, nunit)
         );
     }
     private void VerifyNoDiagnostic(string source, PackageReference nunit)
@@ -1991,7 +1991,7 @@ public class NunitTests
         DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
             .WithAllAnalyzers()
             .WithSources(source)
-            .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, nunit)
+            .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest, nunit)
         );
     }
 }

@@ -23,9 +23,9 @@ This is a generated file, please edit src\FluentAssertions.Analyzers.FluentAsser
 - [CollectionShouldNotHaveCount_Count](#scenario-collectionshouldnothavecount_count) - `collection.Should().NotHaveCount(4);`
 - [CollectionShouldContainSingle](#scenario-collectionshouldcontainsingle) - `collection.Should().ContainSingle();`
 - [CollectionShouldHaveCountGreaterThan_CountShouldBeGreaterThan](#scenario-collectionshouldhavecountgreaterthan_countshouldbegreaterthan) - `collection.Should().HaveCountGreaterThan(2);`
-- [CollectionShouldHaveCountGreaterOrEqualTo_CountShouldBeGreaterOrEqualTo](#scenario-collectionshouldhavecountgreaterorequalto_countshouldbegreaterorequalto) - `collection.Should().HaveCountGreaterOrEqualTo(3);`
+- [CollectionShouldHaveCountGreaterThanOrEqualTo_CountShouldBeGreaterThanOrEqualTo](#scenario-collectionshouldhavecountgreaterthanorequalto_countshouldbegreaterthanorequalto) - `collection.Should().HaveCountGreaterThanOrEqualTo(3);`
 - [CollectionShouldHaveCountLessThan_CountShouldBeLessThan](#scenario-collectionshouldhavecountlessthan_countshouldbelessthan) - `collection.Should().HaveCountLessThan(4);`
-- [CollectionShouldHaveCountLessOrEqualTo_CountShouldBeLessOrEqualTo](#scenario-collectionshouldhavecountlessorequalto_countshouldbelessorequalto) - `collection.Should().HaveCountLessOrEqualTo(3);`
+- [CollectionShouldHaveCountLessThanOrEqualTo_CountShouldBeLessThanOrEqualTo](#scenario-collectionshouldhavecountlessthanorequalto_countshouldbelessthanorequalto) - `collection.Should().HaveCountLessThanOrEqualTo(3);`
 - [CollectionShouldHaveSameCount_ShouldHaveCountOtherCollectionCount](#scenario-collectionshouldhavesamecount_shouldhavecountothercollectioncount) - `collection.Should().HaveSameCount(otherCollection);`
 - [CollectionShouldNotHaveSameCount_CountShouldNotBeOtherCollectionCount](#scenario-collectionshouldnothavesamecount_countshouldnotbeothercollectioncount) - `collection.Should().NotHaveSameCount(otherCollection);`
 - [CollectionShouldContainSingle_WhereShouldHaveCount1](#scenario-collectionshouldcontainsingle_whereshouldhavecount1) - `collection.Should().ContainSingle(i => i == 1);`
@@ -104,7 +104,7 @@ var expected = "wrong";
 actual.EndsWith(expected).Should().BeTrue(); 	// fail message: Expected actual.EndsWith(expected) to be True, but found False.
 
 // new assertion:
-actual.Should().EndWith(expected); 	// fail message: Expected actual "actual" to end with "wrong".
+actual.Should().EndWith(expected); 	// fail message: Expected actual to end with "wrong", but "actual" differs near "act" (index 0).
 ```
 
 ### scenario: StringShouldNotBeNullOrEmpty
@@ -456,8 +456,8 @@ collection.Should().HaveCount(3);
 var collection = new List<int> { 1, 2, 3, 4, 5 };
 
 // old assertion:
-collection.Count().Should().Be(3); 	// fail message: Expected collection.Count() to be 3, but found 5.
-collection.Count.Should().Be(3); 	// fail message: Expected collection.Count to be 3, but found 5.
+collection.Count().Should().Be(3); 	// fail message: Expected collection.Count to be 3, but found 5.
+collection.Count.Should().Be(3); 	// fail message: Expected collection to contain 3 item(s), but found 5: {1, 2, 3, 4, 5}.
 
 // new assertion:
 collection.Should().HaveCount(3); 	// fail message: Expected collection to contain 3 item(s), but found 5: {1, 2, 3, 4, 5}.
@@ -571,17 +571,17 @@ collection.Count().Should().BeGreaterThan(2); 	// fail message: Expected collect
 collection.Should().HaveCountGreaterThan(2); 	// fail message: Expected collection to contain more than 2 item(s), but found 1: {1}.
 ```
 
-### scenario: CollectionShouldHaveCountGreaterOrEqualTo_CountShouldBeGreaterOrEqualTo
+### scenario: CollectionShouldHaveCountGreaterThanOrEqualTo_CountShouldBeGreaterThanOrEqualTo
 
 ```cs
 // arrange
 var collection = new List<int> { 1, 2, 3 };
 
 // old assertion:
-collection.Count().Should().BeGreaterOrEqualTo(3);
+collection.Count().Should().BeGreaterThanOrEqualTo(3);
 
 // new assertion:
-collection.Should().HaveCountGreaterOrEqualTo(3);
+collection.Should().HaveCountGreaterThanOrEqualTo(3);
 ```
 
 #### Failure messages
@@ -591,10 +591,10 @@ collection.Should().HaveCountGreaterOrEqualTo(3);
 var collection = new List<int> { 1, 2 };
 
 // old assertion:
-collection.Count().Should().BeGreaterOrEqualTo(3); 	// fail message: Expected collection.Count() to be greater than or equal to 3, but found 2.
+collection.Count().Should().BeGreaterThanOrEqualTo(3); 	// fail message: Expected collection.Count() to be greater than or equal to 3, but found 2.
 
 // new assertion:
-collection.Should().HaveCountGreaterOrEqualTo(3); 	// fail message: Expected collection to contain at least 3 item(s), but found 2: {1, 2}.
+collection.Should().HaveCountGreaterThanOrEqualTo(3); 	// fail message: Expected collection to contain at least 3 item(s), but found 2: {1, 2}.
 ```
 
 ### scenario: CollectionShouldHaveCountLessThan_CountShouldBeLessThan
@@ -623,17 +623,17 @@ collection.Count().Should().BeLessThan(4); 	// fail message: Expected collection
 collection.Should().HaveCountLessThan(4); 	// fail message: Expected collection to contain fewer than 4 item(s), but found 5: {1, 2, 3, 4, 5}.
 ```
 
-### scenario: CollectionShouldHaveCountLessOrEqualTo_CountShouldBeLessOrEqualTo
+### scenario: CollectionShouldHaveCountLessThanOrEqualTo_CountShouldBeLessThanOrEqualTo
 
 ```cs
 // arrange
 var collection = new List<int> { 1, 2, 3 };
 
 // old assertion:
-collection.Count().Should().BeLessOrEqualTo(3);
+collection.Count().Should().BeLessThanOrEqualTo(3);
 
 // new assertion:
-collection.Should().HaveCountLessOrEqualTo(3);
+collection.Should().HaveCountLessThanOrEqualTo(3);
 ```
 
 #### Failure messages
@@ -643,10 +643,10 @@ collection.Should().HaveCountLessOrEqualTo(3);
 var collection = new List<int> { 1, 2, 3, 4 };
 
 // old assertion:
-collection.Count().Should().BeLessOrEqualTo(3); 	// fail message: Expected collection.Count() to be less than or equal to 3, but found 4.
+collection.Count().Should().BeLessThanOrEqualTo(3); 	// fail message: Expected collection.Count() to be less than or equal to 3, but found 4.
 
 // new assertion:
-collection.Should().HaveCountLessOrEqualTo(3); 	// fail message: Expected collection to contain at most 3 item(s), but found 4: {1, 2, 3, 4}.
+collection.Should().HaveCountLessThanOrEqualTo(3); 	// fail message: Expected collection to contain at most 3 item(s), but found 4: {1, 2, 3, 4}.
 ```
 
 ### scenario: CollectionShouldHaveSameCount_ShouldHaveCountOtherCollectionCount
@@ -1000,8 +1000,8 @@ static void ThrowException() => throw new Exception("wrong");
 Action action = ThrowException;
 
 // old assertion:
-action.Should().Throw<Exception>().And.Message.Should().EndWith("age"); 	// fail message: Expected action "wrong" to end with "age".
-action.Should().Throw<Exception>().Which.Message.Should().EndWith("age"); 	// fail message: Expected action "wrong" to end with "age".
+action.Should().Throw<Exception>().And.Message.Should().EndWith("age"); 	// fail message: Expected action to end with "age", but "wrong" differs near "wro" (index 0).
+action.Should().Throw<Exception>().Which.Message.Should().EndWith("age"); 	// fail message: Expected action to end with "age", but "wrong" differs near "wro" (index 0).
 
 // new assertion:
 action.Should().Throw<Exception>().WithMessage("*age"); 	// fail message: Expected exception message to match the equivalent of "*age", but "wrong" does not.
@@ -1120,8 +1120,8 @@ static void ThrowException() => throw new ArgumentException("wrong");
 Action action = ThrowException;
 
 // old assertion:
-action.Should().ThrowExactly<ArgumentException>().And.Message.Should().EndWith("age"); 	// fail message: Expected action "wrong" to end with "age".
-action.Should().ThrowExactly<ArgumentException>().Which.Message.Should().EndWith("age"); 	// fail message: Expected action "wrong" to end with "age".
+action.Should().ThrowExactly<ArgumentException>().And.Message.Should().EndWith("age"); 	// fail message: Expected action to end with "age", but "wrong" differs near "wro" (index 0).
+action.Should().ThrowExactly<ArgumentException>().Which.Message.Should().EndWith("age"); 	// fail message: Expected action to end with "age", but "wrong" differs near "wro" (index 0).
 
 // new assertion:
 action.Should().ThrowExactly<ArgumentException>().WithMessage("*age"); 	// fail message: Expected exception message to match the equivalent of "*age", but "wrong" does not.

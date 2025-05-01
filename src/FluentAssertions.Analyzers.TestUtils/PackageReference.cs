@@ -18,7 +18,7 @@ public class PackageReference
         _allDependencies.Add(this);
     }
 
-    public static PackageReference AwesomeAssertions_7_latest { get; } = new("AwesomeAssertions", "7.2.1", "lib/netstandard2.0/");
+    public static PackageReference AwesomeAssertions_8_latest { get; } = new("AwesomeAssertions", "8.1.0", "lib/netstandard2.0/");
     public static PackageReference MSTestTestFramework_3_1_1 { get; } = new("MSTest.TestFramework", "3.1.1", "lib/netstandard2.0/");
     public static PackageReference XunitAssert_2_5_1 { get; } = new("xunit.assert", "2.5.1", "lib/netstandard1.1/");
     public static PackageReference Nunit_3_14_0 { get; } = new("NUnit", "3.14.0", "lib/netstandard2.0/");

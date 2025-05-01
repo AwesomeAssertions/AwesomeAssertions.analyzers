@@ -211,7 +211,7 @@ namespace TestNamespace
                 .WithFixedSources(newSource)
                 .WithDiagnosticAnalyzer<FluentAssertionsAnalyzer>()
                 .WithCodeFixProvider<FluentAssertionsCodeFixProvider>()
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest)
             );
         }
     }

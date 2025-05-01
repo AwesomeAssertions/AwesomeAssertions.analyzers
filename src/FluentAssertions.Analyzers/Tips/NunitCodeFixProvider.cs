@@ -181,7 +181,7 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
             case "GreaterOrEqual" when ArgumentsAreTypeOf(invocation, t.Float, t.Float, t.String, t.ObjectArray): // Assert.GreaterOrEqual(float arg1, float arg2, string message, params object[] parms)
             case "GreaterOrEqual" when ArgumentsAreTypeOf(invocation, t.Double, t.Double, t.String, t.ObjectArray): // Assert.GreaterOrEqual(double arg1, double arg2, string message, params object[] parms)
             case "GreaterOrEqual" when ArgumentsAreTypeOf(invocation, t.Decimal, t.Decimal, t.String, t.ObjectArray): // Assert.GreaterOrEqual(decimal arg1, decimal arg2, string message, params object[] parms)
-                return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "BeGreaterOrEqualTo", subjectIndex: 0, argumentsToRemove: []);
+                return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "BeGreaterThanOrEqualTo", subjectIndex: 0, argumentsToRemove: []);
             case "Less" when ArgumentsAreTypeOf(invocation, t.Int32, t.Int32): // Assert.Less(int arg1, int arg2)
             case "Less" when ArgumentsAreTypeOf(invocation, t.UInt32, t.UInt32): // Assert.Less(uint arg1, uint arg2)
             case "Less" when ArgumentsAreTypeOf(invocation, t.Long, t.Long): // Assert.Less(long arg1, long arg2)
@@ -211,7 +211,7 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
             case "LessOrEqual" when ArgumentsAreTypeOf(invocation, t.Float, t.Float, t.String, t.ObjectArray): // Assert.LessOrEqual(float arg1, float arg2, string message, params object[] parms)
             case "LessOrEqual" when ArgumentsAreTypeOf(invocation, t.Double, t.Double, t.String, t.ObjectArray): // Assert.LessOrEqual(double arg1, double arg2, string message, params object[] parms)
             case "LessOrEqual" when ArgumentsAreTypeOf(invocation, t.Decimal, t.Decimal, t.String, t.ObjectArray): // Assert.LessOrEqual(decimal arg1, decimal arg2, string message, params object[] parms)
-                return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "BeLessOrEqualTo", subjectIndex: 0, argumentsToRemove: []);
+                return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "BeLessThanOrEqualTo", subjectIndex: 0, argumentsToRemove: []);
             case "AreEqual" when ArgumentsAreTypeOf(invocation, t.Double, t.Double, t.Double): // Assert.AreEqual(double expected, double actual, double delta)
             case "AreEqual" when ArgumentsAreTypeOf(invocation, t.Double, t.Double, t.Double, t.String, t.ObjectArray): // Assert.AreEqual(double expected, double actual, double delta, string message, params object[] parms)
                 return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "BeApproximately", actualSubjectIndex, argumentsToRemove: []);
@@ -501,12 +501,12 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
             return rewriter.Should("BeGreaterThan", argument);
         else if (matcher.Is(Method("GreaterThanOrEqualTo"), out argument)
             || matcher.Is(Method("AtLeast"), out argument))
-            return rewriter.Should("BeGreaterOrEqualTo", argument);
+            return rewriter.Should("BeGreaterThanOrEqualTo", argument);
         else if (matcher.Is(Method("LessThan"), out argument))
             return rewriter.Should("BeLessThan", argument);
         else if (matcher.Is(Method("LessThanOrEqualTo"), out argument)
             || matcher.Is(Method("AtMost"), out argument))
-            return rewriter.Should("BeLessOrEqualTo", argument);
+            return rewriter.Should("BeLessThanOrEqualTo", argument);
         else if (matcher.Has(Method("Member"), out argument)
             || matcher.Does(Method("Contain"), out argument)
             || matcher.Contains(Method("Item"), out argument))

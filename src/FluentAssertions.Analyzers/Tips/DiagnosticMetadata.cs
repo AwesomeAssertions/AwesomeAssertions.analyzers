@@ -26,9 +26,9 @@ public class DiagnosticMetadata
     public static DiagnosticMetadata CollectionShouldHaveCount_CountShouldBe { get; } = new("Use .Should().HaveCount()", GetHelpLink("Collections-9"));
     public static DiagnosticMetadata CollectionShouldHaveCount_LengthShouldBe { get; } = new("Use .Should().HaveCount()", GetHelpLink("Collections-9"));
     public static DiagnosticMetadata CollectionShouldHaveCountGreaterThan_CountShouldBeGreaterThan { get; } = new("Use .Should().HaveCountGreaterThan()", GetHelpLink("Collections-10"));
-    public static DiagnosticMetadata CollectionShouldHaveCountGreaterOrEqualTo_CountShouldBeGreaterOrEqualTo { get; } = new("Use .Should().HaveCountGreaterOrEqualTo()", GetHelpLink("Collections-11"));
+    public static DiagnosticMetadata CollectionShouldHaveCountGreaterThanOrEqualTo_CountShouldBeGreaterThanOrEqualTo { get; } = new("Use .Should().HaveCountGreaterThanOrEqualTo()", GetHelpLink("Collections-11"));
     public static DiagnosticMetadata CollectionShouldHaveCountLessThan_CountShouldBeLessThan { get; } = new("Use .Should().HaveCountLessThan()", GetHelpLink("Collections-12"));
-    public static DiagnosticMetadata CollectionShouldHaveCountLessOrEqualTo_CountShouldBeLessOrEqualTo { get; } = new("Use .Should().HaveCountLessOrEqualTo()", GetHelpLink("Collections-13"));
+    public static DiagnosticMetadata CollectionShouldHaveCountLessThanOrEqualTo_CountShouldBeLessThanOrEqualTo { get; } = new("Use .Should().HaveCountLessThanOrEqualTo()", GetHelpLink("Collections-13"));
     public static DiagnosticMetadata CollectionShouldNotHaveCount_CountShouldNotBe { get; } = new("Use .Should().NotHaveCount()", GetHelpLink("Collections-14"));
     public static DiagnosticMetadata CollectionShouldContainSingle_ShouldHaveCount1 { get; } = new("Use .Should().ContainSingle()", GetHelpLink("Collections-15"));
     public static DiagnosticMetadata CollectionShouldContainSingle_CountShouldBe1 { get; } = new("Use .Should().ContainSingle()", GetHelpLink("Collections-15"));
@@ -58,9 +58,9 @@ public class DiagnosticMetadata
 
     public static DiagnosticMetadata NumericShouldBePositive_ShouldBeGreaterThan { get; } = new("Use .Should().BePositive()", GetHelpLink("Numeric-1"));
     public static DiagnosticMetadata NumericShouldBeNegative_ShouldBeLessThan { get; } = new("Use .Should().BeNegative()", GetHelpLink("Numeric-2"));
-    public static DiagnosticMetadata NumericShouldBeInRange_BeGreaterOrEqualToAndBeLessOrEqualTo { get; } = new("Use .Should().BeInRange()", string.Empty);
-    public static DiagnosticMetadata NumericShouldBeInRange_BeLessOrEqualToAndBeGreaterOrEqualTo { get; } = new("Use .Should().BeInRange()", string.Empty);
-    public static DiagnosticMetadata NumericShouldBeApproximately_MathAbsShouldBeLessOrEqualTo { get; } = new("Use .Should().BeApproximately()", string.Empty);
+    public static DiagnosticMetadata NumericShouldBeInRange_BeGreaterThanOrEqualToAndBeLessThanOrEqualTo { get; } = new("Use .Should().BeInRange()", string.Empty);
+    public static DiagnosticMetadata NumericShouldBeInRange_BeLessThanOrEqualToAndBeGreaterThanOrEqualTo { get; } = new("Use .Should().BeInRange()", string.Empty);
+    public static DiagnosticMetadata NumericShouldBeApproximately_MathAbsShouldBeLessThanOrEqualTo { get; } = new("Use .Should().BeApproximately()", string.Empty);
 
     public static DiagnosticMetadata StringShouldStartWith_StartsWithShouldBeTrue { get; } = new("Use .Should().StartWith()", GetHelpLink("Strings-1"));
     public static DiagnosticMetadata StringShouldEndWith_EndsWithShouldBeTrue { get; } = new("Use .Should().EndWith()", GetHelpLink("Strings-2"));

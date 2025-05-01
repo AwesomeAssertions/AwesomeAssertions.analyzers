@@ -282,7 +282,7 @@ namespace TestProject
                 .WithDiagnosticAnalyzer<AssertAnalyzer>()
                 .WithSources(oldSource)
                 .WithFixedSources(newSource)
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, PackageReference.MSTestTestFramework_3_1_1)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest, PackageReference.MSTestTestFramework_3_1_1)
             );
         }
 
@@ -312,7 +312,7 @@ public class TestClass
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithSources(source, globalUsings)
                 .WithAllAnalyzers()
-                .WithPackageReferences(PackageReference.XunitAssert_2_5_1, PackageReference.AwesomeAssertions_7_latest)
+                .WithPackageReferences(PackageReference.XunitAssert_2_5_1, PackageReference.AwesomeAssertions_8_latest)
                 .WithExpectedDiagnostics(new DiagnosticResult()
                 {
                     Id = AssertAnalyzer.XunitRule.Id,
@@ -359,7 +359,7 @@ public class TestType3
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithSources(source)
                 .WithAllAnalyzers()
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest)
                 .WithExpectedDiagnostics(new DiagnosticResult()
                 {
                     Id = FluentAssertionsAnalyzer.DiagnosticId,
@@ -405,7 +405,7 @@ public class OtherComponent
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithSources(source)
                 .WithAllAnalyzers()
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest)
             );
         }
 
@@ -438,7 +438,7 @@ public class MyCollectionType { }";
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithSources(source)
                 .WithAllAnalyzers()
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest)
                 .WithExpectedDiagnostics(new DiagnosticResult()
                 {
                     Id = FluentAssertionsAnalyzer.DiagnosticId,
@@ -502,7 +502,7 @@ public class Parent
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithSources(source)
                 .WithAllAnalyzers()
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest)
             );
         }
     }

@@ -172,7 +172,7 @@ Assert.IsInstanceOfType(obj, typeof(List<object>)); /* fail message: Assert.IsIn
 Assert.IsInstanceOfType<List<object>>(obj); /* fail message: Assert.IsInstanceOfType failed.  Expected type:<System.Collections.Generic.List`1[System.Object]>. Actual type:<System.Collections.Generic.List`1[System.Int32]>. */
 
 // new assertion:
-obj.Should().BeOfType<List<object>>(); /* fail message: Expected type to be System.Collections.Generic.List`1[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], but found System.Collections.Generic.List`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]. */
+obj.Should().BeOfType<List<object>>(); /* fail message: Expected type to be System.Collections.Generic.List<object>, but found System.Collections.Generic.List<int>. */
 ```
 
 ### scenario: AssertIsNotInstanceOfType
@@ -674,7 +674,7 @@ var list = new List<object> { 1, 2, "foo" };
 CollectionAssert.AllItemsAreInstancesOfType(list, typeof(int)); /* fail message: CollectionAssert.AllItemsAreInstancesOfType failed. Element at index 2 is not of expected type. Expected type:<System.Int32>. Actual type:<System.String>. */
 
 // new assertion:
-list.Should().AllBeOfType<int>(); /* fail message: Expected type to be "System.Int32", but found "[System.Int32, System.Int32, System.String]". */
+list.Should().AllBeOfType<int>(); /* fail message: Expected type to be int, but found {int, int, string}. */
 ```
 
 ### scenario: CollectionAssertAreEqual
@@ -758,7 +758,7 @@ CollectionAssert.AreEquivalent(list2, list1); /* fail message: CollectionAssert.
 list1.Should().BeEquivalentTo(list2); /* fail message: Expected list1[2] to be 4, but found 1.
 
 With configuration:
-- Use declared types and members
+- Prefer the declared type of the members
 - Compare enums by value
 - Compare tuples by their properties
 - Compare anonymous types by their properties
@@ -1079,7 +1079,7 @@ var str = "foo";
 StringAssert.EndsWith(str, "fo"); /* fail message: StringAssert.EndsWith failed. String 'foo' does not end with string 'fo'. . */
 
 // new assertion:
-str.Should().EndWith("fo"); /* fail message: Expected str "foo" to end with "fo". */
+str.Should().EndWith("fo"); /* fail message: Expected str to end with "fo", but "foo" differs near "foo" (index 0). */
 ```
 
 ### scenario: StringAssertMatches

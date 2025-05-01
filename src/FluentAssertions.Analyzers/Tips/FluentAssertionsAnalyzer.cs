@@ -309,7 +309,7 @@ public partial class FluentAssertionsAnalyzer : DiagnosticAnalyzer
                     }
                 }
                 return;
-            case "Be" when assertion.IsContainedInType(metadata.NumericAssertionsOfT2):
+            case "Be" when assertion.IsContainedInType(metadata.NumericAssertionsBaseOfT3):
                 {
                     if (invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould))
                     {
@@ -400,7 +400,7 @@ public partial class FluentAssertionsAnalyzer : DiagnosticAnalyzer
                     }
                 }
                 return;
-            case "NotBe" when assertion.IsContainedInType(metadata.NumericAssertionsOfT2):
+            case "NotBe" when assertion.IsContainedInType(metadata.NumericAssertionsBaseOfT3):
                 {
                     if (invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould))
                     {
@@ -421,7 +421,7 @@ public partial class FluentAssertionsAnalyzer : DiagnosticAnalyzer
                     }
                 }
                 return;
-            case "BeGreaterOrEqualTo" when assertion.IsContainedInType(metadata.NumericAssertionsOfT2):
+            case "BeGreaterThanOrEqualTo" when assertion.IsContainedInType(metadata.NumericAssertionsBaseOfT3):
                 {
                     if (invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould))
                     {
@@ -429,7 +429,7 @@ public partial class FluentAssertionsAnalyzer : DiagnosticAnalyzer
                         {
                             // TODO: add support for Enumerable.LongCount
                             case nameof(Enumerable.Count) when IsEnumerableMethodWithoutArguments(invocationBeforeShould, metadata):
-                                context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCountGreaterOrEqualTo_CountShouldBeGreaterOrEqualTo));
+                                context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCountGreaterThanOrEqualTo_CountShouldBeGreaterThanOrEqualTo));
                                 return;
                         }
                     }
@@ -440,21 +440,21 @@ public partial class FluentAssertionsAnalyzer : DiagnosticAnalyzer
                         {
                             case nameof(Array.Length) when propertyBeforeShould.IsContainedInType(SpecialType.System_Array):
                             case nameof(List<object>.Count) when propertyBeforeShould.ImplementsOrIsInterface(SpecialType.System_Collections_Generic_ICollection_T):
-                                context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCountGreaterOrEqualTo_CountShouldBeGreaterOrEqualTo));
+                                context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCountGreaterThanOrEqualTo_CountShouldBeGreaterThanOrEqualTo));
                                 return;
                         }
                     }
 
-                    if (assertion.TryGetChainedInvocationAfterAndConstraint("BeLessOrEqualTo", out var chainedInvocation))
+                    if (assertion.TryGetChainedInvocationAfterAndConstraint("BeLessThanOrEqualTo", out var chainedInvocation))
                     {
                         if (!assertion.HasEmptyBecauseAndReasonArgs(startingIndex: 1) && !chainedInvocation.HasEmptyBecauseAndReasonArgs(startingIndex: 1)) return;
 
-                        context.ReportDiagnostic(CreateDiagnostic(chainedInvocation, DiagnosticMetadata.NumericShouldBeInRange_BeGreaterOrEqualToAndBeLessOrEqualTo));
+                        context.ReportDiagnostic(CreateDiagnostic(chainedInvocation, DiagnosticMetadata.NumericShouldBeInRange_BeGreaterThanOrEqualToAndBeLessThanOrEqualTo));
                         return;
                     }
                 }
                 return;
-            case "BeGreaterThan" when assertion.IsContainedInType(metadata.NumericAssertionsOfT2):
+            case "BeGreaterThan" when assertion.IsContainedInType(metadata.NumericAssertionsBaseOfT3):
                 {
                     if (invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould))
                     {
@@ -473,7 +473,7 @@ public partial class FluentAssertionsAnalyzer : DiagnosticAnalyzer
                     }
                 }
                 return;
-            case "BeLessOrEqualTo" when assertion.IsContainedInType(metadata.NumericAssertionsOfT2):
+            case "BeLessThanOrEqualTo" when assertion.IsContainedInType(metadata.NumericAssertionsBaseOfT3):
                 {
                     if (invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould))
                     {
@@ -481,28 +481,28 @@ public partial class FluentAssertionsAnalyzer : DiagnosticAnalyzer
                         {
                             // TODO: add support for Enumerable.LongCount
                             case nameof(Enumerable.Count) when IsEnumerableMethodWithoutArguments(invocationBeforeShould, metadata):
-                                context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCountLessOrEqualTo_CountShouldBeLessOrEqualTo));
+                                context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCountLessThanOrEqualTo_CountShouldBeLessThanOrEqualTo));
                                 return;
                             case nameof(Math.Abs) when invocationBeforeShould.IsContainedInType(metadata.Math) && (
                                     assertion.Arguments[0].IsReferenceOfType(SpecialType.System_Double) 
                                     || assertion.Arguments[0].IsReferenceOfType(SpecialType.System_Single)
                                     || assertion.Arguments[0].IsReferenceOfType(SpecialType.System_Decimal)
                                 ):
-                                context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.NumericShouldBeApproximately_MathAbsShouldBeLessOrEqualTo));
+                                context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.NumericShouldBeApproximately_MathAbsShouldBeLessThanOrEqualTo));
                                 return;
                         }
                     }
 
-                    if (assertion.TryGetChainedInvocationAfterAndConstraint("BeGreaterOrEqualTo", out var chainedInvocation))
+                    if (assertion.TryGetChainedInvocationAfterAndConstraint("BeGreaterThanOrEqualTo", out var chainedInvocation))
                     {
                         if (!assertion.HasEmptyBecauseAndReasonArgs(startingIndex: 1) && !chainedInvocation.HasEmptyBecauseAndReasonArgs(startingIndex: 1)) return;
 
-                        context.ReportDiagnostic(CreateDiagnostic(chainedInvocation, DiagnosticMetadata.NumericShouldBeInRange_BeLessOrEqualToAndBeGreaterOrEqualTo));
+                        context.ReportDiagnostic(CreateDiagnostic(chainedInvocation, DiagnosticMetadata.NumericShouldBeInRange_BeLessThanOrEqualToAndBeGreaterThanOrEqualTo));
                         return;
                     }
                 }
                 return;
-            case "BeLessThan" when assertion.IsContainedInType(metadata.NumericAssertionsOfT2):
+            case "BeLessThan" when assertion.IsContainedInType(metadata.NumericAssertionsBaseOfT3):
                 {
                     if (invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould))
                     {
