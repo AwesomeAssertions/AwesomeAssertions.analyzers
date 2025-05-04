@@ -13,9 +13,8 @@
 
   <PropertyGroup>
     <PackageId>AwesomeAssertions.Analyzers</PackageId>
-    <Version>0.17.3</Version>
-    <Authors>Meir Blachman</Authors>
-    <Copyright>Copyright Meir Blachman 2017-$([System.DateTime]::Now.ToString('yyyy'))</Copyright>
+    <Authors>AwesomeAssertions, Meir Blachman and contributors</Authors>
+    <Copyright>Copyright Meir Blachman 2017-2025, AwesomeAssertions 2025-</Copyright>
 
     <Description>Analyzers to help writing AwesomeAssertions the right way.</Description>
     <PackageTags>FluentAssertions AwesomeAssertions Analyzers</PackageTags>
