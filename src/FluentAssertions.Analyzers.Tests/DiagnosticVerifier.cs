@@ -31,7 +31,7 @@ namespace FluentAssertions.Analyzers.Tests
                 .WithCodeFixProvider<TCodeFixProvider>()
                 .WithSources(oldSource)
                 .WithFixedSources(newSource)
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest)
             );
         }
 
@@ -302,7 +302,7 @@ namespace FluentAssertions.Analyzers.Tests
             VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithAllAnalyzers()
                 .WithSources(source)
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest)
                 .WithExpectedDiagnostics(expected));
         }
 

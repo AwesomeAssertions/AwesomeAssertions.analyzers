@@ -248,14 +248,14 @@ Actual:   foo */
 actual.Should().BeEquivalentTo(expected, options => options.Using(EqualityComparer<object>.Default)); /* fail message: Expected actual to be 6, but found "foo".
 
 With configuration:
-- Use declared types and members
+- Prefer the declared type of the members
 - Compare enums by value
 - Compare tuples by their properties
 - Compare anonymous types by their properties
 - Compare records by their members
 - Include non-browsable members
 - Match member by name (or throw)
-- Use System.Collections.Generic.ObjectEqualityComparer`1[System.Object] for objects of type System.Object
+- Use System.Collections.Generic.ObjectEqualityComparer`1[System.Object] for objects of type object
 - Be strict about the order of items in byte arrays
 - Without automatic conversion.
  */

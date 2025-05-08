@@ -15,9 +15,9 @@ This is a generated file, please edit src\FluentAssertions.Analyzers.FluentAsser
 - [AssertAreSame](#scenario-assertaresame) - `obj1.Should().BeSameAs(obj2);`
 - [AssertAreNotSame](#scenario-assertarenotsame) - `obj1.Should().NotBeSameAs(obj2);`
 - [AssertGreater](#scenario-assertgreater) - `number.Should().BeGreaterThan(1);`
-- [AssertGreaterOrEqual](#scenario-assertgreaterorequal) - `number.Should().BeGreaterOrEqualTo(1);`
+- [AssertGreaterOrEqual](#scenario-assertgreaterorequal) - `number.Should().BeGreaterThanOrEqualTo(1);`
 - [AssertLess](#scenario-assertless) - `number.Should().BeLessThan(2);`
-- [AssertLessOrEqual](#scenario-assertlessorequal) - `number.Should().BeLessOrEqualTo(2);`
+- [AssertLessOrEqual](#scenario-assertlessorequal) - `number.Should().BeLessThanOrEqualTo(2);`
 - [CollectionAssertAreEqual](#scenario-collectionassertareequal) - `collection.Should().Equal(expected);`
 - [CollectionAssertAreNotEqual](#scenario-collectionassertarenotequal) - `collection.Should().NotEqual(expected);`
 - [CollectionAssertContains](#scenario-collectionassertcontains) - `collection.Should().Contain(2);`
@@ -433,7 +433,7 @@ Assert.That(number, Is.GreaterThanOrEqualTo(1));
 Assert.That(number, Is.AtLeast(1));
 
 // new assertion:
-number.Should().BeGreaterOrEqualTo(1);
+number.Should().BeGreaterThanOrEqualTo(1);
 ```
 
 #### Failure messages
@@ -453,7 +453,7 @@ Assert.That(number, Is.AtLeast(2)); /* fail message:   Expected: greater than or
  */
 
 // new assertion:
-number.Should().BeGreaterOrEqualTo(2); /* fail message: Expected number to be greater than or equal to 2, but found 1. */
+number.Should().BeGreaterThanOrEqualTo(2); /* fail message: Expected number to be greater than or equal to 2, but found 1. */
 ```
 
 ### scenario: AssertLess
@@ -499,7 +499,7 @@ Assert.That(number, Is.LessThanOrEqualTo(2));
 Assert.That(number, Is.AtMost(2));
 
 // new assertion:
-number.Should().BeLessOrEqualTo(2);
+number.Should().BeLessThanOrEqualTo(2);
 ```
 
 #### Failure messages
@@ -519,7 +519,7 @@ Assert.That(number, Is.AtMost(1)); /* fail message:   Expected: less than or equ
  */
 
 // new assertion:
-number.Should().BeLessOrEqualTo(1); /* fail message: Expected number to be less than or equal to 1, but found 2. */
+number.Should().BeLessThanOrEqualTo(1); /* fail message: Expected number to be less than or equal to 1, but found 2. */
 ```
 
 ### scenario: CollectionAssertAreEqual
@@ -764,7 +764,7 @@ Assert.That(collection, Has.All.InstanceOf<int>()); /* fail message:   Expected:
  */
 
 // new assertion:
-collection.Should().AllBeOfType<int>(); /* fail message: Expected type to be "System.Int32", but found "[System.Int32, System.Int32, System.String]". */
+collection.Should().AllBeOfType<int>(); /* fail message: Expected type to be int, but found {int, int, string}. */
 ```
 
 ### scenario: CollectionAssertAllItemsAreInstancesOfType_WithTypeArgument
@@ -804,7 +804,7 @@ Assert.That(collection, Has.All.InstanceOf(type)); /* fail message:   Expected: 
  */
 
 // new assertion:
-collection.Should().AllBeOfType(type); /* fail message: Expected type to be "System.Int32", but found "[System.Int32, System.Int32, System.String]". */
+collection.Should().AllBeOfType(type); /* fail message: Expected type to be int, but found {int, int, string}. */
 ```
 
 ### scenario: CollectionAssertAllItemsAreNotNull

@@ -641,7 +641,7 @@ public class Nunit4AnalyzerTests
         Assert.That(number, Is.AtLeast(1));
 
         // new assertion:
-        number.Should().BeGreaterOrEqualTo(1);
+        number.Should().BeGreaterThanOrEqualTo(1);
     }
 
     [Test, ExpectedAssertionException]
@@ -681,7 +681,7 @@ public class Nunit4AnalyzerTests
         var number = 1;
 
         // new assertion:
-        number.Should().BeGreaterOrEqualTo(2);
+        number.Should().BeGreaterThanOrEqualTo(2);
     }
 
     [Test]
@@ -740,7 +740,7 @@ public class Nunit4AnalyzerTests
         Assert.That(number, Is.AtMost(2));
 
         // new assertion:
-        number.Should().BeLessOrEqualTo(2);
+        number.Should().BeLessThanOrEqualTo(2);
     }
 
     [Test, ExpectedAssertionException]
@@ -780,7 +780,7 @@ public class Nunit4AnalyzerTests
         var number = 2;
 
         // new assertion:
-        number.Should().BeLessOrEqualTo(1);
+        number.Should().BeLessThanOrEqualTo(1);
     }
 
     [Test]

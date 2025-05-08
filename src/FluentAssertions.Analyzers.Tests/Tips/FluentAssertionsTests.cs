@@ -53,7 +53,7 @@ namespace TestProject
 
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithDiagnosticAnalyzer<FluentAssertionsAnalyzer>()
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest)
                 .WithSources(source)
             );
         }
@@ -118,7 +118,7 @@ namespace TestProject
             DiagnosticVerifier.VerifyFix(new CodeFixVerifierArguments()
                 .WithDiagnosticAnalyzer<AssertAnalyzer>()
                 .WithCodeFixProvider<TCodeFixProvider>()
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, testingLibraryReference)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest, testingLibraryReference)
                 .WithSources(source)
                 .WithFixedSources(newSource)
             );
@@ -155,7 +155,7 @@ namespace TestProject
             DiagnosticVerifier.VerifyFix(new CodeFixVerifierArguments()
                 .WithDiagnosticAnalyzer<AssertAnalyzer>()
                 .WithCodeFixProvider<TCodeFixProvider>()
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, testingLibraryReference)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest, testingLibraryReference)
                 .WithSources(source, globalUsings)
                 .WithFixedSources(newSource)
             );
@@ -193,7 +193,7 @@ namespace TestProject
             DiagnosticVerifier.VerifyFix(new CodeFixVerifierArguments()
                 .WithDiagnosticAnalyzer<AssertAnalyzer>()
                 .WithCodeFixProvider<TCodeFixProvider>()
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, testingLibraryReference)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest, testingLibraryReference)
                 .WithSources(source)
                 .WithFixedSources(newSource)
             );

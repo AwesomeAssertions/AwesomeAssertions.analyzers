@@ -15,7 +15,7 @@ namespace FluentAssertions.Analyzers.Tests.Tips
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithAllAnalyzers()
                 .WithSources(source)
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, PackageReference.XunitAssert_2_5_1)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest, PackageReference.XunitAssert_2_5_1)
                 .WithAnalyzerConfigOption("ffa_excluded_methods", "M:Xunit.Assert.True(System.Boolean)")
                 .WithExpectedDiagnostics()
             );
@@ -788,7 +788,7 @@ namespace FluentAssertions.Analyzers.Tests.Tips
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithAllAnalyzers()
                 .WithSources(source)
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, PackageReference.XunitAssert_2_5_1)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest, PackageReference.XunitAssert_2_5_1)
                 .WithExpectedDiagnostics(new DiagnosticResult
                 {
                     Id = AssertAnalyzer.XunitRule.Id,
@@ -812,7 +812,7 @@ namespace FluentAssertions.Analyzers.Tests.Tips
                 .WithCodeFixProvider<XunitCodeFixProvider>()
                 .WithSources(oldSource)
                 .WithFixedSources(newSource)
-                .WithPackageReferences(PackageReference.AwesomeAssertions_7_latest, PackageReference.XunitAssert_2_5_1)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest, PackageReference.XunitAssert_2_5_1)
             );
         }
     }
