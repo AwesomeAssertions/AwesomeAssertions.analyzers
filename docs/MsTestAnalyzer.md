@@ -1,5 +1,5 @@
 <!--
-This is a generated file, please edit src\FluentAssertions.Analyzers.FluentAssertionAnalyzerDocsGenerator\DocsGenerator.cs to change the contents
+This is a generated file, please edit src\AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocsGenerator\DocsGenerator.cs to change the contents
 -->
 
 # MsTest Analyzer Docs

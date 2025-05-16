@@ -9,7 +9,7 @@ jobs:
   benchmark:
     name: Performance regression check
     runs-on: ubuntu-latest
-    if: github.repository == 'fluentassertions/fluentassertions.analyzers'
+    if: github.repository == 'awesomeassertions/awesomeassertions.analyzers'
     steps:
       - uses: actions/checkout@v4
       - name: Setup .NET
@@ -17,14 +17,14 @@ jobs:
         with:
           dotnet-version: '8.x'
       - name: Run benchmark
-        run: cd src/FluentAssertions.Analyzers.BenchmarkTests && dotnet run -c Release --exporters json --filter '*'
+        run: cd src/AwesomeAssertions.Analyzers.BenchmarkTests && dotnet run -c Release --exporters json --filter '*'
 
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1.18.0
         with:
-          name: FluentAssertions.Analyzers Benchmark
+          name: AwesomeAssertions.Analyzers Benchmark
           tool: 'benchmarkdotnet'
-          output-file-path: src/FluentAssertions.Analyzers.BenchmarkTests/BenchmarkDotNet.Artifacts/results/FluentAssertions.Analyzers.BenchmarkTests.FluentAssertionsBenchmarks-report.json
+          output-file-path: src/AwesomeAssertions.Analyzers.BenchmarkTests/BenchmarkDotNet.Artifacts/results/AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks-report.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
           alert-threshold: '200%'

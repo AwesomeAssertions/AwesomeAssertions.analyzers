@@ -1,8 +1,8 @@
 <!--
-This is a generated file, please edit src\FluentAssertions.Analyzers.FluentAssertionAnalyzerDocsGenerator\DocsGenerator.cs to change the contents
+This is a generated file, please edit src\AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocsGenerator\DocsGenerator.cs to change the contents
 -->
 
-# FluentAssertions Analyzer Docs
+# AwesomeAssertions Analyzer Docs
 
 - [StringShouldStartWith](#scenario-stringshouldstartwith) - `actual.Should().StartWith(expected);`
 - [StringShouldEndWith](#scenario-stringshouldendwith) - `actual.Should().EndWith(expected);`
