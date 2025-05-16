@@ -24,5 +24,5 @@ jobs:
         with:
           dotnet-version: 8.0.x
       - run: dotnet build
-      - run: dotnet test src/FluentAssertions.Analyzers.Tests --configuration Release --filter 'TestCategory=Completed' /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
-      - run: dotnet pack src/FluentAssertions.Analyzers/FluentAssertions.Analyzers.csproj
+      - run: dotnet test src/AwesomeAssertions.Analyzers.Tests --configuration Release --filter 'TestCategory=Completed' /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+      - run: dotnet pack src/AwesomeAssertions.Analyzers/AwesomeAssertions.Analyzers.csproj

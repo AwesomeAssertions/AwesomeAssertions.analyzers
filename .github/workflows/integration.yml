@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-      - run: dotnet test src/FluentAssertions.Analyzers.FluentAssertionAnalyzerDocs # before formatting
+      - run: dotnet test src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs # before formatting
       - name: Run the docs generator
         shell: pwsh
         run: ./scripts/generate-docs.ps1 -ValidateNoChanges

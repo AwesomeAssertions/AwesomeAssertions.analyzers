@@ -30,8 +30,8 @@ result.Should().Be('M');
 
 ### Versions
 
-* Which version of Fluent Assertions Analyzers are you using?
-* Which .NET runtime and version are you targeting? E.g. .NET framework 4.6.1 or .NET Core 2.0.
+* Which version of Awesome Assertions Analyzers are you using?
+* Which .NET runtime and version are you targeting? E.g. .NET framework 4.7.2 or .NET 8.
 
 ### Additional Information
 
