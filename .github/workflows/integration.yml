@@ -1,0 +1,31 @@
+name: Integration
+on: 
+  pull_request:
+    branches: 
+    - main
+  push:
+    branches: 
+    - main
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      NUGET_CERT_REVOCATION_MODE: offline
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - run: dotnet test src/FluentAssertions.Analyzers.FluentAssertionAnalyzerDocs # before formatting
+      - name: Run the docs generator
+        shell: pwsh
+        run: ./scripts/generate-docs.ps1 -ValidateNoChanges
+      - name: Run the docs tests and format, then test again
+        shell: pwsh
+        run: ./scripts/run-docs-tests.ps1 -FormatAndExecuteTestsAgain

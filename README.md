@@ -1,20 +1,19 @@
-<a href="https://www.fluentassertions.com"><img src="assets/images/fluent_assertions_analyzers_large_horizontal.svg" style="width:400px"/></a>
-
 # Extension methods to fluently assert the outcome of .NET tests
 
-[![CI](https://github.com/fluentassertions/fluentassertions.analyzers/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/fluentassertions/fluentassertions.analyzers/actions/workflows/ci.yml)
-[![](https://img.shields.io/github/release/fluentassertions/fluentassertions.analyzers.svg?label=latest%20release&color=007edf)](https://github.com/fluentassertions/fluentassertions.analyzers/releases/latest)
-[![](https://img.shields.io/nuget/dt/fluentassertions.analyzers.svg?label=downloads&color=007edf&logo=nuget)](https://www.nuget.org/packages/fluentassertions.analyzers)
-[![](https://img.shields.io/librariesio/dependents/nuget/fluentassertions.analyzers.svg?label=dependent%20libraries)](https://libraries.io/nuget/fluentassertions.analyzers)
-[![GitHub Repo stars](https://img.shields.io/github/stars/fluentassertions/fluentassertions.analyzers)](https://github.com/fluentassertions/fluentassertions.analyzers/stargazers)
-[![GitHub contributors](https://img.shields.io/github/contributors/fluentassertions/fluentassertions.analyzers)](https://github.com/fluentassertions/fluentassertions.analyzers/graphs/contributors)
-[![GitHub last commit](https://img.shields.io/github/last-commit/fluentassertions/fluentassertions.analyzers)](https://github.com/fluentassertions/fluentassertions.analyzers)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/fluentassertions/fluentassertions.analyzers)](https://github.com/fluentassertions/fluentassertions.analyzers/graphs/commit-activity)
-[![open issues](https://img.shields.io/github/issues/fluentassertions/fluentassertions.analyzers)](https://github.com/fluentassertions/fluentassertions.analyzers/issues)
+[![CI](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/actions/workflows/ci.yml)
+[![](https://img.shields.io/github/release/awesomeassertions/AwesomeAssertions.Analyzers.svg?label=latest%20release&color=007edf)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/releases/latest)
+[![](https://img.shields.io/nuget/dt/AwesomeAssertions.Analyzers.svg?label=downloads&color=007edf&logo=nuget)](https://www.nuget.org/packages/AwesomeAssertions.Analyzers)
+[![](https://img.shields.io/librariesio/dependents/nuget/AwesomeAssertions.Analyzers.svg?label=dependent%20libraries)](https://libraries.io/nuget/AwesomeAssertions.Analyzers)
+[![GitHub Repo stars](https://img.shields.io/github/stars/awesomeassertions/AwesomeAssertions.Analyzers)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/stargazers)
+[![GitHub contributors](https://img.shields.io/github/contributors/awesomeassertions/AwesomeAssertions.Analyzers)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/graphs/contributors)
+[![GitHub last commit](https://img.shields.io/github/last-commit/awesomeassertions/AwesomeAssertions.Analyzers)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/awesomeassertions/AwesomeAssertions.Analyzers)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/graphs/commit-activity)
+[![open issues](https://img.shields.io/github/issues/awesomeassertions/AwesomeAssertions.Analyzers)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/issues)
 
 A collection of Analyzers based on the best practices [tips](https://fluentassertions.com/tips/).
 
-![Alt](https://repobeats.axiom.co/api/embed/92fd2e6496fc171c00616eaf672c3c757a1a29ac.svg "Repobeats analytics image")
+<!-- TODO: do we want to re-introduce this? Do we care? -->
+<!-- ![Alt](https://repobeats.axiom.co/api/embed/92fd2e6496fc171c00616eaf672c3c757a1a29ac.svg "Repobeats analytics image") -->
 
 ## Analysis and Code Fix in Action
 
@@ -25,8 +24,27 @@ A collection of Analyzers based on the best practices [tips](https://fluentasser
 using the latest stable version:
 
 ```powershell
-dotnet add package FluentAssertions.Analyzers
+dotnet add package AwesomeAssertions.Analyzers
 ```
+
+## Docs
+
+- [FluentAssertions Analyzer Docs](docs/FluentAssertionsAnalyzer.md)
+- [MsTest Analyzer Docs](docs/MsTestAnalyzer.md)
+- [NUnit4 Analyzer Docs](docs/Nunit4Analyzer.md)
+- [NUnit3 Analyzer Docs](docs/Nunit3Analyzer.md)
+- [Xunit Analyzer Docs](docs/XunitAnalyzer.md)
+
+## Configuration
+
+© Thanks to https://github.com/meziantou/Meziantou.FluentAssertionsAnalyzers
+
+You can exclude assertion methods using the `.editorconfig` file:
+
+````
+[*.cs]
+ffa_excluded_methods=M:NUnit.Framework.Assert.Fail;M:NUnit.Framework.Assert.Fail(System.String)
+````
 
 ## Getting Started
 
@@ -41,6 +59,11 @@ dotnet build
 ```bash
 dotnet test --configuration Release  --filter 'TestCategory=Completed'
 ```
+
+### Benchmarks
+
+<!-- TODO: point at fork docs -->
+https://fluentassertions.github.io/fluentassertions.analyzers/dev/bench/
 
 ## Example Usages
 - https://github.com/SonarSource/sonar-dotnet/pull/2072

@@ -29,7 +29,6 @@ namespace FluentAssertions.Analyzers.TestUtils
             .AppendLine("        public bool BooleanProperty { get; set; }")
             .AppendLine("        public string Message { get; set; }")
             .AppendLine("    }")
-            .AppendMainMethod()
             .AppendLine("}")
             .ToString();
 
@@ -56,8 +55,9 @@ namespace FluentAssertions.Analyzers.TestUtils
             .AppendLine("    {")
             .AppendLine("        public bool BooleanProperty { get; set; }")
             .AppendLine("        public string Message { get; set; }")
+            .AppendLine("        public TestComplexClass this[int index] => throw new NotImplementedException();")
             .AppendLine("    }")
-            .AppendMainMethod()
+            .AppendLine()
             .AppendLine("}")
             .ToString();
 
@@ -75,7 +75,6 @@ namespace FluentAssertions.Analyzers.TestUtils
             .AppendLine($"            {assertion}")
             .AppendLine("        }")
             .AppendLine("    }")
-            .AppendMainMethod()
             .AppendLine("}")
             .ToString();
 
@@ -98,11 +97,12 @@ namespace FluentAssertions.Analyzers.TestUtils
             .AppendLine("    {")
             .AppendLine("        public bool BooleanProperty { get; set; }")
             .AppendLine("    }")
-            .AppendMainMethod()
             .AppendLine("}")
             .ToString();
 
-        public static string DoubleAssertion(string assertion) => new StringBuilder()
+        public static string DoubleAssertion(string assertion) => NumericAssertion(assertion, "double");
+
+        public static string NumericAssertion(string assertion, string type) => new StringBuilder()
             .AppendLine("using System;")
             .AppendLine("using FluentAssertions;")
             .AppendLine("using FluentAssertions.Extensions;")
@@ -110,12 +110,11 @@ namespace FluentAssertions.Analyzers.TestUtils
             .AppendLine("{")
             .AppendLine("    class TestClass")
             .AppendLine("    {")
-            .AppendLine("        void TestMethod(double actual, double expected, double lower, double upper, double delta)")
+            .AppendLine($"        void TestMethod({type} actual, {type} expected, {type} lower, {type} upper, {type} delta)")
             .AppendLine("        {")
             .AppendLine($"            {assertion}")
             .AppendLine("        }")
             .AppendLine("    }")
-            .AppendMainMethod()
             .AppendLine("}")
             .ToString();
 
@@ -132,7 +131,6 @@ namespace FluentAssertions.Analyzers.TestUtils
             .AppendLine($"            {assertion}")
             .AppendLine("        }")
             .AppendLine("    }")
-            .AppendMainMethod()
             .AppendLine("}")
             .ToString();
 
@@ -148,7 +146,6 @@ namespace FluentAssertions.Analyzers.TestUtils
             .AppendLine($"            {assertion}")
             .AppendLine("        }")
             .AppendLine("    }")
-            .AppendMainMethod()
             .AppendLine("}")
             .ToString();
 
@@ -164,7 +161,6 @@ namespace FluentAssertions.Analyzers.TestUtils
             .AppendLine($"            {assertion}")
             .AppendLine("        }")
             .AppendLine("    }")
-            .AppendMainMethod()
             .AppendLine("}")
             .ToString();
 
@@ -182,7 +178,6 @@ namespace FluentAssertions.Analyzers.TestUtils
             .AppendLine("        }")
             .AppendLine("        async void AsyncVoidMethod() { await Task.CompletedTask; }")
             .AppendLine("    }")
-            .AppendMainMethod()
             .AppendLine("}")
             .ToString();
 
@@ -199,7 +194,6 @@ namespace FluentAssertions.Analyzers.TestUtils
             .AppendLine($"            {statement}")
             .AppendLine("        }")
             .AppendLine("    }")
-            .AppendMainMethod()
             .AppendLine("}")
             .ToString();
 
@@ -218,7 +212,6 @@ namespace FluentAssertions.Analyzers.TestUtils
             .AppendLine($"            {assertion}")
             .AppendLine("        }")
             .AppendLine("    }")
-            .AppendMainMethod()
             .AppendLine("}")
             .ToString();
 
@@ -240,16 +233,51 @@ namespace FluentAssertions.Analyzers.TestUtils
             .AppendLine($"            {assertion}")
             .AppendLine("        }")
             .AppendLine("    }")
-            .AppendMainMethod()
             .AppendLine("}")
             .ToString();
 
-        public static StringBuilder AppendMainMethod(this StringBuilder builder) => builder
-            .AppendLine("    class Program")
+        public static string Nunit3Assertion(string methodArguments, string assertion) => new StringBuilder()
+            .AppendLine("using System;")
+            .AppendLine("using System.Collections;")
+            .AppendLine("using System.Collections.Generic;")
+            .AppendLine("using System.Collections.Immutable;")
+            .AppendLine("using System.Text.RegularExpressions;")
+            .AppendLine("using FluentAssertions;")
+            .AppendLine("using FluentAssertions.Extensions;")
+            .AppendLine("using NUnit.Framework;")
+            .AppendLine("using System.Threading.Tasks;")
+            .AppendLine("namespace TestNamespace")
+            .AppendLine("{")
+            .AppendLine("    class TestClass")
             .AppendLine("    {")
-            .AppendLine("        public static void Main()")
+            .AppendLine($"        void TestMethod({methodArguments})")
             .AppendLine("        {")
+            .AppendLine($"            {assertion}")
             .AppendLine("        }")
-            .AppendLine("    }");
+            .AppendLine("    }")
+            .AppendLine("}")
+            .ToString();
+
+        public static string Nunit4Assertion(string methodArguments, string assertion) => new StringBuilder()
+            .AppendLine("using System;")
+            .AppendLine("using System.Collections;")
+            .AppendLine("using System.Collections.Generic;")
+            .AppendLine("using System.Collections.Immutable;")
+            .AppendLine("using System.Text.RegularExpressions;")
+            .AppendLine("using FluentAssertions;")
+            .AppendLine("using FluentAssertions.Extensions;")
+            .AppendLine("using NUnit.Framework; using NUnit.Framework.Legacy;")
+            .AppendLine("using System.Threading.Tasks;")
+            .AppendLine("namespace TestNamespace")
+            .AppendLine("{")
+            .AppendLine("    class TestClass")
+            .AppendLine("    {")
+            .AppendLine($"        void TestMethod({methodArguments})")
+            .AppendLine("        {")
+            .AppendLine($"            {assertion}")
+            .AppendLine("        }")
+            .AppendLine("    }")
+            .AppendLine("}")
+            .ToString();
     }
 }

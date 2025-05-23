@@ -1,117 +1,152 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 
-namespace FluentAssertions.Analyzers.Tests
+namespace FluentAssertions.Analyzers.Tests;
+
+[AttributeUsage(AttributeTargets.Method)]
+public class NotImplementedAttribute : TestCategoryBaseAttribute
 {
-    [AttributeUsage(AttributeTargets.Method)]
-    public class NotImplementedAttribute : TestCategoryBaseAttribute
+    public string Reason { get; set; }
+
+    public override IList<string> TestCategories => new[] { "NotImplemented" };
+}
+
+[AttributeUsage(AttributeTargets.Method)]
+public class ImplementedAttribute : TestCategoryBaseAttribute
+{
+    public string Reason { get; set; }
+
+    public override IList<string> TestCategories => new[] { "Completed" };
+}
+
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+public class AssertionDiagnosticAttribute : Attribute, ITestDataSource
+{
+    public string Assertion { get; }
+
+    public AssertionDiagnosticAttribute(string assertion) => Assertion = assertion;
+
+    public IEnumerable<object[]> GetData(MethodInfo methodInfo)
     {
-        public string Reason { get; set; }
-        
-        public override IList<string> TestCategories => new[] { "NotImplemented" };
-    }
-
-    [AttributeUsage(AttributeTargets.Method)]
-    public class ImplementedAttribute : TestCategoryBaseAttribute
-    {
-        public string Reason { get; set; }
-
-        public override IList<string> TestCategories => new[] { "Completed" };
-    }
-
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class AssertionDiagnosticAttribute : Attribute
-    {
-        public string Assertion { get; }
-
-        public bool Ignore { get; }
-
-        public AssertionDiagnosticAttribute(string assertion, bool ignore = false)
+        foreach (var assertion in TestCasesInputUtils.GetTestCases(Assertion))
         {
-            Assertion = assertion;
-            Ignore = ignore;
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class AssertionCodeFixAttribute : Attribute
-    {
-        public string OldAssertion { get; }
-        public string NewAssertion { get; }
-
-        public bool Ignore { get; }
-
-        public AssertionCodeFixAttribute(string oldAssertion, string newAssertion, bool ignore = false)
-        {
-            OldAssertion = oldAssertion;
-            NewAssertion = newAssertion;
-            Ignore = ignore;
+            yield return new object[] { assertion };
         }
     }
 
-    [AttributeUsage(AttributeTargets.Method)]
-    public class AssertionDataTestMethod : TestMethodAttribute
+    public string GetDisplayName(MethodInfo methodInfo, object[] data) => $"{methodInfo.Name}(\"{data[0]}\")";
+}
+
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+public class IgnoreAssertionDiagnosticAttribute : Attribute
+{
+    public string Assertion { get; }
+
+    public IgnoreAssertionDiagnosticAttribute(string assertion) => Assertion = assertion;
+}
+
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+public class AssertionCodeFixAttribute : Attribute, ITestDataSource
+{
+    public string OldAssertion { get; }
+    public string NewAssertion { get; }
+
+    public AssertionCodeFixAttribute(string oldAssertion, string newAssertion) => (OldAssertion, NewAssertion) = (oldAssertion, newAssertion);
+
+    public IEnumerable<object[]> GetData(MethodInfo methodInfo)
     {
-        private static readonly string Empty = string.Empty;
-        private static readonly string Because = "\"because it's possible\"";
-        private static readonly string FormattedBecause = "\"because message with {0} placeholders {1} at {2}\", 3, \"is awesome\", DateTime.Now.Add(2.Seconds())";
-
-        public override TestResult[] Execute(ITestMethod testMethod)
+        foreach (var (oldAssertion, newAssertion) in TestCasesInputUtils.GetTestCases(OldAssertion, NewAssertion))
         {
-            var diagnosticAttributes = testMethod.GetAttributes<AssertionDiagnosticAttribute>(false);
-            var codeFixAttributes = testMethod.GetAttributes<AssertionCodeFixAttribute>(false);
+            yield return new object[] { oldAssertion, newAssertion };
+        }
+    }
 
-            var results = new List<TestResult>();
-            foreach (var diagnosticAttribute in diagnosticAttributes.Where(attribute => !attribute.Ignore))
-            {
-                foreach (var assertion in GetTestCases(diagnosticAttribute))
-                {
-                    var result = testMethod.Invoke(new[] { assertion });
-                    result.DisplayName = $"{testMethod.TestMethodName} (\"{assertion}\")";
+    public string GetDisplayName(MethodInfo methodInfo, object[] data) => $"{methodInfo.Name}(\"old: {data[0]}\", new: {data[1]}\")";
+}
 
-                    results.Add(result);
-                }
-            }
-            foreach (var codeFixAttribute in codeFixAttributes.Where(attribute => !attribute.Ignore))
-            {
-                foreach (var (oldAssertion, newAssertion) in GetTestCases(codeFixAttribute))
-                {
-                    var result = testMethod.Invoke(new[] { oldAssertion, newAssertion });
-                    result.DisplayName = $"{testMethod.TestMethodName} ({Environment.NewLine}old: \"{oldAssertion}\" {Environment.NewLine}new: \"{newAssertion}\")";
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+public class IgnoreAssertionCodeFixAttribute : Attribute
+{
+    public string OldAssertion { get; }
+    public string NewAssertion { get; }
 
-                    results.Add(result);
-                }
-            }
+    public IgnoreAssertionCodeFixAttribute(string oldAssertion, string newAssertion) => (OldAssertion, NewAssertion) = (oldAssertion, newAssertion);
+}
 
-            return results.ToArray();
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+public class AssertionMethodCodeFixAttribute : Attribute, ITestDataSource
+{
+    public string MethodArguments { get; }
+    public string OldAssertion { get; }
+    public string NewAssertion { get; }
+
+    public AssertionMethodCodeFixAttribute(string methodArguments, string oldAssertion, string newAssertion)
+        => (MethodArguments, OldAssertion, NewAssertion) = (methodArguments, oldAssertion, newAssertion);
+
+    public IEnumerable<object[]> GetData(MethodInfo methodInfo)
+    {
+        foreach (var (oldAssertion, newAssertion) in TestCasesInputUtils.GetTestCases(OldAssertion, NewAssertion))
+        {
+            yield return new object[] { MethodArguments, oldAssertion, newAssertion };
+        }
+    }
+
+    public string GetDisplayName(MethodInfo methodInfo, object[] data) => $"{methodInfo.Name}(\"arguments\":{data[0]}, \"old: {data[1]}\", new: {data[2]}\")";
+}
+
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+public class IgnoreAssertionMethodCodeFixAttribute : Attribute
+{
+    public string MethodArguments { get; }
+    public string OldAssertion { get; }
+    public string NewAssertion { get; }
+
+    public IgnoreAssertionMethodCodeFixAttribute(string methodArguments, string oldAssertion, string newAssertion)
+        => (MethodArguments, OldAssertion, NewAssertion) = (methodArguments, oldAssertion, newAssertion);
+}
+
+public static class TestCasesInputUtils
+{
+    private static readonly string Empty = string.Empty;
+    private static readonly string Because = "\"because it's possible\"";
+    private static readonly string FormattedBecause = "\"because message with {0} placeholders {1} at {2}\", 3, \"is awesome\", DateTime.Now.Add(2.Seconds())";
+    public static IEnumerable<string> GetTestCases(string assertion)
+    {
+        if (!assertion.Contains("{0}"))
+        {
+            yield return assertion;
+            yield break;
         }
 
-        private IEnumerable<string> GetTestCases(AssertionDiagnosticAttribute attribute)
+        yield return SafeFormat(assertion, Empty);
+        yield return SafeFormat(assertion, Because);
+        yield return SafeFormat(assertion, FormattedBecause);
+    }
+    public static IEnumerable<(string oldAssertion, string newAssertion)> GetTestCases(string oldAssertion, string newAssertion)
+    {
+        if (!oldAssertion.Contains("{0}") && !newAssertion.Contains("{0}"))
         {
-            yield return SafeFormat(attribute.Assertion, Empty);
-            yield return SafeFormat(attribute.Assertion, Because);
-            yield return SafeFormat(attribute.Assertion, FormattedBecause);
-        }
-        private IEnumerable<(string oldAssertion, string newAssertion)> GetTestCases(AssertionCodeFixAttribute attribute)
-        {
-            yield return (SafeFormat(attribute.OldAssertion, Empty), SafeFormat(attribute.NewAssertion, Empty));
-            yield return (SafeFormat(attribute.OldAssertion, Because), SafeFormat(attribute.NewAssertion, Because));
-            yield return (SafeFormat(attribute.OldAssertion, FormattedBecause), SafeFormat(attribute.NewAssertion, FormattedBecause));
+            yield return (oldAssertion, newAssertion);
+            yield break;
         }
 
-        /// <summary>
-        /// Adds an comma before the additional argument if needed.
-        /// </summary>
-        private string SafeFormat(string assertion, string arg)
+        yield return (SafeFormat(oldAssertion, Empty), SafeFormat(newAssertion, Empty));
+        yield return (SafeFormat(oldAssertion, Because), SafeFormat(newAssertion, Because));
+        yield return (SafeFormat(oldAssertion, FormattedBecause), SafeFormat(newAssertion, FormattedBecause));
+    }
+
+    /// <summary>
+    /// Adds an comma before the additional argument if needed.
+    /// </summary>
+    private static string SafeFormat(string assertion, string arg)
+    {
+        var index = assertion.IndexOf("{0}");
+        if (!string.IsNullOrEmpty(arg) && assertion[index - 1] != '(')
         {
-            var index = assertion.IndexOf("{0}");
-            if (!string.IsNullOrEmpty(arg) && assertion[index - 1] != '(')
-            {
-                return string.Format(assertion, ", " + arg);
-            }
-            return string.Format(assertion, arg);
+            return string.Format(assertion, ", " + arg);
         }
+        return string.Format(assertion, arg);
     }
 }

@@ -1,5 +1,4 @@
 using FluentAssertions.Analyzers.TestUtils;
-using FluentAssertions.Analyzers.Xunit;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -278,7 +277,13 @@ namespace TestProject
     }
 }";
 
-            DiagnosticVerifier.VerifyCSharpFix<AssertAreEqualCodeFix, AssertAreEqualAnalyzer>(oldSource, newSource);
+            DiagnosticVerifier.VerifyFix(new CodeFixVerifierArguments()
+                .WithCodeFixProvider<MsTestCodeFixProvider>()
+                .WithDiagnosticAnalyzer<AssertAnalyzer>()
+                .WithSources(oldSource)
+                .WithFixedSources(newSource)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest, PackageReference.MSTestTestFramework_3_1_1)
+            );
         }
 
         [TestMethod]
@@ -304,13 +309,18 @@ public class TestClass
     }
 }";
 
-            DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(new[] { source, globalUsings }, new DiagnosticResult()
-            {
-                Id = AssertTrueAnalyzer.DiagnosticId,
-                Message = AssertTrueAnalyzer.Message,
-                Severity = DiagnosticSeverity.Info,
-                Locations = new[] { new DiagnosticResultLocation("Test0.cs", 7, 9) }
-            });
+            DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
+                .WithSources(source, globalUsings)
+                .WithAllAnalyzers()
+                .WithPackageReferences(PackageReference.XunitAssert_2_5_1, PackageReference.AwesomeAssertions_8_latest)
+                .WithExpectedDiagnostics(new DiagnosticResult()
+                {
+                    Id = AssertAnalyzer.XunitRule.Id,
+                    Message = AssertAnalyzer.Message,
+                    Severity = DiagnosticSeverity.Info,
+                    Locations = new[] { new DiagnosticResultLocation("Test0.cs", 7, 9) }
+                })
+            );
         }
 
         [TestMethod]
@@ -318,7 +328,6 @@ public class TestClass
         public void PropertiesOfTypes()
         {
             const string source = @"
-using Xunit;
 using FluentAssertions;
 using FluentAssertions.Extensions;
 using System.Collections.Generic;
@@ -347,26 +356,28 @@ public class TestType3
     public int Count { get; set; }
 }";
 
-            DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(new[] { source }, new DiagnosticResult()
-            {
-                Id = CollectionShouldNotBeEmptyAnalyzer.DiagnosticId,
-                Message = CollectionShouldNotBeEmptyAnalyzer.Message,
-                Severity = DiagnosticSeverity.Info,
-                Locations = new[] { new DiagnosticResultLocation("Test0.cs", 12, 9) }
-            });
+            DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
+                .WithSources(source)
+                .WithAllAnalyzers()
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest)
+                .WithExpectedDiagnostics(new DiagnosticResult()
+                {
+                    Id = FluentAssertionsAnalyzer.DiagnosticId,
+                    Message = DiagnosticMetadata.CollectionShouldNotBeEmpty_AnyShouldBeTrue.Message,
+                    Severity = DiagnosticSeverity.Info,
+                    Locations = new[] { new DiagnosticResultLocation("Test0.cs", 11, 9) }
+                })
+            );
         }
-        
+
         [TestMethod]
         [Implemented(Reason = "https://github.com/fluentassertions/fluentassertions.analyzers/issues/215")]
-        public void ShouldNotFailToAnalyze()
+        public void ShouldNotFailToAnalyze1()
         {
             const string source = @"
 #nullable enable
-using Xunit;
 using FluentAssertions;
 using FluentAssertions.Extensions;
-using System.Collections.Generic;
-using System.Linq;
 using System;
 public class TestClass
 {
@@ -391,7 +402,108 @@ public class OtherComponent
     public string? Hash { get; set; }
 }";
 
-            DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(source);
+            DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
+                .WithSources(source)
+                .WithAllAnalyzers()
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest)
+            );
+        }
+
+        [TestMethod]
+        [Implemented(Reason = "https://github.com/fluentassertions/fluentassertions.analyzers/issues/276")]
+        public void ShouldNotFailToAnalyze2()
+        {
+            const string source = @"
+#nullable enable            
+using FluentAssertions;
+using FluentAssertions.Extensions;
+using System.Linq;
+using System.Collections.Generic;
+
+public class TestClass
+{
+    public static void Main()
+    {
+        var response = new MyResponse();
+        response.MyCollection?.Count().Should().Be(2);
+    }
+}
+
+public class MyResponse
+{
+    public IEnumerable<MyCollectionType>? MyCollection { get; set; }
+}
+public class MyCollectionType { }";
+
+            DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
+                .WithSources(source)
+                .WithAllAnalyzers()
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest)
+                .WithExpectedDiagnostics(new DiagnosticResult()
+                {
+                    Id = FluentAssertionsAnalyzer.DiagnosticId,
+                    Message = DiagnosticMetadata.NullConditionalMayNotExecute.Message,
+                    Severity = DiagnosticSeverity.Info, // TODO: change to warning
+                    Locations = new[] { new DiagnosticResultLocation("Test0.cs", 13, 9) }
+                })
+            );
+        }
+
+        [TestMethod]
+        [Implemented(Reason = "https://github.com/fluentassertions/fluentassertions.analyzers/issues/290")]
+        public void ShouldNotReportIssue290()
+        {
+            const string source = @"
+using FluentAssertions;
+using FluentAssertions.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+public class TestClass
+{
+    public static void Main()
+    {
+        IEnumerable<Item> expectedOrderedNames = new[] { new Item(""Alpha""), new Item(""Bravo""), new Item(""Charlie"") };
+        IEnumerable<Parent> actual = GetSortedItems();
+
+        actual.Select(x => x.Item).Should().Equal(expectedOrderedNames);
+    }
+
+    static IEnumerable<Parent> GetSortedItems()
+    {
+        yield return new Parent(""Bravo"");
+        yield return new Parent(""Charlie"");
+        yield return new Parent(""Alpha"");
+    }
+}
+
+public class Item
+{
+    public string Name { get; set; }
+    public Guid Id { get; set; }
+
+    public Item(string name)
+    {
+        Name = name;
+        Id = Guid.NewGuid();
+    }
+}
+
+public class Parent
+{
+    public Item Item { get; set; }
+
+    public Parent(string name)
+    {
+        Item = new Item(name);
+    }
+}";
+
+            DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
+                .WithSources(source)
+                .WithAllAnalyzers()
+                .WithPackageReferences(PackageReference.AwesomeAssertions_8_latest)
+            );
         }
     }
 }
