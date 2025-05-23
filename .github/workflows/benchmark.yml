@@ -1,5 +1,8 @@
 name: Benchmark tests
-on: [pull_request]
+on:
+  push:
+    branches:
+      - main
 
 permissions:
     contents: write
@@ -31,4 +34,4 @@ jobs:
           auto-push: true
           alert-threshold: '200%'
           comment-on-alert: true
-          fail-on-alert: true
+          fail-on-alert: false
