@@ -1,6 +1,6 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1732438038303,
-  "repoUrl": "https://github.com/fluentassertions/fluentassertions.analyzers",
+  "lastUpdate": 1748010294975,
+  "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "FluentAssertions.Analyzers Benchmark": [
       {
@@ -12672,6 +12672,52 @@ window.BENCHMARK_DATA = {
             "value": 321.25339449246724,
             "unit": "ns",
             "range": "± 1.8726947426929066"
+          }
+        ]
+      }
+    ],
+    "AwesomeAssertions.Analyzers Benchmark": [
+      {
+        "commit": {
+          "author": {
+            "name": "AwesomeAssertions",
+            "username": "AwesomeAssertions"
+          },
+          "committer": {
+            "name": "AwesomeAssertions",
+            "username": "AwesomeAssertions"
+          },
+          "id": "c63e072f2e63a02806948f5600d196f8873fd630",
+          "message": "Rename to AwesomeAssertions (#11)",
+          "timestamp": "2025-05-08T09:00:27Z",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/pull/13/commits/c63e072f2e63a02806948f5600d196f8873fd630"
+        },
+        "date": 1748010294301,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 259.5765773455302,
+            "unit": "ns",
+            "range": "± 0.8720023702354215"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 283.8025732676188,
+            "unit": "ns",
+            "range": "± 2.3595566453118404"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 265.13127756118774,
+            "unit": "ns",
+            "range": "± 1.2591121809188817"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 632.2270585468838,
+            "unit": "ns",
+            "range": "± 1.417877894224369"
           }
         ]
       }
