@@ -24,7 +24,7 @@ jobs:
         shell: pwsh
         run: |
           $tag = $env:GITHUB_REF.Substring('refs/tags/v'.Length)
-          dotnet pack src/FluentAssertions.Analyzers/ --output out --configuration Release --include-symbols -p:Version=$tag
+          dotnet pack src/AwesomeAssertions.Analyzers/ --output out --configuration Release --include-symbols -p:Version=$tag
 
       - name: Publish NuGet package
         shell: pwsh

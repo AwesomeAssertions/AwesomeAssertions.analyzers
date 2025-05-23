@@ -41,7 +41,7 @@ function RunTestsAndValidate {
     }
 }
 
-RunTestsAndValidate -project FluentAssertions.Analyzers.FluentAssertionAnalyzerDocs
-RunTestsAndValidate -project FluentAssertions.Analyzers.FluentAssertionAnalyzerDocs.Nunit4
-RunTestsAndValidate -project FluentAssertions.Analyzers.FluentAssertionAnalyzerDocs.Nunit3
-RunTestsAndValidate -project FluentAssertions.Analyzers.FluentAssertionAnalyzerDocs.Xunit
+RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs
+RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit4
+RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit3
+RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Xunit

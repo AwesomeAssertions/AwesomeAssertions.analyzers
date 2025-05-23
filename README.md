@@ -10,7 +10,7 @@
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/awesomeassertions/AwesomeAssertions.Analyzers)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/graphs/commit-activity)
 [![open issues](https://img.shields.io/github/issues/awesomeassertions/AwesomeAssertions.Analyzers)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/issues)
 
-A collection of Analyzers based on the best practices [tips](https://fluentassertions.com/tips/).
+A collection of Analyzers based on the best practices [tips](https://awesomeassertions.org/tips/).
 
 <!-- TODO: do we want to re-introduce this? Do we care? -->
 <!-- ![Alt](https://repobeats.axiom.co/api/embed/92fd2e6496fc171c00616eaf672c3c757a1a29ac.svg "Repobeats analytics image") -->
@@ -29,7 +29,7 @@ dotnet add package AwesomeAssertions.Analyzers
 
 ## Docs
 
-- [FluentAssertions Analyzer Docs](docs/FluentAssertionsAnalyzer.md)
+- [AwesomeAssertions Analyzer Docs](docs/AwesomeAssertionsAnalyzer.md)
 - [MsTest Analyzer Docs](docs/MsTestAnalyzer.md)
 - [NUnit4 Analyzer Docs](docs/Nunit4Analyzer.md)
 - [NUnit3 Analyzer Docs](docs/Nunit3Analyzer.md)
@@ -63,7 +63,7 @@ dotnet test --configuration Release  --filter 'TestCategory=Completed'
 ### Benchmarks
 
 <!-- TODO: point at fork docs -->
-https://fluentassertions.github.io/fluentassertions.analyzers/dev/bench/
+https://AwesomeAssertions.github.io/AwesomeAssertions.analyzers/dev/bench/
 
 ## Example Usages
 - https://github.com/SonarSource/sonar-dotnet/pull/2072
