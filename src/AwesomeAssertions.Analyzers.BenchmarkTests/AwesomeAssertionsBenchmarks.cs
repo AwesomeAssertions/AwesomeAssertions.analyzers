@@ -11,7 +11,9 @@ using System.Collections.Generic;
 namespace AwesomeAssertions.Analyzers.BenchmarkTests
 {
     [SimpleJob(RuntimeMoniker.Net60, baseline: true)]
-    [SimpleJob(RuntimeMoniker.Net90)]
+    // Net8.0 has a larger regression in one benchmark (https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/discussions/14),
+    // and since the other projects doesn't use net9.0, we leave it commented for the moment.
+    // [SimpleJob(RuntimeMoniker.Net90)]
     [JsonExporter]
     public class AwesomeAssertionsBenchmarks
     {
