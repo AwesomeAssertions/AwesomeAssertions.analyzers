@@ -26,7 +26,7 @@ function GenerateDocs {
     Pop-Location
 }
 
-GenerateDocs -project FluentAssertions.Analyzers.FluentAssertionAnalyzerDocs
-GenerateDocs -project FluentAssertions.Analyzers.FluentAssertionAnalyzerDocs.Nunit4
-GenerateDocs -project FluentAssertions.Analyzers.FluentAssertionAnalyzerDocs.Nunit3
-GenerateDocs -project FluentAssertions.Analyzers.FluentAssertionAnalyzerDocs.Xunit
+GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs
+GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit4
+GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit3
+GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Xunit
