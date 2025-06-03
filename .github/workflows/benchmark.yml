@@ -25,7 +25,7 @@ jobs:
         run: cd src/AwesomeAssertions.Analyzers.BenchmarkTests && dotnet run -c Release --exporters json --filter '*'
 
       - name: Store benchmark result
-        uses: benchmark-action/github-action-benchmark@v1.18.0
+        uses: benchmark-action/github-action-benchmark@v1.20.4
         with:
           name: AwesomeAssertions.Analyzers Benchmark
           tool: 'benchmarkdotnet'
