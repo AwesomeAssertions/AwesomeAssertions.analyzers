@@ -1,6 +1,18 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ]
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended"
+    ],
+	  "ignoreDeps": [
+        "Microsoft.CodeAnalysis.CSharp.Workspaces",
+        "Microsoft.CodeAnalysis.Workspaces.MSBuild"
+    ],
+    "packageRules": [
+        {
+            "matchPackageNames": [ "*" ],
+            "description": "Every month on the first day of the month",
+            "schedule": [ "* * 1 * *" ]
+        }
+    ]
 }
+
