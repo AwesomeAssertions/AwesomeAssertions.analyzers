@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1748943595303,
+  "lastUpdate": 1748943606960,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -13028,6 +13028,42 @@ window.BENCHMARK_DATA = {
             "value": 257.77745925463165,
             "unit": "ns",
             "range": "± 0.530845359134329"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "385735930556769d7592b4d3f7282c30c4fbdd8c",
+          "message": "chore(deps): update xunit-dotnet monorepo to 2.9.3 (#19)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-06-03T11:38:51+02:00",
+          "tree_id": "325c935578ebd330210836b700363dd0d5f342e9",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/385735930556769d7592b4d3f7282c30c4fbdd8c"
+        },
+        "date": 1748943606018,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 258.4180357796805,
+            "unit": "ns",
+            "range": "± 0.838923725415658"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 252.24789865200336,
+            "unit": "ns",
+            "range": "± 0.6301568742740711"
           }
         ]
       }
