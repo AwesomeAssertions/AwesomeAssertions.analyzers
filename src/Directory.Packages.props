@@ -25,6 +25,6 @@
         <PackageVersion Include="coverlet.collector" Version="6.0.4" />
         <PackageVersion Include="coverlet.msbuild" Version="6.0.4" />
 
-        <PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
+        <PackageVersion Include="BenchmarkDotNet" Version="0.15.2" />
     </ItemGroup>
   </Project>
