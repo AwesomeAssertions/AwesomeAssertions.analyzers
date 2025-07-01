@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1751373717882,
+  "lastUpdate": 1751374234279,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -13244,6 +13244,42 @@ window.BENCHMARK_DATA = {
             "value": 251.03058930543753,
             "unit": "ns",
             "range": "± 1.5785416607289318"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2ba294119c4a7da4f5cf19a253f394175878f115",
+          "message": "chore(deps): update dependency xunit.runner.visualstudio to v3 (#29)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-07-01T14:49:09+02:00",
+          "tree_id": "a61b7a2c295a1985e85443235b137f1ea1258e06",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/2ba294119c4a7da4f5cf19a253f394175878f115"
+        },
+        "date": 1751374232944,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 280.90248505274457,
+            "unit": "ns",
+            "range": "± 4.283230813888189"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 279.4229331750136,
+            "unit": "ns",
+            "range": "± 2.163814117205068"
           }
         ]
       }
