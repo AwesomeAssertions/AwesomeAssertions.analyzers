@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="NUnit" VersionOverride="3.14.0" />
+    <PackageReference Include="NUnit" VersionOverride="4.3.2" />
     <PackageReference Include="NUnit3TestAdapter" />
     <PackageReference Include="AwesomeAssertions" />
     <PackageReference Include="coverlet.collector" />
