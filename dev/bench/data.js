@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1751374324001,
+  "lastUpdate": 1751376411751,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -13316,6 +13316,42 @@ window.BENCHMARK_DATA = {
             "value": 259.63292462031046,
             "unit": "ns",
             "range": "± 2.63859404175158"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "61f65c36060b076b58191b95672a83831410c639",
+          "message": "Suppress major version upgrades of nunit and dotnet sdk (#31)",
+          "timestamp": "2025-07-01T15:25:28+02:00",
+          "tree_id": "58ac08228f63f8a5c41d5a971fbcde89818c347d",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/61f65c36060b076b58191b95672a83831410c639"
+        },
+        "date": 1751376410663,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 262.9420936841231,
+            "unit": "ns",
+            "range": "± 1.3914910702292365"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 259.1631675683535,
+            "unit": "ns",
+            "range": "± 0.41900943069431673"
           }
         ]
       }
