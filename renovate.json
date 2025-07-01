@@ -9,6 +9,13 @@
     ],
     "packageRules": [
         {
+            "matchSourceUrls": [
+                "https://github.com/dotnet/runtime",
+                "https://github.com/dotnet/sdk"
+            ],
+            "enabled": false
+        },
+        {
             "matchPackageNames": [ "*" ],
             "description": "Every month on the first day of the month",
             "schedule": [ "* * 1 * *" ]
