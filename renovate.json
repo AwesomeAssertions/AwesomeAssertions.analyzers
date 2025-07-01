@@ -12,6 +12,12 @@
             "matchPackageNames": [ "*" ],
             "description": "Every month on the first day of the month",
             "schedule": [ "* * 1 * *" ]
+        },
+        {
+            "matchPackageNames": [ "nunit" ],
+            "description": "No major version upgrades to keep tests for the specific nunit major versions.",
+            "matchUpdateTypes": ["major"],
+            "enabled": false
         }
     ]
 }
