@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1754053087312,
+  "lastUpdate": 1754053150370,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -13460,6 +13460,42 @@ window.BENCHMARK_DATA = {
             "value": 264.336703811373,
             "unit": "ns",
             "range": "± 0.7835934598579858"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4cf2500020627fc4ca30a87a77eacb4b26d1c858",
+          "message": "chore(deps): update dependency awesomeassertions to 9.1.0 (#38)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-08-01T14:56:59+02:00",
+          "tree_id": "249c256889f3ef326dc4658d375753291c2faed6",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/4cf2500020627fc4ca30a87a77eacb4b26d1c858"
+        },
+        "date": 1754053149384,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 254.48668534415108,
+            "unit": "ns",
+            "range": "± 1.6817110165234648"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 250.52115497222314,
+            "unit": "ns",
+            "range": "± 0.44824171463497503"
           }
         ]
       }
