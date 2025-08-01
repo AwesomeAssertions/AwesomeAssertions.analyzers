@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1754053150370,
+  "lastUpdate": 1754060826211,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -13496,6 +13496,42 @@ window.BENCHMARK_DATA = {
             "value": 250.52115497222314,
             "unit": "ns",
             "range": "± 0.44824171463497503"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a10857644f073fd1643e3de8a5a601942e4bc6ff",
+          "message": "fix: Use | as separator for excluding multiple methods (#40)",
+          "timestamp": "2025-08-01T17:05:44+02:00",
+          "tree_id": "0f18361b2c5af5655699cf3e7c9b1c40c2cec0e4",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/a10857644f073fd1643e3de8a5a601942e4bc6ff"
+        },
+        "date": 1754060825134,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 266.85649312459503,
+            "unit": "ns",
+            "range": "± 2.5844308029762684"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 253.5898870786031,
+            "unit": "ns",
+            "range": "± 2.150403296156152"
           }
         ]
       }
