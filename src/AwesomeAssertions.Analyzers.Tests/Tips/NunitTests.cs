@@ -22,6 +22,20 @@ public class NunitTests
         );
     }
 
+    [TestMethod]
+    [Implemented]
+    public void SupportExcludingMultipleMethods()
+    {
+        var source = GenerateCode.Nunit3Assertion("bool actual", "Assert.IsTrue(actual);Assert.IsFalse(actual);");
+        DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
+            .WithAllAnalyzers()
+            .WithSources(source)
+            .WithPackageReferences(PackageReference.AwesomeAssertions_latest, PackageReference.Nunit_3_14_0)
+            .WithAnalyzerConfigOption("ffa_excluded_methods", "M:NUnit.Framework.Assert.IsTrue(System.Boolean)|M:NUnit.Framework.Assert.IsFalse(System.Boolean)")
+            .WithExpectedDiagnostics()
+        );
+    }
+
     #region Assert.cs
 
     [DataTestMethod]
