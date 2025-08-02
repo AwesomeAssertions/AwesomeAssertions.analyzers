@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1754060826211,
+  "lastUpdate": 1754141051474,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -13532,6 +13532,42 @@ window.BENCHMARK_DATA = {
             "value": 253.5898870786031,
             "unit": "ns",
             "range": "± 2.150403296156152"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6cee07be0d0568a990c3f48702fe270ae4366598",
+          "message": "Fix false positive for dictionary int value check (#41)",
+          "timestamp": "2025-08-02T15:22:51+02:00",
+          "tree_id": "60b46e694edb958e119730b8d098a8525ee07db0",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/6cee07be0d0568a990c3f48702fe270ae4366598"
+        },
+        "date": 1754141050618,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 266.85558697382606,
+            "unit": "ns",
+            "range": "± 3.191347558581717"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 279.82808348867627,
+            "unit": "ns",
+            "range": "± 4.7665273168840905"
           }
         ]
       }
