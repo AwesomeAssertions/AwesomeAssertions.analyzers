@@ -151,8 +151,12 @@ public class AssertAnalyzer : DiagnosticAnalyzer
         public void AnalyzeXunitInvocation(OperationAnalysisContext context)
         {
             var op = (IInvocationOperation)context.Operation;
+
             if (op.TargetMethod.ContainingType.EqualsSymbol(_xunitAssertSymbol) && !IsMethodExcluded(context.Options, op))
             {
+                if (op.TargetMethod.Name is "Skip" or "SkipWhen" or "SkipUnless")
+                    return;
+
                 context.ReportDiagnostic(Diagnostic.Create(XunitRule, op.Syntax.GetLocation()));
             }
         }
