@@ -184,6 +184,14 @@ namespace TestNamespace
         [Implemented]
         public void DictionaryShouldContainPair_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix(oldAssertion, newAssertion);
 
+        [TestMethod]
+        public void DictionaryWithIntValue_ShouldBe_NoDiagnostic()
+        {
+            string assertion = "actual[\"one\"].Should().Be(1);";
+            string source = GenerateCode.GenericSimpleIDictionaryAssertion(assertion, "int");
+            DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(source);
+        }
+
         private void VerifyCSharpDiagnostic(string sourceAssersion, DiagnosticMetadata metadata)
         {
             var source = GenerateCode.GenericIDictionaryAssertion(sourceAssersion);
