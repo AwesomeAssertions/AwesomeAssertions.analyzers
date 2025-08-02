@@ -7,13 +7,13 @@ namespace AwesomeAssertions.Analyzers.Tests
     [TestClass]
     public class DictionaryTests
     {
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("actual.ContainsKey(expectedKey).Should().BeTrue({0});")]
         [AssertionDiagnostic("actual.ToDictionary(p => p.Key, p=> p.Value).ContainsKey(expectedKey).Should().BeTrue({0}).And.ToString();")]
         [Implemented]
         public void DictionaryShouldContainKey_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic(assertion, DiagnosticMetadata.DictionaryShouldContainKey_ContainsKeyShouldBeTrue);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
 @"using System.Collections.Generic;
 using AwesomeAssertions;
@@ -38,7 +38,7 @@ namespace TestNamespace
         [Implemented]
         public void DictionaryMethods_CustomMethods_TestNoAnalyzer(string code) => DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(code);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "actual.ContainsKey(expectedKey).Should().BeTrue({0});",
             newAssertion: "actual.Should().ContainKey(expectedKey{0});")]
@@ -48,13 +48,13 @@ namespace TestNamespace
         [Implemented]
         public void DictionaryShouldContainKey_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix(oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("actual.ContainsKey(expectedKey).Should().BeFalse({0});")]
         [AssertionDiagnostic("actual.ToDictionary(p => p.Key, p=> p.Value).ContainsKey(expectedKey).Should().BeFalse({0}).And.ToString();")]
         [Implemented]
         public void DictionaryShouldNotContainKey_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic(assertion, DiagnosticMetadata.DictionaryShouldNotContainKey_ContainsKeyShouldBeFalse);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "actual.ContainsKey(expectedKey).Should().BeFalse({0});",
             newAssertion: "actual.Should().NotContainKey(expectedKey{0});")]
@@ -64,13 +64,13 @@ namespace TestNamespace
         [Implemented]
         public void DictionaryShouldNotContainKey_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix(oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("actual.ContainsValue(expectedValue).Should().BeTrue({0});")]
         [AssertionDiagnostic("actual.ToDictionary(p => p.Key, p=> p.Value).ContainsValue(expectedValue).Should().BeTrue({0}).And.ToString();")]
         [Implemented]
         public void DictionaryShouldContainValue_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic(assertion, DiagnosticMetadata.DictionaryShouldContainValue_ContainsValueShouldBeTrue);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "actual.ContainsValue(expectedValue).Should().BeTrue({0});",
             newAssertion: "actual.Should().ContainValue(expectedValue{0});")]
@@ -80,13 +80,13 @@ namespace TestNamespace
         [Implemented]
         public void DictionaryShouldContainValue_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix(oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("actual.ContainsValue(expectedValue).Should().BeFalse({0});")]
         [AssertionDiagnostic("actual.ToDictionary(p => p.Key, p=> p.Value).ContainsValue(expectedValue).Should().BeFalse({0}).And.ToString();")]
         [Implemented]
         public void DictionaryShouldNotContainValue_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic(assertion, DiagnosticMetadata.DictionaryShouldNotContainValue_ContainsValueShouldBeFalse);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "actual.ContainsValue(expectedValue).Should().BeFalse({0});",
             newAssertion: "actual.Should().NotContainValue(expectedValue{0});")]
@@ -96,7 +96,7 @@ namespace TestNamespace
         [Implemented]
         public void DictionaryShouldNotContainValue_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix(oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("actual.Should().ContainKey(expectedKey{0}).And.ContainValue(expectedValue);")]
         [AssertionDiagnostic("actual.Should().ContainKey(expectedKey).And.ContainValue(expectedValue{0});")]
         [AssertionDiagnostic("actual.ToDictionary(p => p.Key, p=> p.Value).Should().ContainKey(expectedKey{0}).And.ContainValue(expectedValue).And.ToString();")]
@@ -104,7 +104,7 @@ namespace TestNamespace
         [Implemented]
         public void DictionaryShouldContainKeyAndValue_ShouldContainKeyAndContainValue_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic(assertion, DiagnosticMetadata.DictionaryShouldContainKeyAndValue_ShouldContainKeyAndContainValue);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("actual.Should().ContainValue(expectedValue{0}).And.ContainKey(expectedKey);")]
         [AssertionDiagnostic("actual.Should().ContainValue(expectedValue).And.ContainKey(expectedKey{0});")]
         [AssertionDiagnostic("actual.ToDictionary(p => p.Key, p=> p.Value).Should().ContainValue(expectedValue{0}).And.ContainKey(expectedKey).And.ToString();")]
@@ -112,7 +112,7 @@ namespace TestNamespace
         [Implemented]
         public void DictionaryShouldContainKeyAndValue_ShouldContainValueAndContainKey_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic(assertion, DiagnosticMetadata.DictionaryShouldContainKeyAndValue_ShouldContainValueAndContainKey);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "actual.Should().ContainKey(expectedKey{0}).And.ContainValue(expectedValue);",
             newAssertion: "actual.Should().Contain(expectedKey, expectedValue{0});")]
@@ -140,7 +140,7 @@ namespace TestNamespace
         [Implemented]
         public void DictionaryShouldContainKeyAndValue_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix(oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("actual.Should().ContainKey(pair.Key{0}).And.ContainValue(pair.Value);")]
         [AssertionDiagnostic("actual.Should().ContainKey(pair.Key).And.ContainValue(pair.Value{0});")]
         [AssertionDiagnostic("actual.ToDictionary(p => p.Key, p=> p.Value).Should().ContainKey(pair.Key{0}).And.ContainValue(pair.Value).And.ToString();")]
@@ -148,7 +148,7 @@ namespace TestNamespace
         [Implemented]
         public void DictionaryShouldContainPair_ShouldContainKeyAndContainValue_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic(assertion, DiagnosticMetadata.DictionaryShouldContainPair_ShouldContainKeyAndContainValue);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("actual.Should().ContainValue(pair.Value{0}).And.ContainKey(pair.Key);")]
         [AssertionDiagnostic("actual.Should().ContainValue(pair.Value).And.ContainKey(pair.Key{0});")]
         [AssertionDiagnostic("actual.ToDictionary(p => p.Key, p=> p.Value).Should().ContainValue(pair.Value{0}).And.ContainKey(pair.Key).And.ToString();")]
@@ -156,7 +156,7 @@ namespace TestNamespace
         [Implemented]
         public void DictionaryShouldContainPair_ShouldContainValueAndContainKey_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic(assertion, DiagnosticMetadata.DictionaryShouldContainPair_ShouldContainValueAndContainKey);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "actual.Should().ContainKey(pair.Key{0}).And.ContainValue(pair.Value);",
             newAssertion: "actual.Should().Contain(pair{0});")]

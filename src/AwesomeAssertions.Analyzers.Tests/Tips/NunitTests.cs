@@ -38,20 +38,20 @@ public class NunitTests
 
     #region Assert.cs
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.Pass({0});")]
     [AssertionDiagnostic("Assert.Inconclusive({0});")]
     [AssertionDiagnostic("Assert.Ignore({0});")]
     [Implemented]
     public void Nunit3_NotReportedAsserts_TestAnalyzer(string assertion) => Nunit3VerifyNoDiagnostic(string.Empty, assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("Assert.Warn(\"warning message\");")]
     [DataRow("Assert.Warn(\"warning message {0} and more.\", DateTime.Now);")]
     [Implemented]
     public void Nunit3_SpecialNotReportedAsserts_TestAnalyzer(string assertion) => Nunit3VerifyNoDiagnostic(string.Empty, assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow("Assert.Pass();")]
     [DataRow("Assert.Pass(\"passing message\");")]
     [DataRow("Assert.Inconclusive();")]
@@ -67,7 +67,7 @@ public class NunitTests
 
     #region Assert.Conditions.cs
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.True(actual{0});")]
     [AssertionDiagnostic("Assert.True(bool.Parse(\"true\"){0});")]
     [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
@@ -78,7 +78,7 @@ public class NunitTests
     [Implemented]
     public void Nunit3_AssertTrue_TestAnalyzer(string assertion) => Nunit3VerifyDiagnostic("bool actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.True(actual{0});")]
     [AssertionDiagnostic("ClassicAssert.True(bool.Parse(\"true\"){0});")]
     [AssertionDiagnostic("ClassicAssert.IsTrue(actual{0});")]
@@ -89,7 +89,7 @@ public class NunitTests
     [Implemented]
     public void Nunit4_AssertTrue_TestAnalyzer(string assertion) => Nunit4VerifyDiagnostic("bool actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.True(actual{0});",
         newAssertion: "actual.Should().BeTrue({0});")]
@@ -126,7 +126,7 @@ public class NunitTests
     [Implemented]
     public void Nunit3_AssertTrue_TestCodeFix(string oldAssertion, string newAssertion) => Nunit3VerifyFix("bool actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.True(actual{0});",
         newAssertion: "actual.Should().BeTrue({0});")]
@@ -163,7 +163,7 @@ public class NunitTests
     [Implemented]
     public void Nunit4_AssertTrue_TestCodeFix(string oldAssertion, string newAssertion) => Nunit4VerifyFix("bool actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.False(actual{0});")]
     [AssertionDiagnostic("Assert.False(bool.Parse(\"false\"){0});")]
     [AssertionDiagnostic("Assert.IsFalse(actual{0});")]
@@ -173,7 +173,7 @@ public class NunitTests
     [Implemented]
     public void Nunit3_AssertFalse_TestAnalyzer(string assertion) => Nunit3VerifyDiagnostic("bool actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.False(actual{0});")]
     [AssertionDiagnostic("ClassicAssert.False(bool.Parse(\"false\"){0});")]
     [AssertionDiagnostic("ClassicAssert.IsFalse(actual{0});")]
@@ -183,7 +183,7 @@ public class NunitTests
     [Implemented]
     public void Nunit4_AssertFalse_TestAnalyzer(string assertion) => Nunit4VerifyDiagnostic("bool actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.False(actual{0});",
         newAssertion: "actual.Should().BeFalse({0});")]
@@ -205,7 +205,7 @@ public class NunitTests
     [Implemented]
     public void Nunit3_AssertFalse_TestCodeFix(string oldAssertion, string newAssertion) => Nunit3VerifyFix("bool actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.False(actual{0});",
         newAssertion: "actual.Should().BeFalse({0});")]
@@ -227,21 +227,21 @@ public class NunitTests
     [Implemented]
     public void Nunit4_AssertFalse_TestCodeFix(string oldAssertion, string newAssertion) => Nunit4VerifyFix("bool actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.Null(actual{0});")]
     [AssertionDiagnostic("Assert.IsNull(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Null{0});")]
     [Implemented]
     public void Nunit3_AssertNull_TestAnalyzer(string assertion) => Nunit3VerifyDiagnostic("object actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.Null(actual{0});")]
     [AssertionDiagnostic("ClassicAssert.IsNull(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Null);")]
     [Implemented]
     public void Nunit4_AssertNull_TestAnalyzer(string assertion) => Nunit4VerifyDiagnostic("object actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.Null(actual{0});",
         newAssertion: "actual.Should().BeNull({0});")]
@@ -254,7 +254,7 @@ public class NunitTests
     [Implemented]
     public void Nunit3_AssertNull_TestCodeFix(string oldAssertion, string newAssertion) => Nunit3VerifyFix("object actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.Null(actual{0});",
         newAssertion: "actual.Should().BeNull({0});")]
@@ -267,21 +267,21 @@ public class NunitTests
     [Implemented]
     public void Nunit4_AssertNull_TestCodeFix(string oldAssertion, string newAssertion) => Nunit4VerifyFix("object actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.NotNull(actual{0});")]
     [AssertionDiagnostic("Assert.IsNotNull(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Not.Null{0});")]
     [Implemented]
     public void Nunit3_AssertNotNull_TestAnalyzer(string assertion) => Nunit3VerifyDiagnostic("object actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.NotNull(actual{0});")]
     [AssertionDiagnostic("ClassicAssert.IsNotNull(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Not.Null);")]
     [Implemented]
     public void Nunit4_AssertNotNull_TestAnalyzer(string assertion) => Nunit4VerifyDiagnostic("object actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.NotNull(actual{0});",
         newAssertion: "actual.Should().NotBeNull({0});")]
@@ -294,7 +294,7 @@ public class NunitTests
     [Implemented]
     public void Nunit3_AssertNotNull_TestCodeFix(string oldAssertion, string newAssertion) => Nunit3VerifyFix("object actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.NotNull(actual{0});",
         newAssertion: "actual.Should().NotBeNull({0});")]
@@ -307,7 +307,7 @@ public class NunitTests
     [Implemented]
     public void Nunit4_AssertNotNull_TestCodeFix(string oldAssertion, string newAssertion) => Nunit4VerifyFix("object actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.IsNaN(actual{0});")]
     [Implemented]
     public void Nunit3_AssertIsNaN_TestAnalyzer(string assertion)
@@ -316,7 +316,7 @@ public class NunitTests
         Nunit3VerifyNoFix("double actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.IsNaN(actual{0});")]
     [Implemented]
     public void Nunit4_AssertIsNaN_TestAnalyzer(string assertion)
@@ -326,7 +326,7 @@ public class NunitTests
     }
 
     // IsEmpty
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.IsEmpty(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Empty{0});")]
     [AssertionDiagnostic("CollectionAssert.IsEmpty(actual{0});")]
@@ -339,7 +339,7 @@ public class NunitTests
         Nunit3VerifyDiagnostic("string actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.IsEmpty(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Empty);")]
     [AssertionDiagnostic("CollectionAssert.IsEmpty(actual{0});")]
@@ -352,7 +352,7 @@ public class NunitTests
         Nunit4VerifyDiagnostic("string actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.IsEmpty(actual{0});",
         newAssertion: "actual.Should().BeEmpty({0});")]
@@ -377,7 +377,7 @@ public class NunitTests
         Nunit3VerifyFix("string actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.IsEmpty(actual{0});",
         newAssertion: "actual.Should().BeEmpty({0});")]
@@ -403,7 +403,7 @@ public class NunitTests
     }
 
     // IsNotEmpty
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.IsNotEmpty(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Not.Empty{0});")]
     [AssertionDiagnostic("CollectionAssert.IsNotEmpty(actual{0});")]
@@ -416,7 +416,7 @@ public class NunitTests
         Nunit3VerifyDiagnostic("string actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.IsNotEmpty(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Not.Empty);")]
     [AssertionDiagnostic("CollectionAssert.IsNotEmpty(actual{0});")]
@@ -429,7 +429,7 @@ public class NunitTests
         Nunit4VerifyDiagnostic("string actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.IsNotEmpty(actual{0});",
         newAssertion: "actual.Should().NotBeEmpty({0});")]
@@ -448,7 +448,7 @@ public class NunitTests
         Nunit3VerifyFix("string actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.IsNotEmpty(actual{0});",
         newAssertion: "actual.Should().NotBeEmpty({0});")]
@@ -467,7 +467,7 @@ public class NunitTests
         Nunit4VerifyFix("string actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.Zero(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Zero{0});")]
     [Implemented]
@@ -482,7 +482,7 @@ public class NunitTests
         Nunit3VerifyDiagnostic("decimal actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.Zero(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Zero);")]
     [Implemented]
@@ -497,7 +497,7 @@ public class NunitTests
         Nunit4VerifyDiagnostic("decimal actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.Zero(actual{0});",
         newAssertion: "actual.Should().Be(0{0});")]
@@ -516,7 +516,7 @@ public class NunitTests
         Nunit3VerifyFix("decimal actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.Zero(actual{0});",
         newAssertion: "actual.Should().Be(0{0});")]
@@ -535,7 +535,7 @@ public class NunitTests
         Nunit4VerifyFix("decimal actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.NotZero(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Not.Zero{0});")]
     [Implemented]
@@ -550,7 +550,7 @@ public class NunitTests
         Nunit3VerifyDiagnostic("decimal actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.NotZero(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Not.Zero);")]
     [Implemented]
@@ -565,7 +565,7 @@ public class NunitTests
         Nunit4VerifyDiagnostic("decimal actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.NotZero(actual{0});",
         newAssertion: "actual.Should().NotBe(0{0});")]
@@ -584,7 +584,7 @@ public class NunitTests
         Nunit3VerifyFix("decimal actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.NotZero(actual{0});",
         newAssertion: "actual.Should().NotBe(0{0});")]
@@ -604,7 +604,7 @@ public class NunitTests
     }
 
     // Positive
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.Positive(actual{0});")]
     [Implemented]
     public void Nunit3_AssertPositive_TestAnalyzer(string assertion)
@@ -618,7 +618,7 @@ public class NunitTests
         Nunit3VerifyDiagnostic("decimal actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.Positive(actual{0});")]
     [Implemented]
     public void Nunit4_AssertPositive_TestAnalyzer(string assertion)
@@ -632,7 +632,7 @@ public class NunitTests
         Nunit4VerifyDiagnostic("decimal actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.Positive(actual{0});",
         newAssertion: "actual.Should().BePositive({0});")]
@@ -649,7 +649,7 @@ public class NunitTests
     }
 
     // Negative
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.Negative(actual{0});")]
     [Implemented]
     public void Nunit3_AssertNegative_TestAnalyzer(string assertion)
@@ -663,7 +663,7 @@ public class NunitTests
         Nunit3VerifyDiagnostic("decimal actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.Negative(actual{0});")]
     [Implemented]
     public void Nunit4_AssertNegative_TestAnalyzer(string assertion)
@@ -677,7 +677,7 @@ public class NunitTests
         Nunit4VerifyDiagnostic("decimal actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.Negative(actual{0});",
         newAssertion: "actual.Should().BeNegative({0});")]
@@ -697,7 +697,7 @@ public class NunitTests
 
     #region Assert.Comparisons.cs
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.Greater(arg1, arg2{0});")]
     [AssertionDiagnostic("Assert.That(arg1, Is.GreaterThan(arg2){0});")]
     [Implemented]
@@ -709,7 +709,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.Greater(arg1, arg2{0});")]
     [AssertionDiagnostic("Assert.That(arg1, Is.GreaterThan(arg2));")]
     [Implemented]
@@ -721,7 +721,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.Greater(arg1, arg2{0});",
         newAssertion: "arg1.Should().BeGreaterThan(arg2{0});")]
@@ -737,7 +737,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.Greater(arg1, arg2{0});",
         newAssertion: "arg1.Should().BeGreaterThan(arg2{0});")]
@@ -753,7 +753,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.GreaterOrEqual(arg1, arg2{0});")]
     [AssertionDiagnostic("Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2){0});")]
     [AssertionDiagnostic("Assert.That(arg1, Is.AtLeast(arg2){0});")]
@@ -766,7 +766,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.GreaterOrEqual(arg1, arg2{0});")]
     [AssertionDiagnostic("Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2));")]
     [AssertionDiagnostic("Assert.That(arg1, Is.AtLeast(arg2));")]
@@ -779,7 +779,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.GreaterOrEqual(arg1, arg2{0});",
         newAssertion: "arg1.Should().BeGreaterThanOrEqualTo(arg2{0});")]
@@ -798,7 +798,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.GreaterOrEqual(arg1, arg2{0});",
         newAssertion: "arg1.Should().BeGreaterThanOrEqualTo(arg2{0});")]
@@ -817,7 +817,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.Less(arg1, arg2{0});")]
     [AssertionDiagnostic("Assert.That(arg1, Is.LessThan(arg2){0});")]
     [Implemented]
@@ -829,7 +829,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.Less(arg1, arg2{0});")]
     [AssertionDiagnostic("Assert.That(arg1, Is.LessThan(arg2));")]
     [Implemented]
@@ -841,7 +841,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.Less(arg1, arg2{0});",
         newAssertion: "arg1.Should().BeLessThan(arg2{0});")]
@@ -857,7 +857,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.Less(arg1, arg2{0});",
         newAssertion: "arg1.Should().BeLessThan(arg2{0});")]
@@ -873,7 +873,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.LessOrEqual(arg1, arg2{0});")]
     [AssertionDiagnostic("Assert.That(arg1, Is.LessThanOrEqualTo(arg2){0});")]
     [AssertionDiagnostic("Assert.That(arg1, Is.AtMost(arg2){0});")]
@@ -886,7 +886,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.LessOrEqual(arg1, arg2{0});")]
     [AssertionDiagnostic("Assert.That(arg1, Is.LessThanOrEqualTo(arg2));")]
     [AssertionDiagnostic("Assert.That(arg1, Is.AtMost(arg2));")]
@@ -899,7 +899,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.LessOrEqual(arg1, arg2{0});",
         newAssertion: "arg1.Should().BeLessThanOrEqualTo(arg2{0});")]
@@ -918,7 +918,7 @@ public class NunitTests
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.LessOrEqual(arg1, arg2{0});",
         newAssertion: "arg1.Should().BeLessThanOrEqualTo(arg2{0});")]
@@ -943,21 +943,21 @@ public class NunitTests
 
     #region Assert.Equality.cs
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.AreEqual(expected, actual, delta{0});")]
     [AssertionDiagnostic("Assert.AreEqual(actual, 4.2d, delta{0});")]
     [Implemented]
     public void Nunit3_AssertEqualDouble_TestAnalyzer(string assertion)
         => Nunit3VerifyDiagnostic("double expected, double actual, double delta", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.AreEqual(expected, actual, delta{0});")]
     [AssertionDiagnostic("ClassicAssert.AreEqual(actual, 4.2d, delta{0});")]
     [Implemented]
     public void Nunit4_AssertEqualDouble_TestAnalyzer(string assertion)
         => Nunit4VerifyDiagnostic("double expected, double actual, double delta", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.AreEqual(expected, actual, delta{0});",
         newAssertion: "actual.Should().BeApproximately(expected, delta{0});")]
@@ -968,7 +968,7 @@ public class NunitTests
     public void Nunit3_AssertEqualDouble_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit3VerifyFix("double expected, double actual, double delta", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.AreEqual(expected, actual, delta{0});",
         newAssertion: "actual.Should().BeApproximately(expected, delta{0});")]
@@ -979,21 +979,21 @@ public class NunitTests
     public void Nunit4_AssertEqualDouble_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit4VerifyFix("double expected, double actual, double delta", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.AreEqual(expected, actual{0});")]
     [AssertionDiagnostic("Assert.AreEqual(actual, \"foo\"{0});")]
     [Implemented]
     public void Nunit3_AssertEqualObject_TestAnalyzer(string assertion)
         => Nunit3VerifyDiagnostic("object expected, object actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.AreEqual(expected, actual{0});")]
     [AssertionDiagnostic("ClassicAssert.AreEqual(actual, \"foo\"{0});")]
     [Implemented]
     public void Nunit4_AssertEqualObject_TestAnalyzer(string assertion)
         => Nunit4VerifyDiagnostic("object expected, object actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.AreEqual(expected, actual{0});",
         newAssertion: "actual.Should().Be(expected{0});")]
@@ -1004,7 +1004,7 @@ public class NunitTests
     public void Nunit3_AssertEqualObject_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit3VerifyFix("object expected, object actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.AreEqual(expected, actual{0});",
         newAssertion: "actual.Should().Be(expected{0});")]
@@ -1015,21 +1015,21 @@ public class NunitTests
     public void Nunit4_AssertEqualObject_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit4VerifyFix("object expected, object actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.AreNotEqual(expected, actual{0});")]
     [AssertionDiagnostic("Assert.AreNotEqual(actual, \"foo\"{0});")]
     [Implemented]
     public void Nunit3_AssertNotEqualObject_TestAnalyzer(string assertion)
         => Nunit3VerifyDiagnostic("object expected, object actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.AreNotEqual(expected, actual{0});")]
     [AssertionDiagnostic("ClassicAssert.AreNotEqual(actual, \"foo\"{0});")]
     [Implemented]
     public void Nunit4_AssertNotEqualObject_TestAnalyzer(string assertion)
         => Nunit4VerifyDiagnostic("object expected, object actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.AreNotEqual(expected, actual{0});",
         newAssertion: "actual.Should().NotBe(expected{0});")]
@@ -1040,7 +1040,7 @@ public class NunitTests
     public void Nunit3_AssertNotEqualObject_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit3VerifyFix("object expected, object actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.AreNotEqual(expected, actual{0});",
         newAssertion: "actual.Should().NotBe(expected{0});")]
@@ -1051,19 +1051,19 @@ public class NunitTests
     public void Nunit4_AssertNotEqualObject_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit4VerifyFix("object expected, object actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.AreSame(expected, actual{0});")]
     [Implemented]
     public void Nunit3_AssertAreSame_TestAnalyzer(string assertion)
         => Nunit3VerifyDiagnostic("object expected, object actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.AreSame(expected, actual{0});")]
     [Implemented]
     public void Nunit4_AssertAreSame_TestAnalyzer(string assertion)
         => Nunit4VerifyDiagnostic("object expected, object actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.AreSame(expected, actual{0});",
         newAssertion: "actual.Should().BeSameAs(expected{0});")]
@@ -1071,7 +1071,7 @@ public class NunitTests
     public void Nunit3_AssertAreSame_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit3VerifyFix("object expected, object actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.AreSame(expected, actual{0});",
         newAssertion: "actual.Should().BeSameAs(expected{0});")]
@@ -1079,19 +1079,19 @@ public class NunitTests
     public void Nunit4_AssertAreSame_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit4VerifyFix("object expected, object actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.AreNotSame(expected, actual{0});")]
     [Implemented]
     public void Nunit3_AssertAreNotSame_TestAnalyzer(string assertion)
         => Nunit3VerifyDiagnostic("object expected, object actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.AreNotSame(expected, actual{0});")]
     [Implemented]
     public void Nunit4_AssertAreNotSame_TestAnalyzer(string assertion)
         => Nunit4VerifyDiagnostic("object expected, object actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.AreNotSame(expected, actual{0});",
         newAssertion: "actual.Should().NotBeSameAs(expected{0});")]
@@ -1099,7 +1099,7 @@ public class NunitTests
     public void Nunit3_AssertAreNotSame_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit3VerifyFix("object expected, object actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.AreNotSame(expected, actual{0});",
         newAssertion: "actual.Should().NotBeSameAs(expected{0});")]
@@ -1111,7 +1111,7 @@ public class NunitTests
 
     #region Assert.Types.cs
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.IsAssignableFrom(typeof(string), actual{0});")]
     [AssertionDiagnostic("Assert.IsAssignableFrom(expected, actual{0});")]
     [AssertionDiagnostic("Assert.IsAssignableFrom<string>(actual{0});")]
@@ -1119,7 +1119,7 @@ public class NunitTests
     public void Nunit3_AssertIsAssignableFrom_TestAnalyzer(string assertion)
         => Nunit3VerifyDiagnostic("object actual, Type expected", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.IsAssignableFrom(typeof(string), actual{0});")]
     [AssertionDiagnostic("ClassicAssert.IsAssignableFrom(expected, actual{0});")]
     [AssertionDiagnostic("ClassicAssert.IsAssignableFrom<string>(actual{0});")]
@@ -1127,7 +1127,7 @@ public class NunitTests
     public void Nunit4_AssertIsAssignableFrom_TestAnalyzer(string assertion)
         => Nunit4VerifyDiagnostic("object actual, Type expected", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.IsAssignableFrom(typeof(string), actual{0});",
         newAssertion: "actual.Should().BeAssignableTo<string>({0});")]
@@ -1138,7 +1138,7 @@ public class NunitTests
     public void Nunit3_AssertIsAssignableFrom_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit3VerifyFix("object actual, Type expected", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.IsAssignableFrom(typeof(string), actual{0});",
         newAssertion: "actual.Should().BeAssignableTo<string>({0});")]
@@ -1149,7 +1149,7 @@ public class NunitTests
     public void Nunit4_AssertIsAssignableFrom_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit4VerifyFix("object actual, Type expected", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.IsNotAssignableFrom(typeof(string), actual{0});")]
     [AssertionDiagnostic("Assert.IsNotAssignableFrom(expected, actual{0});")]
     [AssertionDiagnostic("Assert.IsNotAssignableFrom<string>(actual{0});")]
@@ -1157,7 +1157,7 @@ public class NunitTests
     public void Nunit3_AssertIsNotAssignableFrom_TestAnalyzer(string assertion)
         => Nunit3VerifyDiagnostic("object actual, Type expected", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.IsNotAssignableFrom(typeof(string), actual{0});")]
     [AssertionDiagnostic("ClassicAssert.IsNotAssignableFrom(expected, actual{0});")]
     [AssertionDiagnostic("ClassicAssert.IsNotAssignableFrom<string>(actual{0});")]
@@ -1165,7 +1165,7 @@ public class NunitTests
     public void Nunit4_AssertIsNotAssignableFrom_TestAnalyzer(string assertion)
         => Nunit4VerifyDiagnostic("object actual, Type expected", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.IsNotAssignableFrom(typeof(string), actual{0});",
         newAssertion: "actual.Should().NotBeAssignableTo<string>({0});")]
@@ -1176,7 +1176,7 @@ public class NunitTests
     public void Nunit3_AssertIsNotAssignableFrom_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit3VerifyFix("object actual, Type expected", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.IsNotAssignableFrom(typeof(string), actual{0});",
         newAssertion: "actual.Should().NotBeAssignableTo<string>({0});")]
@@ -1188,7 +1188,7 @@ public class NunitTests
         => Nunit4VerifyFix("object actual, Type expected", oldAssertion, newAssertion);
 
     // void IsInstanceOf(Type expected, object? actual, string message, params object?[]? args)
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.IsInstanceOf(typeof(string), actual{0});")]
     [AssertionDiagnostic("Assert.IsInstanceOf(expected, actual{0});")]
     [AssertionDiagnostic("Assert.IsInstanceOf<string>(actual{0});")]
@@ -1196,7 +1196,7 @@ public class NunitTests
     public void Nunit3_AssertIsInstanceOf_TestAnalyzer(string assertion)
         => Nunit3VerifyDiagnostic("object actual, Type expected", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.IsInstanceOf(typeof(string), actual{0});")]
     [AssertionDiagnostic("ClassicAssert.IsInstanceOf(expected, actual{0});")]
     [AssertionDiagnostic("ClassicAssert.IsInstanceOf<string>(actual{0});")]
@@ -1204,7 +1204,7 @@ public class NunitTests
     public void Nunit4_AssertIsInstanceOf_TestAnalyzer(string assertion)
         => Nunit4VerifyDiagnostic("object actual, Type expected", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.IsInstanceOf(typeof(string), actual{0});",
         newAssertion: "actual.Should().BeOfType<string>({0});")]
@@ -1215,7 +1215,7 @@ public class NunitTests
     public void Nunit3_AssertIsInstanceOf_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit3VerifyFix("object actual, Type expected", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.IsInstanceOf(typeof(string), actual{0});",
         newAssertion: "actual.Should().BeOfType<string>({0});")]
@@ -1226,7 +1226,7 @@ public class NunitTests
     public void Nunit4_AssertIsInstanceOf_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit4VerifyFix("object actual, Type expected", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.IsNotInstanceOf(typeof(string), actual{0});")]
     [AssertionDiagnostic("Assert.IsNotInstanceOf(expected, actual{0});")]
     [AssertionDiagnostic("Assert.IsNotInstanceOf<string>(actual{0});")]
@@ -1234,7 +1234,7 @@ public class NunitTests
     public void Nunit3_AssertIsNotInstanceOf_TestAnalyzer(string assertion)
         => Nunit3VerifyDiagnostic("object actual, Type expected", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.IsNotInstanceOf(typeof(string), actual{0});")]
     [AssertionDiagnostic("ClassicAssert.IsNotInstanceOf(expected, actual{0});")]
     [AssertionDiagnostic("ClassicAssert.IsNotInstanceOf<string>(actual{0});")]
@@ -1242,7 +1242,7 @@ public class NunitTests
     public void Nunit4_AssertIsNotInstanceOf_TestAnalyzer(string assertion)
         => Nunit4VerifyDiagnostic("object actual, Type expected", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.IsNotInstanceOf(typeof(string), actual{0});",
         newAssertion: "actual.Should().NotBeOfType<string>({0});")]
@@ -1253,7 +1253,7 @@ public class NunitTests
     public void Nunit3_AssertIsNotInstanceOf_TestCodeFix(string oldAssertion, string newAssertion)
         => Nunit3VerifyFix("object actual, Type expected", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.IsNotInstanceOf(typeof(string), actual{0});",
         newAssertion: "actual.Should().NotBeOfType<string>({0});")]
@@ -1268,31 +1268,31 @@ public class NunitTests
 
     #region Assert.Contains.cs
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.Contains(expected, actual{0});")]
     [Implemented]
     public void Nunit3_AssertContains_ICollection_TestCodeNoFix(string assertion)
         => Nunit3VerifyNoFix("object expected, ICollection actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.Contains(expected, actual{0});")]
     [Implemented]
     public void Nunit4_AssertContains_ICollection_TestCodeNoFix(string assertion)
         => Nunit4VerifyNoFix("object expected, ICollection actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("Assert.Contains(expected, actual{0});")]
     [Implemented]
     public void Nunit3_AssertContains_TestAnalyzer(string assertion)
         => Nunit3VerifyDiagnostic("object expected, string[] actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("ClassicAssert.Contains(expected, actual{0});")]
     [Implemented]
     public void Nunit4_AssertContains_TestAnalyzer(string assertion)
         => Nunit4VerifyDiagnostic("object expected, string[] actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "Assert.Contains(expected, actual{0});",
         newAssertion: "actual.Should().Contain(expected{0});")]
@@ -1307,7 +1307,7 @@ public class NunitTests
         Nunit3VerifyFix("DateTime expected, List<DateTime> actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "ClassicAssert.Contains(expected, actual{0});",
         newAssertion: "actual.Should().Contain(expected{0});")]
@@ -1322,7 +1322,7 @@ public class NunitTests
         Nunit4VerifyFix("DateTime expected, List<DateTime> actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionMethodCodeFix(
         methodArguments: "object expected, string[] actual",
         oldAssertion: "Assert.Contains(expected, actual);",
@@ -1343,7 +1343,7 @@ public class NunitTests
     public void Nunit3_AssertContains_WithCasting_TestCodeFix(string methodArguments, string oldAssertion, string newAssertion)
         => Nunit3VerifyFix(methodArguments, oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionMethodCodeFix(
         methodArguments: "object expected, string[] actual",
         oldAssertion: "ClassicAssert.Contains(expected, actual);",
@@ -1368,7 +1368,7 @@ public class NunitTests
 
     #region CollectionAssert.cs
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AreEqual(expected, actual{0});")]
     [AssertionDiagnostic("CollectionAssert.AreEqual(expected, actual, comparer{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.EqualTo(expected){0});")]
@@ -1380,7 +1380,7 @@ public class NunitTests
         Nunit3VerifyDiagnostic("ICollection<DateTime> expected, ICollection<DateTime> actual, Comparer<DateTime> comparer", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AreEqual(expected, actual{0});")]
     [AssertionDiagnostic("CollectionAssert.AreEqual(expected, actual, comparer{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.EqualTo(expected));")]
@@ -1392,7 +1392,7 @@ public class NunitTests
         Nunit4VerifyDiagnostic("ICollection<DateTime> expected, ICollection<DateTime> actual, Comparer<DateTime> comparer", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.AreEqual(expected, actual{0});",
         newAssertion: "actual.Should().Equal(expected{0});")]
@@ -1406,7 +1406,7 @@ public class NunitTests
         Nunit3VerifyFix("ICollection<DateTime> expected, ICollection<DateTime> actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AreEqual(expected, actual{0});")]
     [Implemented]
     public void Nunit3_CollectionAssertAreEqual_NoFix_NonGenericIEnumerable_TestCodeFix(string assertion)
@@ -1414,7 +1414,7 @@ public class NunitTests
         Nunit3VerifyNoFix("IEnumerable expected, IEnumerable actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AreEqual(expected, actual, comparer{0});")]
     [Implemented]
     public void Nunit3_CollectionAssertAreEqual_NoFix_IComparer_TestCodeFix(string assertion)
@@ -1423,7 +1423,7 @@ public class NunitTests
         Nunit3VerifyNoFix("IEnumerable<DateTime> expected, IEnumerable<DateTime> actual, IComparer comparer", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.AreEqual(expected, actual{0});",
         newAssertion: "actual.Should().Equal(expected{0});")]
@@ -1438,7 +1438,7 @@ public class NunitTests
         Nunit4VerifyFix("ICollection<DateTime> expected, ICollection<DateTime> actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AreEqual(expected, actual{0});")]
     [Implemented]
     public void Nunit4_CollectionAssertAreEqual_NoFix_NonGenericIEnumerable_TestCodeFix(string assertion)
@@ -1446,7 +1446,7 @@ public class NunitTests
         Nunit4VerifyNoFix("IEnumerable expected, IEnumerable actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AreEqual(expected, actual, comparer{0});")]
     [Implemented]
     public void Nunit4_CollectionAssertAreEqual_NoFix_IComparer_TestCodeFix(string assertion)
@@ -1455,7 +1455,7 @@ public class NunitTests
         Nunit4VerifyNoFix("IEnumerable<DateTime> expected, IEnumerable<DateTime> actual, IComparer comparer", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AreNotEqual(expected, actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Not.EqualTo(expected){0});")]
     [Implemented]
@@ -1466,7 +1466,7 @@ public class NunitTests
         Nunit3VerifyDiagnostic("ICollection<DateTime> expected, ICollection<DateTime> actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AreNotEqual(expected, actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Not.EqualTo(expected));")]
     [Implemented]
@@ -1477,7 +1477,7 @@ public class NunitTests
         Nunit4VerifyDiagnostic("ICollection<DateTime> expected, ICollection<DateTime> actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.AreNotEqual(expected, actual{0});",
         newAssertion: "actual.Should().NotEqual(expected{0});")]
@@ -1492,7 +1492,7 @@ public class NunitTests
         Nunit3VerifyFix("ICollection<DateTime> expected, ICollection<DateTime> actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.AreNotEqual(expected, actual{0});",
         newAssertion: "actual.Should().NotEqual(expected{0});")]
@@ -1507,7 +1507,7 @@ public class NunitTests
         Nunit4VerifyFix("ICollection<DateTime> expected, ICollection<DateTime> actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.Contains(actual, expected{0});")]
     [AssertionDiagnostic("Assert.That(actual, Has.Member(expected){0});")]
     [AssertionDiagnostic("Assert.That(actual, Does.Contain(expected){0});")]
@@ -1524,7 +1524,7 @@ public class NunitTests
         Nunit3VerifyDiagnostic("DateTime expected, List<DateTime> actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.Contains(actual, expected{0});")]
     [AssertionDiagnostic("Assert.That(actual, Has.Member(expected));")]
     [AssertionDiagnostic("Assert.That(actual, Does.Contain(expected));")]
@@ -1541,7 +1541,7 @@ public class NunitTests
         Nunit4VerifyDiagnostic("DateTime expected, List<DateTime> actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.Contains(actual, expected{0});",
         newAssertion: "actual.Should().Contain(expected{0});")]
@@ -1566,7 +1566,7 @@ public class NunitTests
         Nunit3VerifyFix("DateTime expected, List<DateTime> actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.Contains(actual, expected{0});",
         newAssertion: "actual.Should().Contain(expected{0});")]
@@ -1591,7 +1591,7 @@ public class NunitTests
         Nunit4VerifyFix("DateTime expected, List<DateTime> actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionMethodCodeFix(
         methodArguments: "object expected, string[] actual",
         oldAssertion: "CollectionAssert.Contains(actual, expected);",
@@ -1624,7 +1624,7 @@ public class NunitTests
     public void Nunit3_CollectionAssertContains_WithCasting_TestCodeFix(string methodArguments, string oldAssertion, string newAssertion)
         => Nunit3VerifyFix(methodArguments, oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionMethodCodeFix(
         methodArguments: "object expected, string[] actual",
         oldAssertion: "CollectionAssert.Contains(actual, expected);",
@@ -1657,7 +1657,7 @@ public class NunitTests
     public void Nunit4_CollectionAssertContains_WithCasting_TestCodeFix(string methodArguments, string oldAssertion, string newAssertion)
         => Nunit4VerifyFix(methodArguments, oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.DoesNotContain(actual, expected{0});")]
     [AssertionDiagnostic("Assert.That(actual, Has.No.Member(expected){0});")]
     [AssertionDiagnostic("Assert.That(actual, Does.Not.Contain(expected){0});")]
@@ -1673,7 +1673,7 @@ public class NunitTests
         Nunit3VerifyDiagnostic("DateTime expected, List<DateTime> actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.DoesNotContain(actual, expected{0});")]
     [AssertionDiagnostic("Assert.That(actual, Has.No.Member(expected));")]
     [AssertionDiagnostic("Assert.That(actual, Does.Not.Contain(expected));")]
@@ -1689,7 +1689,7 @@ public class NunitTests
         Nunit4VerifyDiagnostic("DateTime expected, List<DateTime> actual", assertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.DoesNotContain(actual, expected{0});",
         newAssertion: "actual.Should().NotContain(expected{0});")]
@@ -1711,7 +1711,7 @@ public class NunitTests
         Nunit3VerifyFix("DateTime expected, List<DateTime> actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.DoesNotContain(actual, expected{0});",
         newAssertion: "actual.Should().NotContain(expected{0});")]
@@ -1733,7 +1733,7 @@ public class NunitTests
         Nunit4VerifyFix("DateTime expected, List<DateTime> actual", oldAssertion, newAssertion);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionMethodCodeFix(
         methodArguments: "object expected, string[] actual",
         oldAssertion: "CollectionAssert.DoesNotContain(actual, expected);",
@@ -1762,7 +1762,7 @@ public class NunitTests
     public void Nunit3_CollectionAssertDoesNotContain_WithCasting_TestCodeFix(string methodArguments, string oldAssertion, string newAssertion)
         => Nunit3VerifyFix(methodArguments, oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionMethodCodeFix(
         methodArguments: "object expected, string[] actual",
         oldAssertion: "CollectionAssert.DoesNotContain(actual, expected);",
@@ -1791,7 +1791,7 @@ public class NunitTests
     public void Nunit4_CollectionAssertDoesNotContain_WithCasting_TestCodeFix(string methodArguments, string oldAssertion, string newAssertion)
         => Nunit4VerifyFix(methodArguments, oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AllItemsAreInstancesOfType(actual, typeof(string){0});")]
     [AssertionDiagnostic("CollectionAssert.AllItemsAreInstancesOfType(actual, type{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.All.InstanceOf(typeof(int)){0});")]
@@ -1803,7 +1803,7 @@ public class NunitTests
     [Implemented]
     public void Nunit3_CollectionAssertAllItemsAreInstancesOfType_TestAnalyzer(string assertion) => Nunit3VerifyDiagnostic("IEnumerable<string> actual, Type type", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AllItemsAreInstancesOfType(actual, typeof(string){0});")]
     [AssertionDiagnostic("CollectionAssert.AllItemsAreInstancesOfType(actual, type{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.All.InstanceOf(typeof(int)));")]
@@ -1815,7 +1815,7 @@ public class NunitTests
     [Implemented]
     public void Nunit4_CollectionAssertAllItemsAreInstancesOfType_TestAnalyzer(string assertion) => Nunit4VerifyDiagnostic("IEnumerable<string> actual, Type type", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.AllItemsAreInstancesOfType(actual, typeof(string){0});",
         newAssertion: "actual.Should().AllBeOfType<string>({0});")]
@@ -1843,7 +1843,7 @@ public class NunitTests
     [Implemented]
     public void Nunit3_CollectionAssertAllItemsAreInstancesOfType_TestCodeFix(string oldAssertion, string newAssertion) => Nunit3VerifyFix("IEnumerable<string> actual, Type type", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.AllItemsAreInstancesOfType(actual, typeof(string){0});",
         newAssertion: "actual.Should().AllBeOfType<string>({0});")]
@@ -1871,21 +1871,21 @@ public class NunitTests
     [Implemented]
     public void Nunit4_CollectionAssertAllItemsAreInstancesOfType_TestCodeFix(string oldAssertion, string newAssertion) => Nunit4VerifyFix("IEnumerable<string> actual, Type type", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AllItemsAreNotNull(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.All.Not.Null{0});")]
     [AssertionDiagnostic("Assert.That(actual, Has.None.Null{0});")]
     [Implemented]
     public void Nunit3_CollectionAssertAllItemsAreNotNull_TestAnalyzer(string assertion) => Nunit3VerifyDiagnostic("IEnumerable<string> actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AllItemsAreNotNull(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.All.Not.Null);")]
     [AssertionDiagnostic("Assert.That(actual, Has.None.Null);")]
     [Implemented]
     public void Nunit4_CollectionAssertAllItemsAreNotNull_TestAnalyzer(string assertion) => Nunit4VerifyDiagnostic("IEnumerable<string> actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.AllItemsAreNotNull(actual{0});",
         newAssertion: "actual.Should().NotContainNulls({0});")]
@@ -1898,7 +1898,7 @@ public class NunitTests
     [Implemented]
     public void Nunit3_CollectionAssertAllItemsAreNotNull_TestCodeFix(string oldAssertion, string newAssertion) => Nunit3VerifyFix("IEnumerable<string> actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.AllItemsAreNotNull(actual{0});",
         newAssertion: "actual.Should().NotContainNulls({0});")]
@@ -1911,19 +1911,19 @@ public class NunitTests
     [Implemented]
     public void Nunit4_CollectionAssertAllItemsAreNotNull_TestCodeFix(string oldAssertion, string newAssertion) => Nunit4VerifyFix("IEnumerable<string> actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AllItemsAreUnique(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Unique{0});")]
     [Implemented]
     public void Nunit3_CollectionAssertAllItemsAreUnique_TestAnalyzer(string assertion) => Nunit3VerifyDiagnostic("IEnumerable<string> actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionDiagnostic("CollectionAssert.AllItemsAreUnique(actual{0});")]
     [AssertionDiagnostic("Assert.That(actual, Is.Unique);")]
     [Implemented]
     public void Nunit4_CollectionAssertAllItemsAreUnique_TestAnalyzer(string assertion) => Nunit4VerifyDiagnostic("IEnumerable<string> actual", assertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.AllItemsAreUnique(actual{0});",
         newAssertion: "actual.Should().OnlyHaveUniqueItems({0});")]
@@ -1933,7 +1933,7 @@ public class NunitTests
     [Implemented]
     public void Nunit3_CollectionAssertAllItemsAreUnique_TestCodeFix(string oldAssertion, string newAssertion) => Nunit3VerifyFix("IEnumerable<string> actual", oldAssertion, newAssertion);
 
-    [DataTestMethod]
+    [TestMethod]
     [AssertionCodeFix(
         oldAssertion: "CollectionAssert.AllItemsAreUnique(actual{0});",
         newAssertion: "actual.Should().OnlyHaveUniqueItems({0});")]

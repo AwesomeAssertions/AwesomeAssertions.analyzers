@@ -22,7 +22,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             );
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.Inconclusive({0});")]
         [AssertionDiagnostic("Assert.Fail({0});")]
         [Implemented]
@@ -35,13 +35,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             );
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
         public void AssertIsTrue_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("bool actual", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
@@ -64,7 +64,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             .AppendLine("}")
             .ToString());
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
@@ -87,7 +87,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             .AppendLine("}")
             .ToString());
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
@@ -110,7 +110,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             .AppendLine("}")
             .ToString());
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
@@ -133,7 +133,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             .AppendLine("}")
             .ToString());
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
@@ -156,7 +156,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             .AppendLine("}")
             .ToString());
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
@@ -179,7 +179,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             .AppendLine("}")
             .ToString());
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
@@ -202,7 +202,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             .AppendLine("}")
             .ToString());
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
@@ -225,7 +225,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             .AppendLine("}")
             .ToString());
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.IsTrue(actual{0});",
             newAssertion: "actual.Should().BeTrue({0});")]
@@ -236,13 +236,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsTrue_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("bool actual", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsFalse(actual{0});")]
         [AssertionDiagnostic("Assert.IsFalse(bool.Parse(\"true\"){0});")]
         [Implemented]
         public void AssertIsFalse_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("bool actual", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.IsFalse(actual{0});",
             newAssertion: "actual.Should().BeFalse({0});")]
@@ -253,12 +253,12 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsFalse_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("bool actual", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsNull(actual{0});")]
         [Implemented]
         public void AssertIsNull_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("object actual", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.IsNull(actual{0});",
             newAssertion: "actual.Should().BeNull({0});")]
@@ -266,12 +266,12 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsNull_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsNotNull(actual{0});")]
         [Implemented]
         public void AssertIsNotNull_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("object actual", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.IsNotNull(actual{0});",
             newAssertion: "actual.Should().NotBeNull({0});")]
@@ -279,14 +279,14 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsNotNull_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsInstanceOfType(actual, type{0});")]
         [AssertionDiagnostic("Assert.IsInstanceOfType(actual, typeof(string){0});")]
         [AssertionDiagnostic("Assert.IsInstanceOfType<string>(actual{0});")]
         [Implemented]
         public void AssertIsInstanceOfType_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("object actual, Type type", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.IsInstanceOfType(actual, type{0});",
             newAssertion: "actual.Should().BeOfType(type{0});")]
@@ -300,14 +300,14 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsInstanceOfType_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, Type type", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.IsNotInstanceOfType(actual, type{0});")]
         [AssertionDiagnostic("Assert.IsNotInstanceOfType(actual, typeof(string){0});")]
         [AssertionDiagnostic("Assert.IsNotInstanceOfType<string>(actual{0});")]
         [Implemented]
         public void AssertIsNotInstanceOfType_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("object actual, Type type", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.IsNotInstanceOfType(actual, type{0});",
             newAssertion: "actual.Should().NotBeOfType(type{0});")]
@@ -321,12 +321,12 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsNotInstanceOfType_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, Type type", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreEqual(expected, actual{0});")]
         [Implemented]
         public void AssertObjectAreEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("object actual, object expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreEqual(expected, actual{0});",
             newAssertion: "actual.Should().Be(expected{0});")]
@@ -334,12 +334,12 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertObjectAreEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, object expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreEqual(expected, actual{0});")]
         [Implemented]
         public void AssertOptionalIntegerAreEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("int? actual, int? expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreEqual(expected, actual{0});",
             newAssertion: "actual.Should().Be(expected{0});")]
@@ -347,13 +347,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertOptionalIntegerAreEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("int? actual, int? expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreEqual(actual, null{0});")]
         [AssertionDiagnostic("Assert.AreEqual(null, actual{0});")]
         [Implemented]
         public void AssertOptionalIntegerAndNullAreEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("int? actual", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreEqual(actual, null{0});",
             newAssertion: "actual.Should().BeNull({0});")]
@@ -364,7 +364,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertOptionalIntegerAndNullAreEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("int? actual", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreEqual(expected, actual, delta{0});")]
         [AssertionDiagnostic("Assert.AreEqual(expected, actual, 0.6{0});")]
         [AssertionDiagnostic("Assert.AreEqual(actual, 4.2d, 0.6{0});")]
@@ -372,7 +372,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         [Implemented]
         public void AssertDoubleAreEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("double actual, double expected, double delta", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreEqual(expected, actual, delta{0});",
             newAssertion: "actual.Should().BeApproximately(expected, delta{0});")]
@@ -389,7 +389,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertDoubleAreEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("double actual, double expected, double delta", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreEqual(expected, actual, delta{0});")]
         [AssertionDiagnostic("Assert.AreEqual(expected, actual, 0.6f{0});")]
         [AssertionDiagnostic("Assert.AreEqual(actual, 4.2f, 0.6f{0});")]
@@ -397,7 +397,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         [Implemented]
         public void AssertFloatAreEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("float actual, float expected, float delta", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreEqual(expected, actual, delta{0});",
             newAssertion: "actual.Should().BeApproximately(expected, delta{0});")]
@@ -414,7 +414,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertFloatAreEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("float actual, float expected, float delta", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreEqual(expected, actual{0});")]
         [AssertionDiagnostic("Assert.AreEqual(actual, \"literal\"{0});")]
         [AssertionDiagnostic("Assert.AreEqual(\"literal\", actual{0});")]
@@ -433,7 +433,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         [Implemented]
         public void AssertStringAreEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("string actual, string expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreEqual(expected, actual{0});",
             newAssertion: "actual.Should().Be(expected{0});")]
@@ -483,12 +483,12 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertStringAreEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, string expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreNotEqual(expected, actual{0});")]
         [Implemented]
         public void AssertObjectAreNotEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("object actual, object expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreNotEqual(expected, actual{0});",
             newAssertion: "actual.Should().NotBe(expected{0});")]
@@ -496,13 +496,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertObjectAreNotEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, object expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreNotEqual(expected, actual, delta{0});")]
         [AssertionDiagnostic("Assert.AreNotEqual(expected, actual, 0.6{0});")]
         [Implemented]
         public void AssertDoubleAreNotEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("double actual, double expected, double delta", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreNotEqual(expected, actual, delta{0});",
             newAssertion: "actual.Should().NotBeApproximately(expected, delta{0});")]
@@ -514,12 +514,12 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             => VerifyCSharpFix("double actual, double expected, double delta", oldAssertion, newAssertion);
 
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreNotEqual(expected, actual{0});")]
         [Implemented]
         public void AssertOptionalIntAreNotEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("int? actual, int? expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreNotEqual(expected, actual{0});",
             newAssertion: "actual.Should().NotBe(expected{0});")]
@@ -527,13 +527,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertOptionalIntAreNotEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("int? actual, int? expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreNotEqual(actual, null{0});")]
         [AssertionDiagnostic("Assert.AreNotEqual(null, actual{0});")]
         [Implemented]
         public void AssertOptionalIntAndNullAreNotEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("int? actual", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreNotEqual(actual, null{0});",
             newAssertion: "actual.Should().NotBeNull({0});")]
@@ -544,7 +544,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertOptionalIntAndNullAreNotEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("int? actual", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreNotEqual(expected, actual, delta{0});")]
         [AssertionDiagnostic("Assert.AreNotEqual(expected, actual, 0.6f{0});")]
         [AssertionDiagnostic("Assert.AreNotEqual(actual, 4.2f, 0.6f{0});")]
@@ -552,7 +552,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         [Implemented]
         public void AssertFloatAreNotEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("float actual, float expected, float delta", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreNotEqual(expected, actual, delta{0});",
             newAssertion: "actual.Should().NotBeApproximately(expected, delta{0});")]
@@ -569,7 +569,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertFloatAreNotEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("float actual, float expected, float delta", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreNotEqual(expected, actual{0});")]
         [AssertionDiagnostic("Assert.AreNotEqual(expected, actual, false{0});")]
         [AssertionDiagnostic("Assert.AreNotEqual(expected, actual, true{0});")]
@@ -578,7 +578,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         [Implemented]
         public void AssertStringAreNotEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("string actual, string expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreNotEqual(expected, actual{0});",
             newAssertion: "actual.Should().NotBe(expected{0});")]
@@ -598,12 +598,12 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertStringAreNotEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, string expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreSame(expected, actual{0});")]
         [Implemented]
         public void AssertAreSame_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("object actual, object expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreSame(expected, actual{0});",
             newAssertion: "actual.Should().BeSameAs(expected{0});")]
@@ -611,12 +611,12 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertAreSame_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, object expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.AreNotSame(expected, actual{0});")]
         [Implemented]
         public void AssertAreNotSame_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("object actual, object expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.AreNotSame(expected, actual{0});",
             newAssertion: "actual.Should().NotBeSameAs(expected{0});")]
@@ -624,12 +624,12 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertAreNotSame_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, object expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.ThrowsException<ArgumentException>(action{0});")]
         [Implemented]
         public void AssertThrowsException_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("Action action", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.ThrowsException<ArgumentException>(action{0});",
             newAssertion: "action.Should().ThrowExactly<ArgumentException>({0});")]
@@ -637,12 +637,12 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertThrowsException_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("Action action", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("Assert.ThrowsExceptionAsync<ArgumentException>(action{0});")]
         [Implemented]
         public void AssertThrowsExceptionAsync_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("Func<Task> action", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "Assert.ThrowsExceptionAsync<ArgumentException>(action{0});",
             newAssertion: "action.Should().ThrowExactlyAsync<ArgumentException>({0});")]
@@ -650,7 +650,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertThrowsExceptionAsync_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("Func<Task> action", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("CollectionAssert.AllItemsAreInstancesOfType(actual, type{0});")]
         [AssertionDiagnostic("CollectionAssert.AllItemsAreInstancesOfType(actual, typeof(int){0});")]
         [AssertionDiagnostic("CollectionAssert.AllItemsAreInstancesOfType(actual, typeof(Int32){0});")]
@@ -658,7 +658,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         [Implemented]
         public void CollectionAssertAllItemsAreInstancesOfType_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("System.Collections.Generic.List<int> actual, Type type", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "CollectionAssert.AllItemsAreInstancesOfType(actual, type{0});",
             newAssertion: "actual.Should().AllBeOfType(type{0});")]
@@ -680,180 +680,180 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         [Implemented]
         public void CollectionAssertAllItemsAreInstancesOfType_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("System.Collections.Generic.List<int> actual, Type type", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("CollectionAssert.AreEqual(expected, actual{0});")]
         [Implemented]
         public void CollectionAssertAreEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("System.Collections.Generic.List<int> actual, System.Collections.Generic.List<int> expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "CollectionAssert.AreEqual(expected, actual{0});",
             newAssertion: "actual.Should().Equal(expected{0});")]
         [Implemented]
         public void CollectionAssertAreEqual_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("System.Collections.Generic.List<int> actual, System.Collections.Generic.List<int> expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("CollectionAssert.AreNotEqual(expected, actual{0});")]
         [Implemented]
         public void CollectionAssertAreNotEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("System.Collections.Generic.List<int> actual, System.Collections.Generic.List<int> expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "CollectionAssert.AreNotEqual(expected, actual{0});",
             newAssertion: "actual.Should().NotEqual(expected{0});")]
         [Implemented]
         public void CollectionAssertAreNotEqual_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("System.Collections.Generic.List<int> actual, System.Collections.Generic.List<int> expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("CollectionAssert.AreEquivalent(expected, actual{0});")]
         [Implemented]
         public void CollectionAssertAreEquivalent_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("System.Collections.Generic.List<int> actual, System.Collections.Generic.List<int> expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "CollectionAssert.AreEquivalent(expected, actual{0});",
             newAssertion: "actual.Should().BeEquivalentTo(expected{0});")]
         [Implemented]
         public void CollectionAssertAreEquivalent_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("System.Collections.Generic.List<int> actual, System.Collections.Generic.List<int> expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("CollectionAssert.AreNotEquivalent(expected, actual{0});")]
         [Implemented]
         public void CollectionAssertAreNotEquivalent_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("System.Collections.Generic.List<int> actual, System.Collections.Generic.List<int> expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "CollectionAssert.AreNotEquivalent(expected, actual{0});",
             newAssertion: "actual.Should().NotBeEquivalentTo(expected{0});")]
         [Implemented]
         public void CollectionAssertAreNotEquivalent_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("System.Collections.Generic.List<int> actual, System.Collections.Generic.List<int> expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("CollectionAssert.AllItemsAreNotNull(actual{0});")]
         [Implemented]
         public void CollectionAssertAllItemsAreNotNull_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("System.Collections.Generic.List<int> actual", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "CollectionAssert.AllItemsAreNotNull(actual{0});",
             newAssertion: "actual.Should().NotContainNulls({0});")]
         [Implemented]
         public void CollectionAssertAllItemsAreNotNull_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("System.Collections.Generic.List<int> actual", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("CollectionAssert.AllItemsAreUnique(actual{0});")]
         [Implemented]
         public void CollectionAssertAllItemsAreUnique_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("System.Collections.Generic.List<int> actual", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "CollectionAssert.AllItemsAreUnique(actual{0});",
             newAssertion: "actual.Should().OnlyHaveUniqueItems({0});")]
         [Implemented]
         public void CollectionAssertAllItemsAreUnique_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("System.Collections.Generic.List<int> actual", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("CollectionAssert.Contains(actual, expected{0});")]
         [Implemented]
         public void CollectionAssertContains_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("System.Collections.Generic.List<int> actual, int expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "CollectionAssert.Contains(actual, expected{0});",
             newAssertion: "actual.Should().Contain(expected{0});")]
         [Implemented]
         public void CollectionAssertContains_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("System.Collections.Generic.List<int> actual, int expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("CollectionAssert.DoesNotContain(actual, expected{0});")]
         [Implemented]
         public void CollectionAssertDoesNotContain_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("System.Collections.Generic.List<int> actual, int expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "CollectionAssert.DoesNotContain(actual, expected{0});",
             newAssertion: "actual.Should().NotContain(expected{0});")]
         [Implemented]
         public void CollectionAssertDoesNotContain_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("System.Collections.Generic.List<int> actual, int expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("CollectionAssert.IsSubsetOf(subset, superset{0});")]
         [Implemented]
         public void CollectionAssertIsSubsetOf_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("System.Collections.Generic.List<int> subset, System.Collections.Generic.List<int> superset", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "CollectionAssert.IsSubsetOf(subset, superset{0});",
             newAssertion: "subset.Should().BeSubsetOf(superset{0});")]
         [Implemented]
         public void CollectionAssertIsSubsetOf_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("System.Collections.Generic.List<int> subset, System.Collections.Generic.List<int> superset", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("CollectionAssert.IsNotSubsetOf(subset, superset{0});")]
         [Implemented]
         public void CollectionAssertIsNotSubsetOf_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("System.Collections.Generic.List<int> subset, System.Collections.Generic.List<int> superset", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "CollectionAssert.IsNotSubsetOf(subset, superset{0});",
             newAssertion: "subset.Should().NotBeSubsetOf(superset{0});")]
         [Implemented]
         public void CollectionAssertIsNotSubsetOf_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("System.Collections.Generic.List<int> subset, System.Collections.Generic.List<int> superset", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("StringAssert.Contains(actual, substring{0});")]
         [Implemented]
         public void StringAssertContains_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("string actual, string substring", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "StringAssert.Contains(actual, substring{0});",
             newAssertion: "actual.Should().Contain(substring{0});")]
         [Implemented]
         public void StringAssertContains_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("string actual, string substring", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("StringAssert.StartsWith(actual, substring{0});")]
         [Implemented]
         public void StringAssertStartsWith_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("string actual, string substring", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "StringAssert.StartsWith(actual, substring{0});",
             newAssertion: "actual.Should().StartWith(substring{0});")]
         [Implemented]
         public void StringAssertStartsWith_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("string actual, string substring", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("StringAssert.EndsWith(actual, substring{0});")]
         [Implemented]
         public void StringAssertEndsWith_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("string actual, string substring", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "StringAssert.EndsWith(actual, substring{0});",
             newAssertion: "actual.Should().EndWith(substring{0});")]
         [Implemented]
         public void StringAssertEndsWith_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("string actual, string substring", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("StringAssert.Matches(actual, pattern{0});")]
         [Implemented]
         public void StringAssertMatches_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("string actual, System.Text.RegularExpressions.Regex pattern", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "StringAssert.Matches(actual, pattern{0});",
             newAssertion: "actual.Should().MatchRegex(pattern{0});")]
         [Implemented]
         public void StringAssertMatches_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("string actual, System.Text.RegularExpressions.Regex pattern", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("StringAssert.DoesNotMatch(actual, pattern{0});")]
         [Implemented]
         public void StringAssertDoesNotMatch_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("string actual, System.Text.RegularExpressions.Regex pattern", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "StringAssert.DoesNotMatch(actual, pattern{0});",
             newAssertion: "actual.Should().NotMatchRegex(pattern{0});")]
