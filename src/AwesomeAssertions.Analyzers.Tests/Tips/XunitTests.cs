@@ -21,7 +21,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             );
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.True(actual);")]
         [DataRow("Assert.True(actual, \"because it's possible\");")]
         [DataRow("Assert.True(bool.Parse(\"true\"));")]
@@ -29,7 +29,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         [Implemented]
         public void AssertTrue_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("bool actual", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.True(actual);",
             /* newAssertion: */ "actual.Should().BeTrue();")]
@@ -52,7 +52,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertTrue_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("bool actual", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.False(actual);")]
         [DataRow("Assert.False(actual, \"because it's possible\");")]
         [DataRow("Assert.False(bool.Parse(\"false\"));")]
@@ -60,7 +60,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         [Implemented]
         public void AssertFalse_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("bool actual", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.False(actual);",
             /* newAssertion: */ "actual.Should().BeFalse();")]
@@ -78,12 +78,12 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             => VerifyCSharpFix("bool actual", oldAssertion, newAssertion);
 
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Same(expected, actual);")]
         [Implemented]
         public void AssertSame_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("object actual, object expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Same(expected, actual);",
             /* newAssertion: */ "actual.Should().BeSameAs(expected);")]
@@ -91,12 +91,12 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertSame_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, object expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.NotSame(expected, actual);")]
         [Implemented]
         public void AssertNotSame_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("object actual, object expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.NotSame(expected, actual);",
             /* newAssertion: */ "actual.Should().NotBeSameAs(expected);")]
@@ -104,14 +104,14 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertNotSame_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, object expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Equal(expected, actual, tolerance);")]
         [DataRow("Assert.Equal(expected, actual, 0.6f);")]
         [Implemented]
         public void AssertFloatEqualWithTolerance_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("float actual, float expected, float tolerance", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Equal(expected, actual, tolerance);",
             /* newAssertion: */ "actual.Should().BeApproximately(expected, tolerance);")]
@@ -122,14 +122,14 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertFloatEqualWithTolerance_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("float actual, float expected, float tolerance", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Equal(expected, actual, tolerance);")]
         [DataRow("Assert.Equal(expected, actual, 0.6);")]
         [Implemented]
         public void AssertDoubleEqualWithTolerance_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("double actual, double expected, double tolerance", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Equal(expected, actual, tolerance);",
             /* newAssertion: */ "actual.Should().BeApproximately(expected, tolerance);")]
@@ -140,7 +140,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertDoubleEqualWithTolerance_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("double actual, double expected, double tolerance", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Equal(expected, actual, precision);")]
         [DataRow("Assert.Equal(expected, actual, 5);")]
         [Implemented]
@@ -148,7 +148,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             VerifyCSharpDiagnostic("double actual, double expected, int precision", assertion);
 
         // There is no corresponding API in AwesomeAssertions
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Equal(expected, actual, precision);",
             /* newAssertion: */ "Assert.Equal(expected, actual, precision);")]
@@ -165,7 +165,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertDoubleEqualWithPrecision_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("double actual, double expected, int precision, MidpointRounding rounding", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Equal(expected, actual, precision);")]
         [DataRow("Assert.Equal(expected, actual, 5);")]
         [Implemented]
@@ -173,7 +173,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             VerifyCSharpDiagnostic("decimal actual, decimal expected, int precision", assertion);
 
         // There is no corresponding API in AwesomeAssertions
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Equal(expected, actual, precision);",
             /* newAssertion: */ "Assert.Equal(expected, actual, precision);")]
@@ -184,13 +184,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertDecimalEqualWithPrecision_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("decimal actual, decimal expected, int precision", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Equal(expected, actual, precision);")]
         [DataRow("Assert.Equal(expected, actual, TimeSpan.FromSeconds(1));")]
         [Implemented]
         public void AssertDateTimeEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("DateTime actual, DateTime expected, TimeSpan precision", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Equal(expected, actual, precision);",
             /* newAssertion: */ "actual.Should().BeCloseTo(expected, precision);")]
@@ -201,14 +201,14 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertDateTimeEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("DateTime actual, DateTime expected, TimeSpan precision", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Equal(expected, actual, comparer);")]
         [DataRow("Assert.Equal(expected, actual, ReferenceEqualityComparer.Instance);")]
         [Implemented]
         public void AssertObjectEqualWithComparer_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("object actual, object expected, IEqualityComparer<object> comparer", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Equal(expected, actual, comparer);",
             /* newAssertion: */ "actual.Should().BeEquivalentTo(expected, options => options.Using(comparer));")]
@@ -219,12 +219,12 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertObjectEqualWithComparer_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, object expected, IEqualityComparer<object> comparer", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Equal(expected, actual);")]
         [Implemented]
         public void AssertObjectEqual_TestAnalyzer(string assertion) => VerifyCSharpDiagnostic("object actual, object expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Equal(expected, actual);",
             /* newAssertion: */ "actual.Should().Be(expected);")]
@@ -232,13 +232,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertObjectEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, object expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Equal(expected, actual);")]
         [Implemented]
         public void AssertStringEqual_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual, string expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Equal(expected, actual);",
             /* newAssertion: */ "actual.Should().Be(expected);")]
@@ -246,13 +246,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertStringEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, string expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.StrictEqual(expected, actual);")]
         [Implemented]
         public void AssertStrictEqual_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("object actual, object expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.StrictEqual(expected, actual);",
             /* newAssertion: */ "actual.Should().Be(expected);")]
@@ -260,7 +260,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertStrictEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, object expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.NotEqual(expected, actual, precision);")]
         [DataRow("Assert.NotEqual(expected, actual, 5);")]
         [Implemented]
@@ -268,7 +268,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             VerifyCSharpDiagnostic("double actual, double expected, int precision", assertion);
 
         // There is no corresponding API in AwesomeAssertions
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.NotEqual(expected, actual, precision);",
             /* newAssertion: */ "Assert.NotEqual(expected, actual, precision);")]
@@ -279,7 +279,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertDoubleNotEqualWithPrecision_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("double actual, double expected, int precision", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.NotEqual(expected, actual, precision);")]
         [DataRow("Assert.NotEqual(expected, actual, 5);")]
         [Implemented]
@@ -287,7 +287,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             VerifyCSharpDiagnostic("decimal actual, decimal expected, int precision", assertion);
 
         // There is no corresponding API in AwesomeAssertions
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.NotEqual(expected, actual, precision);",
             /* newAssertion: */ "Assert.NotEqual(expected, actual, precision);")]
@@ -298,14 +298,14 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertDecimalNotEqualWithPrecision_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("decimal actual, decimal expected, int precision", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.NotEqual(expected, actual, comparer);")]
         [DataRow("Assert.NotEqual(expected, actual, ReferenceEqualityComparer.Instance);")]
         [Implemented]
         public void AssertObjectNotEqualWithComparer_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("object actual, object expected, IEqualityComparer<object> comparer", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.NotEqual(expected, actual, comparer);",
             /* newAssertion: */ "actual.Should().NotBeEquivalentTo(expected, options => options.Using(comparer));")]
@@ -316,13 +316,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertObjectNotEqualWithComparer_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, object expected, IEqualityComparer<object> comparer", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.NotEqual(expected, actual);")]
         [Implemented]
         public void AssertObjectNotEqual_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("object actual, object expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.NotEqual(expected, actual);",
             /* newAssertion: */ "actual.Should().NotBe(expected);")]
@@ -330,13 +330,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertObjectNotEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, object expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.NotStrictEqual(expected, actual);")]
         [Implemented]
         public void AssertObjectNotStrictEqual_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("object actual, object expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.NotStrictEqual(expected, actual);",
             /* newAssertion: */ "actual.Should().NotBe(expected);")]
@@ -344,13 +344,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertObjectNotStrictEqual_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, object expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Null(actual);")]
         [Implemented]
         public void AssertNull_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("object actual", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Null(actual);",
             /* newAssertion: */ "actual.Should().BeNull();")]
@@ -358,13 +358,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertNull_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.NotNull(actual);")]
         [Implemented]
         public void AssertNotNull_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("object actual", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.NotNull(actual);",
             /* newAssertion: */ "actual.Should().NotBeNull();")]
@@ -372,13 +372,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertNotNull_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Contains(expected, actual);")]
         [Implemented]
         public void AssertStringContains_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual, string expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Contains(expected, actual);",
             /* newAssertion: */ "actual.Should().Contain(expected);")]
@@ -386,7 +386,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertStringContains_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, string expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Contains(expected, actual);", "ISet<string> actual, string expected")]
         [DataRow("Assert.Contains(expected, actual);", "IReadOnlySet<string> actual, string expected")]
         [DataRow("Assert.Contains(expected, actual);", "HashSet<string> actual, string expected")]
@@ -395,7 +395,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertSetContains_TestAnalyzer(string assertion, string arguments) =>
             VerifyCSharpDiagnostic(arguments, assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Contains(expected, actual);",
             /* newAssertion: */ "actual.Should().Contain(expected);",
@@ -416,13 +416,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertSetContains_TestCodeFix(string oldAssertion, string newAssertion, string arguments)
             => VerifyCSharpFix(arguments, oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.DoesNotContain(expected, actual);")]
         [Implemented]
         public void AssertStringDoesNotContain_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual, string expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.DoesNotContain(expected, actual);",
             /* newAssertion: */ "actual.Should().NotContain(expected);")]
@@ -431,7 +431,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             => VerifyCSharpFix("string actual, string expected", oldAssertion, newAssertion);
 
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.DoesNotContain(expected, actual);", "ISet<string> actual, string expected")]
         [DataRow("Assert.DoesNotContain(expected, actual);", "IReadOnlySet<string> actual, string expected")]
         [DataRow("Assert.DoesNotContain(expected, actual);", "HashSet<string> actual, string expected")]
@@ -440,7 +440,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertSetDoesNotContain_TestAnalyzer(string assertion, string arguments) =>
             VerifyCSharpDiagnostic(arguments, assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.DoesNotContain(expected, actual);",
             /* newAssertion: */ "actual.Should().NotContain(expected);",
@@ -462,13 +462,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             => VerifyCSharpFix(arguments, oldAssertion, newAssertion);
 
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Matches(expectedRegexPattern, actual);")]
         [Implemented]
         public void AssertStringMatches_String_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual, string expectedRegexPattern", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Matches(expectedRegexPattern, actual);",
             /* newAssertion: */ "actual.Should().MatchRegex(expectedRegexPattern);")]
@@ -476,13 +476,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertStringMatches_String_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, string expectedRegexPattern", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Matches(expectedRegex, actual);")]
         [Implemented]
         public void AssertStringMatches_Regex_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual, Regex expectedRegex", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Matches(expectedRegex, actual);",
             /* newAssertion: */ "actual.Should().MatchRegex(expectedRegex);")]
@@ -490,13 +490,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertStringMatches_Regex_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, Regex expectedRegex", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.DoesNotMatch(expectedRegexPattern, actual);")]
         [Implemented]
         public void AssertStringDoesNotMatch_String_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual, string expectedRegexPattern", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.DoesNotMatch(expectedRegexPattern, actual);",
             /* newAssertion: */ "actual.Should().NotMatchRegex(expectedRegexPattern);")]
@@ -504,13 +504,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertStringDoesNotMatch_String_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, string expectedRegexPattern", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.DoesNotMatch(expectedRegex, actual);")]
         [Implemented]
         public void AssertStringDoesNotMatch_Regex_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual, Regex expectedRegex", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.DoesNotMatch(expectedRegex, actual);",
             /* newAssertion: */ "actual.Should().NotMatchRegex(expectedRegex);")]
@@ -518,13 +518,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertStringDoesNotMatch_Regex_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, Regex expectedRegex", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Empty(actual);")]
         [Implemented]
         public void AssertEmpty_String_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Empty(actual);",
             /* newAssertion: */ "actual.Should().BeEmpty();")]
@@ -532,13 +532,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertEmpty_String_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.EndsWith(expected, actual);")]
         [Implemented]
         public void AssertEndsWith_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual, string expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.EndsWith(expected, actual);",
             /* newAssertion: */ "actual.Should().EndWith(expected);")]
@@ -546,13 +546,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertEndsWith_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, string expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.StartsWith(expected, actual);")]
         [Implemented]
         public void AssertStartsWith_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual, string expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.StartsWith(expected, actual);",
             /* newAssertion: */ "actual.Should().StartWith(expected);")]
@@ -560,13 +560,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertStartsWith_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, string expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.Subset(expected, actual);")]
         [Implemented]
         public void AssertSubset_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("ISet<string> actual, ISet<string> expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Subset(expected, actual);",
             /* newAssertion: */ "actual.Should().BeSubsetOf(expected);")]
@@ -574,7 +574,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertSubset_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("ISet<string> actual, ISet<string> expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.IsAssignableFrom(expected, actual);")]
         [DataRow("Assert.IsAssignableFrom(typeof(string), actual);")]
         [DataRow("Assert.IsAssignableFrom<string>(actual);")]
@@ -582,7 +582,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsAssignableFrom_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual, Type expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.IsAssignableFrom(expected, actual);",
             /* newAssertion: */ "actual.Should().BeAssignableTo(expected);")]
@@ -596,7 +596,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsAssignableFrom_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, Type expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.IsNotAssignableFrom(expected, actual);")]
         [DataRow("Assert.IsNotAssignableFrom(typeof(string), actual);")]
         [DataRow("Assert.IsNotAssignableFrom<string>(actual);")]
@@ -604,7 +604,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsNotAssignableFrom_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual, Type expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.IsNotAssignableFrom(expected, actual);",
             /* newAssertion: */ "actual.Should().NotBeAssignableTo(expected);")]
@@ -618,7 +618,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsNotAssignableFrom_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, Type expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.IsType(expected, actual);")]
         [DataRow("Assert.IsType(typeof(string), actual);")]
         [DataRow("Assert.IsType<string>(actual);")]
@@ -626,7 +626,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsType_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual, Type expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.IsType(expected, actual);",
             /* newAssertion: */ "actual.Should().BeOfType(expected);")]
@@ -640,7 +640,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsType_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, Type expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.IsNotType(expected, actual);")]
         [DataRow("Assert.IsNotType(typeof(string), actual);")]
         [DataRow("Assert.IsNotType<string>(actual);")]
@@ -648,7 +648,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsNotType_TestAnalyzer(string assertion) =>
             VerifyCSharpDiagnostic("string actual, Type expected", assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.IsNotType(expected, actual);",
             /* newAssertion: */ "actual.Should().NotBeOfType(expected);")]
@@ -662,7 +662,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertIsNotType_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("string actual, Type expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Assert.InRange(actual, low, high);")]
         [Implemented]
         public void AssertInRange_TestAnalyzer(string assertion)
@@ -673,7 +673,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             VerifyCSharpDiagnostic("long actual, long low, long high", assertion);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.InRange(actual, low, high);",
             /* newAssertion: */ "actual.Should().BeInRange(low, high);")]
@@ -686,7 +686,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             VerifyCSharpFix("long actual, long low, long high", oldAssertion, newAssertion);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("object actual, object expected", "Assert.Equivalent(expected, actual);")]
         [DataRow("object actual, object expected", "Assert.Equivalent(expected, actual, false);")]
         [DataRow("DateTime actual, DateTime expected", "Assert.Equivalent(expected, actual);")]
@@ -697,7 +697,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertEquivalent_TestAnalyzer(string arguments, string assertion) =>
             VerifyCSharpDiagnostic(arguments, assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(
             /* oldAssertion: */ "Assert.Equivalent(expected, actual);",
             /* newAssertion: */ "actual.Should().BeEquivalentTo(expected);")]
@@ -708,7 +708,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertEquivalent_TestCodeFix(string oldAssertion, string newAssertion)
             => VerifyCSharpFix("object actual, object expected", oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Action action", "Assert.Throws(typeof(ArgumentException), action);")]
         [DataRow("Action action, Type exceptionType", "Assert.Throws(exceptionType, action);")]
         [DataRow("Action action", "Assert.Throws<NullReferenceException>(action);")]
@@ -717,7 +717,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertThrows_TestAnalyzer(string arguments, string assertion)
             => VerifyCSharpDiagnostic(arguments, assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Action action",
             /* oldAssertion */ "Assert.Throws(typeof(ArgumentException), action);",
             /* newAssertion */ "action.Should().ThrowExactly<ArgumentException>();")]
@@ -731,7 +731,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertThrows_TestCodeFix(string arguments, string oldAssertion, string newAssertion)
             => VerifyCSharpFix(arguments, oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Func<Task> action", "Assert.ThrowsAsync(typeof(ArgumentException), action);")]
         [DataRow("Func<Task> action, Type exceptionType", "Assert.ThrowsAsync(exceptionType, action);")]
         [DataRow("Func<Task> action", "Assert.ThrowsAsync<NullReferenceException>(action);")]
@@ -740,7 +740,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertThrowsAsync_TestAnalyzer(string arguments, string assertion)
             => VerifyCSharpDiagnostic(arguments, assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Func<Task> action",
             /* oldAssertion */ "Assert.ThrowsAsync(typeof(ArgumentException), action);",
             /* newAssertion */ "action.Should().ThrowExactlyAsync<ArgumentException>();")]
@@ -754,13 +754,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertThrowsAsync_TestCodeFix(string arguments, string oldAssertion, string newAssertion)
             => VerifyCSharpFix(arguments, oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Action action", "Assert.ThrowsAny<NullReferenceException>(action);")]
         [Implemented]
         public void AssertThrowsAny_TestAnalyzer(string arguments, string assertion)
             => VerifyCSharpDiagnostic(arguments, assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Action action",
             /* oldAssertion */ "Assert.ThrowsAny<NullReferenceException>(action);",
             /* newAssertion */ "action.Should().Throw<NullReferenceException>();")]
@@ -768,13 +768,13 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         public void AssertThrowsAny_TestCodeFix(string arguments, string oldAssertion, string newAssertion)
             => VerifyCSharpFix(arguments, oldAssertion, newAssertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Func<Task> action", "Assert.ThrowsAnyAsync<NullReferenceException>(action);")]
         [Implemented]
         public void AssertThrowsAnyAsync_TestAnalyzer(string arguments, string assertion)
             => VerifyCSharpDiagnostic(arguments, assertion);
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("Func<Task> action",
             /* oldAssertion */ "Assert.ThrowsAnyAsync<NullReferenceException>(action);",
             /* newAssertion */ "action.Should().ThrowAsync<NullReferenceException>();")]

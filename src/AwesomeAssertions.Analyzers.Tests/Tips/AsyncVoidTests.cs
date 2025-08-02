@@ -31,7 +31,7 @@ namespace AwesomeAssertions.Analyzers.Tests
         [DataRow("Action action1 = async () => { await Task.CompletedTask; }, action2 = async () => { await Task.CompletedTask; };")]
         [DataRow("Action action1 = () => { }, action2 = async () => { await Task.CompletedTask; };")]
         [DataRow("Action action1 = async () => { await Task.CompletedTask; }, action2 = () => { };")]
-        [DataTestMethod]
+        [TestMethod]
         [Implemented]
         public void AssignAsyncVoidLambdaToAction_TestAnalyzer(string assertion)
         {
@@ -55,7 +55,7 @@ namespace AwesomeAssertions.Analyzers.Tests
         [AssertionCodeFix(
             oldAssertion: "Action action1 = async () => { await Task.CompletedTask; }, action2 = async () => { await Task.CompletedTask; };",
             newAssertion: "Func<Task> action1 = async () => { await Task.CompletedTask; }, action2 = async () => { await Task.CompletedTask; };")]
-        [DataTestMethod]
+        [TestMethod]
         [NotImplemented, Ignore]
         public void AssignAsyncVoidLambdaToAction_TestCodeFix(string oldAssertion, string newAssertion)
         {

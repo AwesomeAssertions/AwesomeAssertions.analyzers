@@ -7,7 +7,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
     [TestClass]
     public class NullConditionalAssertionTests
     {
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("actual?.Should().Be(expected{0});")]
         [AssertionDiagnostic("actual?.MyProperty.Should().Be(\"test\"{0});")]
         [AssertionDiagnostic("actual.MyProperty?.Should().Be(\"test\"{0});")]
@@ -36,7 +36,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
             );
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [AssertionDiagnostic("(actual?.MyProperty).Should().Be(\"test\"{0});")]
         [AssertionDiagnostic("actual.MyProperty.Should().Be(actual?.MyProperty{0});")]
         [AssertionDiagnostic("actual.MyList.Where(obj => obj?.ToString() == null).Should().HaveCount(6{0});")]
