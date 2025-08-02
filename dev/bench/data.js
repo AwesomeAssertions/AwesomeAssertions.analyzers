@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1754141082246,
+  "lastUpdate": 1754146850715,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -13604,6 +13604,42 @@ window.BENCHMARK_DATA = {
             "value": 260.49054299990337,
             "unit": "ns",
             "range": "± 1.6027935511731388"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0feee9c9137f68614c484262261d8f516b38deaf",
+          "message": "fix: MSTEST0044 replace obsolete DataTestMethod with TestMethod (#43)",
+          "timestamp": "2025-08-02T16:59:33+02:00",
+          "tree_id": "6a52c3d43466adb939cc54ec9e7c818a8a9e4b21",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/0feee9c9137f68614c484262261d8f516b38deaf"
+        },
+        "date": 1754146849785,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 297.2175167719523,
+            "unit": "ns",
+            "range": "± 4.3384923366658015"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 262.740177495139,
+            "unit": "ns",
+            "range": "± 3.374573783563122"
           }
         ]
       }
