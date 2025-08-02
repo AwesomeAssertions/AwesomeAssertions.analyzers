@@ -100,6 +100,24 @@ namespace AwesomeAssertions.Analyzers.TestUtils
             .AppendLine("}")
             .ToString();
 
+        public static string GenericSimpleIDictionaryAssertion(string assertion, string simpleType) => new StringBuilder()
+           .AppendLine("using System.Collections.Generic;")
+           .AppendLine("using System.Linq;")
+           .AppendLine("using System;")
+           .AppendLine("using AwesomeAssertions;")
+           .AppendLine("using AwesomeAssertions.Extensions;")
+           .AppendLine("namespace TestNamespace")
+           .AppendLine("{")
+           .AppendLine("    public class TestClass")
+           .AppendLine("    {")
+           .AppendLine($"        public void TestMethod(Dictionary<string, {simpleType}> actual, IDictionary<string, {simpleType}> expected)")
+           .AppendLine("        {")
+           .AppendLine($"            {assertion}")
+           .AppendLine("        }")
+           .AppendLine("    }")
+           .AppendLine("}")
+           .ToString();
+
         public static string DoubleAssertion(string assertion) => NumericAssertion(assertion, "double");
 
         public static string NumericAssertion(string assertion, string type) => new StringBuilder()

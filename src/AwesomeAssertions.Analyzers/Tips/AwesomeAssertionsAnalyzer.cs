@@ -361,7 +361,8 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                         }
                     }
                     if (subject is IPropertyReferenceOperation propertyReference && propertyReference.Property.Name is WellKnownMemberNames.Indexer
-                    && !(subject.Type.AllInterfaces.Contains(metadata.IDictionaryOfT2) || subject.Type.AllInterfaces.Contains(metadata.IReadonlyDictionaryOfT2)))
+                        && !(subject.Type.AllInterfaces.Contains(metadata.IDictionaryOfT2) || subject.Type.AllInterfaces.Contains(metadata.IReadonlyDictionaryOfT2))
+                        && !(propertyReference.Property.ContainingType.ImplementsOrIsInterface(metadata.IDictionaryOfT2) || propertyReference.Property.ContainingType.ImplementsOrIsInterface(metadata.IReadonlyDictionaryOfT2)))
                     {
                         context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveElementAt_IndexerShouldBe));
                     }
