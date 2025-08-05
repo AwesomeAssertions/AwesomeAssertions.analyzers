@@ -5,8 +5,24 @@ using Microsoft.CodeAnalysis.Operations;
 
 namespace AwesomeAssertions.Analyzers;
 
-internal static class OperartionExtensions
+internal static class OperationExtensions
 {
+    /// <summary>
+    /// Tries to get the first child of the parent operation if it's of the requested type
+    /// <typeparamref name="TOperation"/>.
+    /// </summary>
+    public static bool TryGetSingleChild<TOperation>(this IOperation parent, out TOperation operation) where TOperation : IOperation
+    {
+        if (parent.ChildOperations.Count == 1 && parent.ChildOperations.First() is TOperation op)
+        {
+            operation = op;
+            return true;
+        }
+
+        operation = default;
+        return false;
+    }
+
     /// <summary>
     /// Tries to get the first descendent of the parent operation. where each operation has only one child.
     /// </summary>

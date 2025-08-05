@@ -839,6 +839,12 @@ namespace AwesomeAssertions.Analyzers.Tests
         public void CollectionShouldHaveElementAt_IndexerShouldBe_TestAnalyzer(string assertion) => VerifyCSharpDiagnosticCodeBlock(assertion, DiagnosticMetadata.CollectionShouldHaveElementAt_IndexerShouldBe);
 
         [TestMethod]
+        [AssertionDiagnostic("actual[0].Children[0].Parent.Should().Be(expectedItem);")]
+        [AssertionDiagnostic("actual[0].Parent.Should().Be(expectedItem);")]
+        public void CollectionShouldHaveElementAt_AccessPropertyOfIndexedValue_TestNoAnalyzer(string assertion) =>
+            DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(GenerateCode.GenericIListCodeBlockAssertion(assertion));
+
+        [TestMethod]
         [AssertionDiagnostic("var first = actual[0]; first[6].Should().Be(expectedItem{0});")]
         [Implemented]
         public void CollectionShouldHaveElementAt_IndexerShouldBe_TestNoAnalyzer(string assertion) => DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(GenerateCode.GenericIListCodeBlockAssertion(assertion));

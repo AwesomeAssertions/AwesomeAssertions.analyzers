@@ -55,6 +55,8 @@ namespace AwesomeAssertions.Analyzers.TestUtils
             .AppendLine("    {")
             .AppendLine("        public bool BooleanProperty { get; set; }")
             .AppendLine("        public string Message { get; set; }")
+            .AppendLine("        public TestComplexClass[] Children { get; set; }")
+            .AppendLine("        public TestComplexClass Parent { get; set; }")
             .AppendLine("        public TestComplexClass this[int index] => throw new NotImplementedException();")
             .AppendLine("    }")
             .AppendLine()
