@@ -388,7 +388,12 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 return;
                         }
                     }
-                    if (subject.TryGetFirstDescendent<IArrayElementReferenceOperation>(out var arrayElementReference))
+                    
+                    if (subject.TryGetSingleChild<IPropertyReferenceOperation>(out var previousPropertyReference) && !previousPropertyReference.Property.IsIndexer)
+                    {
+                        return;
+                    }
+                    else if (subject.TryGetFirstDescendent<IArrayElementReferenceOperation>(out _))
                     {
                         context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveElementAt_IndexerShouldBe));
                     }
