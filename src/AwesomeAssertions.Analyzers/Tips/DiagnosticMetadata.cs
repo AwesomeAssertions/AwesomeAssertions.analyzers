@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace AwesomeAssertions.Analyzers;
 
+#pragma warning disable S1192 // String literals should not be duplicated: Here we want to see the actual descriptions in place, having constants wouldn't help
 public class DiagnosticMetadata
 {
     public string Name { get; }
@@ -40,7 +42,7 @@ public class DiagnosticMetadata
     public static DiagnosticMetadata CollectionShouldNotHaveSameCount_CountShouldNotBeOtherCollectionCount { get; } = new("Use .Should().NotHaveSameCount()", GetHelpLink("Collections-18"));
     public static DiagnosticMetadata CollectionShouldContainProperty_WhereShouldNotBeEmpty { get; } = new("Use .Should().Contain()", GetHelpLink("Collections-19"));
     public static DiagnosticMetadata CollectionShouldNotContainProperty_WhereShouldBeEmpty { get; } = new("Use .Should().NotContain()", GetHelpLink("Collections-20"));
-    public static DiagnosticMetadata CollectionShouldContainSingle_WhereShouldHaveCount1 { get; } = new("Use .Should().HaveCount()", GetHelpLink("Collections-21"));
+    public static DiagnosticMetadata CollectionShouldContainSingle_WhereShouldHaveCount1 { get; } = new("Use .Should().ContainSingle()", GetHelpLink("Collections-21"));
     public static DiagnosticMetadata CollectionShouldNotContainProperty_ShouldOnlyContainNot { get; } = new("Use .Should().NotContain()", GetHelpLink("Collections-22"));
     public static DiagnosticMetadata CollectionShouldNotBeNullOrEmpty_ShouldNotBeNullAndNotBeEmpty { get; } = new("Use .Should().NotBeNullOrEmpty()", GetHelpLink("Collections-23"));
     public static DiagnosticMetadata CollectionShouldNotBeNullOrEmpty_ShouldNotBeEmptyAndNotBeNull { get; } = new("Use .Should().NotBeNullOrEmpty()", GetHelpLink("Collections-23"));
