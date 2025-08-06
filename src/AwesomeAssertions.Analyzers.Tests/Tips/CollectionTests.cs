@@ -845,6 +845,28 @@ namespace AwesomeAssertions.Analyzers.Tests
             DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(GenerateCode.GenericIListCodeBlockAssertion(assertion));
 
         [TestMethod]
+        public void CollectionShouldHaveElementAt_AccessObjectPropertyOfIndexedValue_TestNoAnalyzer()
+        {
+            // I cannot see the relevant difference to CollectionShouldHaveElementAt_AccessPropertyOfIndexedValue_TestNoAnalyzer,
+            // but it makes a difference.
+            string source = """
+                using System.Collections.Generic;
+                using AwesomeAssertions;
+
+                public record Value(object InstanceValue);
+
+                public sealed class TestClass
+                {
+                    public void TestMethod(List<Value> list)
+                    {
+                        list[0].InstanceValue.Should().Be(1);
+                    }
+                }
+                """;
+            DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(source);
+        }
+
+        [TestMethod]
         [AssertionDiagnostic("var first = actual[0]; first[6].Should().Be(expectedItem{0});")]
         [Implemented]
         public void CollectionShouldHaveElementAt_IndexerShouldBe_TestNoAnalyzer(string assertion) => DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(GenerateCode.GenericIListCodeBlockAssertion(assertion));

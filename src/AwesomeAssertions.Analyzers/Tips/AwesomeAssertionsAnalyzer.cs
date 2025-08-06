@@ -388,8 +388,12 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 return;
                         }
                     }
-                    
-                    if (subject.TryGetSingleChild<IPropertyReferenceOperation>(out var previousPropertyReference) && !previousPropertyReference.Property.IsIndexer)
+
+                    if (subject is IPropertyReferenceOperation propertyReferenceOperation)
+                    {
+                        return;
+                    }
+                    else if (subject.TryGetSingleChild<IPropertyReferenceOperation>(out var previousPropertyReference) && !previousPropertyReference.Property.IsIndexer)
                     {
                         return;
                     }
