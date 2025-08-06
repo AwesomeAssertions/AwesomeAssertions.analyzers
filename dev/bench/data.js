@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1754471020625,
+  "lastUpdate": 1754490757359,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -13712,6 +13712,42 @@ window.BENCHMARK_DATA = {
             "value": 273.70329593022666,
             "unit": "ns",
             "range": "± 4.23834594990263"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1af5811c89eb518fa241038b077fabaae17ab0e5",
+          "message": "Fix wrong diagnostic message for Where...HaveCount (#50)",
+          "timestamp": "2025-08-06T16:31:17+02:00",
+          "tree_id": "7f7202e6ea19e950e427d10561e754511f5defbe",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/1af5811c89eb518fa241038b077fabaae17ab0e5"
+        },
+        "date": 1754490756665,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 281.4277673959732,
+            "unit": "ns",
+            "range": "± 0.6755486273069693"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 266.34449578921,
+            "unit": "ns",
+            "range": "± 1.8988041898029784"
           }
         ]
       }
