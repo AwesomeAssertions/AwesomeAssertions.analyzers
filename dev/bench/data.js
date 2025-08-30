@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1754490777313,
+  "lastUpdate": 1756588820846,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -13784,6 +13784,42 @@ window.BENCHMARK_DATA = {
             "value": 272.1859540598733,
             "unit": "ns",
             "range": "± 2.335458738193892"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "45d0bb128279e5e26a6d3d79c5deb615a69d2edc",
+          "message": "Enable coveralls (#58)",
+          "timestamp": "2025-08-30T23:18:54+02:00",
+          "tree_id": "42f8896a6fc71b2606f4bb2ed96086b7a29f2ff4",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/45d0bb128279e5e26a6d3d79c5deb615a69d2edc"
+        },
+        "date": 1756588819447,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 267.5201151004204,
+            "unit": "ns",
+            "range": "± 1.766461273844518"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 251.36992959181467,
+            "unit": "ns",
+            "range": "± 1.599913004645787"
           }
         ]
       }
