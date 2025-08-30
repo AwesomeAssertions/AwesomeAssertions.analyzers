@@ -1,6 +1,7 @@
 # Extension methods to fluently assert the outcome of .NET tests
 
 [![CI](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/AwesomeAssertions/AwesomeAssertions.analyzers/badge.svg?branch=main)](https://coveralls.io/github/AwesomeAssertions/AwesomeAssertions.analyzers?branch=main)
 [![](https://img.shields.io/github/release/awesomeassertions/AwesomeAssertions.Analyzers.svg?label=latest%20release&color=007edf)](https://github.com/awesomeassertions/AwesomeAssertions.Analyzers/releases/latest)
 [![](https://img.shields.io/nuget/dt/AwesomeAssertions.Analyzers.svg?label=downloads&color=007edf&logo=nuget)](https://www.nuget.org/packages/AwesomeAssertions.Analyzers)
 [![](https://img.shields.io/librariesio/dependents/nuget/AwesomeAssertions.Analyzers.svg?label=dependent%20libraries)](https://libraries.io/nuget/AwesomeAssertions.Analyzers)

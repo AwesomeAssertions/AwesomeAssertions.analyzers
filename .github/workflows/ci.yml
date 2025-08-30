@@ -11,7 +11,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        config: [Debug, Release]
     runs-on: ${{ matrix.os }}
     env:
       NUGET_CERT_REVOCATION_MODE: offline
@@ -26,3 +25,15 @@ jobs:
       - run: dotnet build
       - run: dotnet test src/AwesomeAssertions.Analyzers.Tests --configuration Release --filter 'TestCategory=Completed' /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
       - run: dotnet pack src/AwesomeAssertions.Analyzers/AwesomeAssertions.Analyzers.csproj
+      - name: Check for coverage file existence
+        id: check_files
+        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3
+        with:
+          files: "src/AwesomeAssertions.Analyzers.Tests/coverage.cobertura.xml"
+
+      - name: coveralls
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2
+        if: steps.check_files.outputs.files_exists == 'true' && matrix.os == 'ubuntu-latest'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: src/AwesomeAssertions.Analyzers.Tests/coverage.cobertura.xml
