@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1756757786876,
+  "lastUpdate": 1756757791121,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -13856,6 +13856,42 @@ window.BENCHMARK_DATA = {
             "value": 267.1311759471893,
             "unit": "ns",
             "range": "± 2.0815259936064985"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "288f2c4be67cc9b9075154d0b4a0347def1d8877",
+          "message": "chore(deps): update mstest monorepo to 3.10.3 (#60)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-01T22:15:13+02:00",
+          "tree_id": "aedfe35bd00d98e6262358f1e2bbb645f2a60e57",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/288f2c4be67cc9b9075154d0b4a0347def1d8877"
+        },
+        "date": 1756757790415,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 263.2206709935115,
+            "unit": "ns",
+            "range": "± 1.5238294556083896"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 266.4720079898834,
+            "unit": "ns",
+            "range": "± 2.72624165986877"
           }
         ]
       }
