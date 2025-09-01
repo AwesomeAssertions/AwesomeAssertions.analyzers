@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1756588820846,
+  "lastUpdate": 1756757786876,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -13820,6 +13820,42 @@ window.BENCHMARK_DATA = {
             "value": 251.36992959181467,
             "unit": "ns",
             "range": "± 1.599913004645787"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "30bf1eef1e3ce6ab1d4a0859728cd1579dad4068",
+          "message": "chore(deps): update dependency xunit.runner.visualstudio to 3.1.4 (#59)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-09-01T22:15:01+02:00",
+          "tree_id": "95641f4c12e75eb018d2e2b9d4fecfa97527ce27",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/30bf1eef1e3ce6ab1d4a0859728cd1579dad4068"
+        },
+        "date": 1756757786029,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 271.36425508771623,
+            "unit": "ns",
+            "range": "± 2.821013908501991"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 267.1311759471893,
+            "unit": "ns",
+            "range": "± 2.0815259936064985"
           }
         ]
       }
