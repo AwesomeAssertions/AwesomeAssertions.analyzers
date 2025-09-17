@@ -711,10 +711,10 @@ namespace AwesomeAssertions.Analyzers.Tests
                 Id = AwesomeAssertionsAnalyzer.DiagnosticId,
                 Message = DiagnosticMetadata.CollectionShouldContainSingle_ShouldHaveCount1.Message,
                 VisitorName = DiagnosticMetadata.CollectionShouldContainSingle_ShouldHaveCount1.Name,
-                Locations = new DiagnosticResultLocation[]
-                {
+                Locations =
+                [
                     new DiagnosticResultLocation("Test0.cs", 11,13)
-                },
+                ],
                 Severity = DiagnosticSeverity.Info
             });
         }
@@ -841,10 +841,12 @@ namespace AwesomeAssertions.Analyzers.Tests
         [TestMethod]
         [AssertionDiagnostic("actual[0].Children[0].Parent.Should().Be(expectedItem);")]
         [AssertionDiagnostic("actual[0].Parent.Should().Be(expectedItem);")]
+        [Implemented]
         public void CollectionShouldHaveElementAt_AccessPropertyOfIndexedValue_TestNoAnalyzer(string assertion) =>
             DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(GenerateCode.GenericIListCodeBlockAssertion(assertion));
 
         [TestMethod]
+        [Implemented]
         public void CollectionShouldHaveElementAt_AccessObjectPropertyOfIndexedValue_TestNoAnalyzer()
         {
             // I cannot see the relevant difference to CollectionShouldHaveElementAt_AccessPropertyOfIndexedValue_TestNoAnalyzer,
@@ -864,6 +866,107 @@ namespace AwesomeAssertions.Analyzers.Tests
                 }
                 """;
             DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(source);
+        }
+
+        [TestMethod]
+        [Implemented]
+        public void CollectionShouldHaveElementAt_ClassDoesNotImplementIList_TestNoAnalyzer()
+        {
+            string source = """
+                using AwesomeAssertions;
+
+                public class RandomClass
+                {
+                    public double this[string parameterName] => 42.0;
+                }
+
+                public sealed class TestClass
+                {
+                    public void TestMethod(RandomClass actual) =>
+                        actual["SomeProperty"].Should().Be(42.0);
+                }
+                """;
+            DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(source);
+        }
+
+        [TestMethod]
+        [AssertionDiagnostic("actual[12].Should().Be(42.0{0});", "double")]
+        [AssertionDiagnostic("actual[12].Should().Be(new object(){0});", "object")]
+        [Implemented]
+        public void CollectionShouldHaveElementAt_ClassImplementsIReadOnlyList_TestAnalyzer(string assertion, string genericType)
+        {
+            string source = GenerateCode.GenericAssertionOnClassWhichImplementsIReadOnlyList(genericType, assertion);
+
+            var metadata = DiagnosticMetadata.CollectionShouldHaveElementAt_IndexerShouldBe;
+            DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(source, new DiagnosticResult
+            {
+                Id = AwesomeAssertionsAnalyzer.DiagnosticId,
+                Message = metadata.Message,
+                VisitorName = metadata.Name,
+                Locations =
+                [
+                    new DiagnosticResultLocation("Test0.cs", 20, 13)
+                ],
+                Severity = DiagnosticSeverity.Info
+            });
+        }
+
+        [TestMethod]
+        [AssertionCodeFix(
+            oldAssertion: "actual[12].Should().Be(42.0);",
+            newAssertion: "actual.Should().HaveElementAt(12, 42.0);",
+            "double")]
+        [AssertionCodeFix(
+            oldAssertion: "actual[12].Should().Be(new object());",
+            newAssertion: "actual.Should().HaveElementAt(12, new object());",
+            "object")]
+        [Implemented]
+        public void CollectionShouldHaveElementAt_ClassImplementsIReadOnlyList_TestCodeFix(string oldAssertion, string newAssertion, string genericType)
+        {
+            string oldSource = GenerateCode.GenericAssertionOnClassWhichImplementsIReadOnlyList(genericType, oldAssertion);
+            string newSource = GenerateCode.GenericAssertionOnClassWhichImplementsIReadOnlyList(genericType, newAssertion);
+
+            VerifyFix(oldSource, newSource);
+        }
+
+        [TestMethod]
+        [AssertionDiagnostic("actual[12].Should().Be(42.0{0});", "double")]
+        [AssertionDiagnostic("actual[12].Should().Be(new object(){0});", "object")]
+        [Implemented]
+        public void CollectionShouldHaveElementAt_ClassImplementsIList_TestAnalyzer(string assertion, string genericType)
+        {
+            string source = GenerateCode.GenericAssertionOnClassWhichImplementsIList(genericType, assertion);
+
+            var metadata = DiagnosticMetadata.CollectionShouldHaveElementAt_IndexerShouldBe;
+            DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(source, new DiagnosticResult
+            {
+                Id = AwesomeAssertionsAnalyzer.DiagnosticId,
+                Message = metadata.Message,
+                VisitorName = metadata.Name,
+                Locations =
+                [
+                    new DiagnosticResultLocation("Test0.cs", 33, 13)
+                ],
+                Severity = DiagnosticSeverity.Info
+            });
+        }
+
+        [TestMethod]
+        [AssertionCodeFix(
+            oldAssertion: "actual[12].Should().Be(42.0);",
+            newAssertion: "actual.Should().HaveElementAt(12, 42.0);",
+            "double")]
+        [AssertionCodeFix(
+            oldAssertion: "actual[12].Should().Be(new object());",
+            newAssertion: "actual.Should().HaveElementAt(12, new object());",
+            "object")]
+        [Implemented]
+        public void CollectionShouldHaveElementAt_ClassImplementsIList_TestCodeFix(string oldAssertion, string newAssertion, string genericType)
+        {
+            string oldSource = GenerateCode.GenericAssertionOnClassWhichImplementsIList(genericType, oldAssertion);
+            string newSource = GenerateCode.GenericAssertionOnClassWhichImplementsIList(genericType, newAssertion);
+
+            VerifyFix(oldSource, newSource);
         }
 
         [TestMethod]
@@ -1132,7 +1235,7 @@ namespace AwesomeAssertions.Analyzers.Tests
         [Ignore("What Should Happen?")]
         public void CollectionShouldHaveElementAt0Null_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFixCodeBlock(oldAssertion, newAssertion);
 
-        private void VerifyCSharpDiagnosticCodeBlock(string sourceAssertion, DiagnosticMetadata metadata)
+        private static void VerifyCSharpDiagnosticCodeBlock(string sourceAssertion, DiagnosticMetadata metadata)
         {
             var source = GenerateCode.GenericIListCodeBlockAssertion(sourceAssertion);
 
@@ -1141,15 +1244,15 @@ namespace AwesomeAssertions.Analyzers.Tests
                 Id = AwesomeAssertionsAnalyzer.DiagnosticId,
                 Message = metadata.Message,
                 VisitorName = metadata.Name,
-                Locations = new DiagnosticResultLocation[]
-                {
+                Locations =
+                [
                     new DiagnosticResultLocation("Test0.cs", 11,13)
-                },
+                ],
                 Severity = DiagnosticSeverity.Info
             });
         }
 
-        private void VerifyCSharpDiagnosticExpressionBody(string sourceAssertion, DiagnosticMetadata metadata)
+        private static void VerifyCSharpDiagnosticExpressionBody(string sourceAssertion, DiagnosticMetadata metadata)
         {
             var source = GenerateCode.GenericIListExpressionBodyAssertion(sourceAssertion);
 
@@ -1158,15 +1261,15 @@ namespace AwesomeAssertions.Analyzers.Tests
                 Id = AwesomeAssertionsAnalyzer.DiagnosticId,
                 VisitorName = metadata.Name,
                 Message = metadata.Message,
-                Locations = new DiagnosticResultLocation[]
-                {
-                    new DiagnosticResultLocation("Test0.cs", 10,16)
-                },
+                Locations =
+                [
+                    new DiagnosticResultLocation("Test0.cs", 10, 28)
+                ],
                 Severity = DiagnosticSeverity.Info
             });
         }
 
-        private void VerifyArrayCSharpDiagnosticCodeBlock(string sourceAssertion, DiagnosticMetadata metadata)
+        private static void VerifyArrayCSharpDiagnosticCodeBlock(string sourceAssertion, DiagnosticMetadata metadata)
         {
             var source = GenerateCode.GenericArrayCodeBlockAssertion(sourceAssertion);
 
@@ -1175,15 +1278,15 @@ namespace AwesomeAssertions.Analyzers.Tests
                 Id = AwesomeAssertionsAnalyzer.DiagnosticId,
                 Message = metadata.Message,
                 VisitorName = metadata.Name,
-                Locations = new DiagnosticResultLocation[]
-                {
+                Locations =
+                [
                     new DiagnosticResultLocation("Test0.cs", 11,13)
-                },
+                ],
                 Severity = DiagnosticSeverity.Info
             });
         }
 
-        private void VerifyArrayCSharpFixCodeBlock(string oldSourceAssertion, string newSourceAssertion)
+        private static void VerifyArrayCSharpFixCodeBlock(string oldSourceAssertion, string newSourceAssertion)
         {
             var oldSource = GenerateCode.GenericArrayCodeBlockAssertion(oldSourceAssertion);
             var newSource = GenerateCode.GenericArrayCodeBlockAssertion(newSourceAssertion);
@@ -1191,7 +1294,7 @@ namespace AwesomeAssertions.Analyzers.Tests
             VerifyFix(oldSource, newSource);
         }
 
-        private void VerifyCSharpFixCodeBlock(string oldSourceAssertion, string newSourceAssertion)
+        private static void VerifyCSharpFixCodeBlock(string oldSourceAssertion, string newSourceAssertion)
         {
             var oldSource = GenerateCode.GenericIListCodeBlockAssertion(oldSourceAssertion);
             var newSource = GenerateCode.GenericIListCodeBlockAssertion(newSourceAssertion);
@@ -1199,7 +1302,7 @@ namespace AwesomeAssertions.Analyzers.Tests
             VerifyFix(oldSource, newSource);
         }
 
-        private void VerifyCSharpFixExpressionBody(string oldSourceAssertion, string newSourceAssertion)
+        private static void VerifyCSharpFixExpressionBody(string oldSourceAssertion, string newSourceAssertion)
         {
             var oldSource = GenerateCode.GenericIListExpressionBodyAssertion(oldSourceAssertion);
             var newSource = GenerateCode.GenericIListExpressionBodyAssertion(newSourceAssertion);
@@ -1207,7 +1310,7 @@ namespace AwesomeAssertions.Analyzers.Tests
             VerifyFix(oldSource, newSource);
         }
 
-        private void VerifyFix(string oldSource, string newSource)
+        private static void VerifyFix(string oldSource, string newSource)
         {
             DiagnosticVerifier.VerifyFix(new CodeFixVerifierArguments()
                 .WithCodeFixProvider<AwesomeAssertionsCodeFixProvider>()

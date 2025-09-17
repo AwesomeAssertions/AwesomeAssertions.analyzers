@@ -8,6 +8,20 @@ namespace AwesomeAssertions.Analyzers;
 internal static class OperationExtensions
 {
     /// <summary>
+    /// Tries to get the parent operation or its first child if it's of the requested type.
+    /// <typeparamref name="TOperation"/>.
+    /// </summary>
+    public static bool TryGetSingleChildOrSelf<TOperation>(this IOperation parent, out TOperation operation) where TOperation : IOperation
+    {
+        if (parent is TOperation op)
+        {
+            operation = op;
+            return true;
+        }
+        return parent.TryGetSingleChild(out operation);
+    }
+
+    /// <summary>
     /// Tries to get the first child of the parent operation if it's of the requested type
     /// <typeparamref name="TOperation"/>.
     /// </summary>
@@ -21,6 +35,19 @@ internal static class OperationExtensions
 
         operation = default;
         return false;
+    }
+
+    /// <summary>
+    /// Tries to get the first descendent of the parent operation or the parent operation itself. where each operation has only one child.
+    /// </summary>
+    public static bool TryGetFirstDescendentOrSelf<TOperation>(this IOperation parent, out TOperation operation) where TOperation : IOperation
+    {
+        if (parent is TOperation op)
+        {
+            operation = op;
+            return true;
+        }
+        return parent.TryGetFirstDescendent(out operation);
     }
 
     /// <summary>

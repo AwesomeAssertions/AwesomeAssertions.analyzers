@@ -179,7 +179,7 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                         case nameof(Enumerable.OrderByDescending) when IsEnumerableMethodWithPredicate(invocationBeforeShould, metadata) && invocationBeforeShould.Arguments[0].IsSameArgumentReference(assertion.Arguments[0]):
                             context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldBeInDescendingOrder_OrderByDescendingShouldEqual));
                             return;
-                        case nameof(Enumerable.Select) when IsEnumerableMethodWithPredicate(invocationBeforeShould, metadata) 
+                        case nameof(Enumerable.Select) when IsEnumerableMethodWithPredicate(invocationBeforeShould, metadata)
                             && assertion.Arguments[0].Value is IInvocationOperation { TargetMethod.Name: nameof(Enumerable.Select), Arguments.Length: 2 } expectedInvocation && expectedInvocation.Arguments[1].IsLambda():
                             context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldEqualOtherCollectionByComparer_SelectShouldEqualOtherCollectionSelect));
                             return;
@@ -361,8 +361,7 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                         }
                     }
                     if (subject is IPropertyReferenceOperation propertyReference && propertyReference.Property.Name is WellKnownMemberNames.Indexer
-                        && !(subject.Type.AllInterfaces.Contains(metadata.IDictionaryOfT2) || subject.Type.AllInterfaces.Contains(metadata.IReadonlyDictionaryOfT2))
-                        && !(propertyReference.Property.ContainingType.ImplementsOrIsInterface(metadata.IDictionaryOfT2) || propertyReference.Property.ContainingType.ImplementsOrIsInterface(metadata.IReadonlyDictionaryOfT2)))
+                        && (propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IListOfT) || propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IReadonlyListOfT)))
                     {
                         context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveElementAt_IndexerShouldBe));
                     }
@@ -389,11 +388,7 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                         }
                     }
 
-                    if (subject is IPropertyReferenceOperation propertyReferenceOperation)
-                    {
-                        return;
-                    }
-                    else if (subject.TryGetSingleChild<IPropertyReferenceOperation>(out var previousPropertyReference) && !previousPropertyReference.Property.IsIndexer)
+                    if (subject.TryGetSingleChildOrSelf<IPropertyReferenceOperation>(out var propertyReference) && !propertyReference.Property.IsIndexer)
                     {
                         return;
                     }
@@ -401,11 +396,9 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                     {
                         context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveElementAt_IndexerShouldBe));
                     }
-                    else if (subject.TryGetFirstDescendent<IPropertyReferenceOperation>(out var propertyReference) && propertyReference.Property.IsIndexer)
+                    else if (subject.TryGetFirstDescendentOrSelf(out propertyReference) && propertyReference.Property.IsIndexer && 
+                        (propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IListOfT) || propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IReadonlyListOfT)))
                     {
-                        if (!propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IListOfT) && !propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IReadonlyListOfT)) return;
-                        if (propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IDictionaryOfT2) || propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IReadonlyDictionaryOfT2)) return;
-
                         context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveElementAt_IndexerShouldBe));
                     }
                 }
@@ -494,7 +487,7 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCountLessThanOrEqualTo_CountShouldBeLessThanOrEqualTo));
                                 return;
                             case nameof(Math.Abs) when invocationBeforeShould.IsContainedInType(metadata.Math) && (
-                                    assertion.Arguments[0].IsReferenceOfType(SpecialType.System_Double) 
+                                    assertion.Arguments[0].IsReferenceOfType(SpecialType.System_Double)
                                     || assertion.Arguments[0].IsReferenceOfType(SpecialType.System_Single)
                                     || assertion.Arguments[0].IsReferenceOfType(SpecialType.System_Decimal)
                                 ):
