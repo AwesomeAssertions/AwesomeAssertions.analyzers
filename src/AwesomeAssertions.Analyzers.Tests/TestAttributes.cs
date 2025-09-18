@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace AwesomeAssertions.Analyzers.Tests;
@@ -26,17 +27,23 @@ public class AssertionDiagnosticAttribute : Attribute, ITestDataSource
 {
     public string Assertion { get; }
 
-    public AssertionDiagnosticAttribute(string assertion) => Assertion = assertion;
+    public string[] AdditionalParameters { get; }
+
+    public AssertionDiagnosticAttribute(string assertion, params string[] additionalParameters)
+    {
+        Assertion = assertion;
+        AdditionalParameters = additionalParameters ?? Array.Empty<string>();
+    }
 
     public IEnumerable<object[]> GetData(MethodInfo methodInfo)
     {
         foreach (var assertion in TestCasesInputUtils.GetTestCases(Assertion))
         {
-            yield return new object[] { assertion };
+            yield return new object[] { assertion }.Concat(AdditionalParameters).ToArray();
         }
     }
 
-    public string GetDisplayName(MethodInfo methodInfo, object[] data) => $"{methodInfo.Name}(\"{data[0]}\")";
+    public string GetDisplayName(MethodInfo methodInfo, object[] data) => $"{methodInfo.Name}(\"{string.Join("\", \"", data)}\")";
 }
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
@@ -52,18 +59,32 @@ public class AssertionCodeFixAttribute : Attribute, ITestDataSource
 {
     public string OldAssertion { get; }
     public string NewAssertion { get; }
+    public string[] AdditionalParameters { get; }
 
-    public AssertionCodeFixAttribute(string oldAssertion, string newAssertion) => (OldAssertion, NewAssertion) = (oldAssertion, newAssertion);
+    public AssertionCodeFixAttribute(string oldAssertion, string newAssertion, params string[] additionalParameters)
+    {
+        OldAssertion = oldAssertion;
+        NewAssertion = newAssertion;
+        AdditionalParameters = additionalParameters ?? Array.Empty<string>();
+    }
 
     public IEnumerable<object[]> GetData(MethodInfo methodInfo)
     {
         foreach (var (oldAssertion, newAssertion) in TestCasesInputUtils.GetTestCases(OldAssertion, NewAssertion))
         {
-            yield return new object[] { oldAssertion, newAssertion };
+            yield return new object[] { oldAssertion, newAssertion }.Concat(AdditionalParameters).ToArray();
         }
     }
 
-    public string GetDisplayName(MethodInfo methodInfo, object[] data) => $"{methodInfo.Name}(\"old: {data[0]}\", new: {data[1]}\")";
+    public string GetDisplayName(MethodInfo methodInfo, object[] data)
+    {
+        if (AdditionalParameters.Length == 0)
+        {
+            return $"{methodInfo.Name}(\"old: {data[0]}\", \"new: {data[1]}\")";
+        }
+
+        return $"{methodInfo.Name}(\"old: {data[0]}\", \"new: {data[1]}\", \"{string.Join("\", \"", AdditionalParameters)}\")";
+    }
 }
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]

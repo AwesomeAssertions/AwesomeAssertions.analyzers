@@ -185,6 +185,7 @@ namespace TestNamespace
         public void DictionaryShouldContainPair_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix(oldAssertion, newAssertion);
 
         [TestMethod]
+        [Implemented]
         public void DictionaryWithIntValue_ShouldBe_NoDiagnostic()
         {
             string assertion = "actual[\"one\"].Should().Be(1);";
