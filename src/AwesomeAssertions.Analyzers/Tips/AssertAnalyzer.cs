@@ -105,6 +105,7 @@ public class AssertAnalyzer : DiagnosticAnalyzer
         private readonly INamedTypeSymbol _msTestsStringAssertSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.StringAssert");
         private readonly INamedTypeSymbol _msTestsCollectionAssertSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert");
         private readonly INamedTypeSymbol _msTestsUnitTestAssertExceptionSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.UnitTestAssertException");
+        private readonly INamedTypeSymbol _msTestsAssertInconclusiveExceptionSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.AssertInconclusiveException");
 
         private readonly INamedTypeSymbol _nunitAssertionExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.AssertionException");
         private readonly INamedTypeSymbol _nunitAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.Assert");
@@ -175,7 +176,11 @@ public class AssertAnalyzer : DiagnosticAnalyzer
         public void AnalyzeMsTestThrow(OperationAnalysisContext context)
         {
             var op = (IThrowOperation)context.Operation;
-            if (op.Exception is not null && op.Exception.UnwrapConversion().Type.IsOrInheritsFrom(_msTestsUnitTestAssertExceptionSymbol))
+            ITypeSymbol exceptionSymbol = op.Exception?.UnwrapConversion().Type;
+
+            if (exceptionSymbol is not null && 
+                exceptionSymbol.IsOrInheritsFrom(_msTestsUnitTestAssertExceptionSymbol) &&
+                !exceptionSymbol.EqualsSymbol(_msTestsAssertInconclusiveExceptionSymbol))
             {
                 context.ReportDiagnostic(Diagnostic.Create(MSTestsRule, op.Syntax.GetLocation()));
             }
