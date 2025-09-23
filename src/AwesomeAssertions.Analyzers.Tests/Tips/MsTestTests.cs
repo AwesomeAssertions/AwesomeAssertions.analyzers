@@ -28,11 +28,7 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         [Implemented]
         public void MsTest_NotReportedAsserts_TestAnalyzer(string assertion)
         {
-            DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
-                .WithAllAnalyzers()
-                .WithSources(GenerateCode.MsTestAssertion(string.Empty, assertion))
-                .WithPackageReferences(PackageReference.AwesomeAssertions_latest, PackageReference.MSTestTestFramework_3_1_1)
-            );
+            VerifyNoCSharpDiagnostic(string.Empty, assertion);
         }
 
         [TestMethod]
@@ -46,184 +42,184 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
         public void AssertIsTrue_NestedUsingInNamespace1_TestAnalyzer(string assertion)
-            => VerifyCSharpDiagnostic(new StringBuilder()
-            .AppendLine("using System;")
-            .AppendLine("using AwesomeAssertions;")
-            .AppendLine("using AwesomeAssertions.Extensions;")
-            .AppendLine("using System.Threading.Tasks;")
-            .AppendLine("namespace Microsoft.VisualStudio.TestTools")
-            .AppendLine("{")
-            .AppendLine("    using UnitTesting;")
-            .AppendLine("    class TestClass")
-            .AppendLine("    {")
-            .AppendLine($"        void TestMethod(bool actual)")
-            .AppendLine("        {")
-            .AppendLine($"            {assertion}")
-            .AppendLine("        }")
-            .AppendLine("    }")
-            .AppendLine("}")
-            .ToString());
+            => VerifyCSharpDiagnostic($$"""
+                using System;
+                using AwesomeAssertions;
+                using AwesomeAssertions.Extensions;
+                using System.Threading.Tasks;
+                namespace Microsoft.VisualStudio
+                {
+                    using TestTools.UnitTesting;
+                    class TestClass
+                    {
+                        void TestMethod(bool actual)
+                        {
+                            {{assertion}}
+                        }
+                    }
+                }
+                """);
 
         [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
         public void AssertIsTrue_NestedUsingInNamespace2_TestAnalyzer(string assertion)
-            => VerifyCSharpDiagnostic(new StringBuilder()
-            .AppendLine("using System;")
-            .AppendLine("using AwesomeAssertions;")
-            .AppendLine("using AwesomeAssertions.Extensions;")
-            .AppendLine("using System.Threading.Tasks;")
-            .AppendLine("namespace Microsoft.VisualStudio")
-            .AppendLine("{")
-            .AppendLine("    using TestTools.UnitTesting;")
-            .AppendLine("    class TestClass")
-            .AppendLine("    {")
-            .AppendLine($"        void TestMethod(bool actual)")
-            .AppendLine("        {")
-            .AppendLine($"            {assertion}")
-            .AppendLine("        }")
-            .AppendLine("    }")
-            .AppendLine("}")
-            .ToString());
+            => VerifyCSharpDiagnostic($$"""
+                using System;
+                using AwesomeAssertions;
+                using AwesomeAssertions.Extensions;
+                using System.Threading.Tasks;
+                namespace Microsoft.VisualStudio
+                {
+                    using TestTools.UnitTesting;
+                    class TestClass
+                    {
+                        void TestMethod(bool actual)
+                        {
+                            {{assertion}}
+                        }
+                    }
+                }
+                """);
 
         [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
         public void AssertIsTrue_NestedUsingInNamespace3_TestAnalyzer(string assertion)
-            => VerifyCSharpDiagnostic(new StringBuilder()
-            .AppendLine("using System;")
-            .AppendLine("using AwesomeAssertions;")
-            .AppendLine("using AwesomeAssertions.Extensions;")
-            .AppendLine("using System.Threading.Tasks;")
-            .AppendLine("namespace Microsoft")
-            .AppendLine("{ namespace VisualStudio {")
-            .AppendLine("    using TestTools.UnitTesting;")
-            .AppendLine("    class TestClass")
-            .AppendLine("    {")
-            .AppendLine($"        void TestMethod(bool actual)")
-            .AppendLine("        {")
-            .AppendLine($"            {assertion}")
-            .AppendLine("        }")
-            .AppendLine("    }}")
-            .AppendLine("}")
-            .ToString());
+            => VerifyCSharpDiagnostic($$"""
+                using System;
+                using AwesomeAssertions;
+                using AwesomeAssertions.Extensions;
+                using System.Threading.Tasks;
+                namespace Microsoft
+                { namespace VisualStudio {
+                    using TestTools.UnitTesting;
+                    class TestClass
+                    {
+                        void TestMethod(bool actual)
+                        {
+                            {{assertion}}
+                        }
+                    } }
+                }
+                """);
 
         [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
         public void AssertIsTrue_NestedUsingInNamespace4_TestAnalyzer(string assertion)
-            => VerifyCSharpDiagnostic(new StringBuilder()
-            .AppendLine("using System;")
-            .AppendLine("using AwesomeAssertions;")
-            .AppendLine("using AwesomeAssertions.Extensions;")
-            .AppendLine("using System.Threading.Tasks;")
-            .AppendLine("namespace Microsoft")
-            .AppendLine("{ namespace VisualStudio {")
-            .AppendLine("    using TestTools   .   UnitTesting;")
-            .AppendLine("    class TestClass")
-            .AppendLine("    {")
-            .AppendLine($"        void TestMethod(bool actual)")
-            .AppendLine("        {")
-            .AppendLine($"            {assertion}")
-            .AppendLine("        }")
-            .AppendLine("    }}")
-            .AppendLine("}")
-            .ToString());
+            => VerifyCSharpDiagnostic($$"""
+                using System;
+                using AwesomeAssertions;
+                using AwesomeAssertions.Extensions;
+                using System.Threading.Tasks;
+                namespace Microsoft
+                { namespace VisualStudio {
+                    using TestTools   .   UnitTesting;
+                    class TestClass
+                    {
+                        void TestMethod(bool actual)
+                        {
+                            {{assertion}}
+                        }
+                    } }
+                }
+                """);
 
         [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
         public void AssertIsTrue_NestedUsingInNamespace5_TestAnalyzer(string assertion)
-            => VerifyCSharpDiagnostic(new StringBuilder()
-            .AppendLine("using System;")
-            .AppendLine("using AwesomeAssertions;")
-            .AppendLine("using AwesomeAssertions.Extensions;")
-            .AppendLine("using System.Threading.Tasks;")
-            .AppendLine("using Microsoft . VisualStudio . TestTools . UnitTesting;")
-            .AppendLine("namespace Testing")
-            .AppendLine("{")
-            .AppendLine("    class TestClass")
-            .AppendLine("    {")
-            .AppendLine($"        void TestMethod(bool actual)")
-            .AppendLine("        {")
-            .AppendLine($"            {assertion}")
-            .AppendLine("        }")
-            .AppendLine("    }")
-            .AppendLine("}")
-            .ToString());
+            => VerifyCSharpDiagnostic($$"""
+                using System;
+                using AwesomeAssertions;
+                using AwesomeAssertions.Extensions;
+                using System.Threading.Tasks;
+                using Microsoft . VisualStudio . TestTools . UnitTesting;
+                namespace Testing
+                {
+                    class TestClass
+                    {
+                        void TestMethod(bool actual)
+                        {
+                            {{assertion}}
+                        }
+                    }
+                }
+                """);
 
         [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
         public void AssertIsTrue_NestedUsingInNamespace6_TestAnalyzer(string assertion)
-            => VerifyCSharpDiagnostic(new StringBuilder()
-            .AppendLine("using System;")
-            .AppendLine("using AwesomeAssertions;")
-            .AppendLine("using AwesomeAssertions.Extensions;")
-            .AppendLine("using System.Threading.Tasks; using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;")
-            .AppendLine("using Microsoft . VisualStudio . TestTools . UnitTesting;")
-            .AppendLine("namespace Testing")
-            .AppendLine("{")
-            .AppendLine("    class TestClass")
-            .AppendLine("    {")
-            .AppendLine($"        void TestMethod(bool actual)")
-            .AppendLine("        {")
-            .AppendLine($"            {assertion}")
-            .AppendLine("        }")
-            .AppendLine("    }")
-            .AppendLine("}")
-            .ToString());
+            => VerifyCSharpDiagnostic($$"""
+                using System;
+                using AwesomeAssertions;
+                using AwesomeAssertions.Extensions;
+                using System.Threading.Tasks; using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+                using Microsoft . VisualStudio . TestTools . UnitTesting;
+                namespace Testing
+                {
+                    class TestClass
+                    {
+                        void TestMethod(bool actual)
+                        {
+                            {{assertion}}
+                        }
+                    }
+                }
+                """);
 
         [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
         public void AssertIsTrue_NestedUsingInNamespace7_TestAnalyzer(string assertion)
-            => VerifyCSharpDiagnostic(new StringBuilder()
-            .AppendLine("using System;")
-            .AppendLine("using AwesomeAssertions;")
-            .AppendLine("using AwesomeAssertions.Extensions;")
-            .AppendLine("using System.Threading.Tasks; using MsAssert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;")
-            .AppendLine("using Microsoft . VisualStudio . TestTools . UnitTesting;")
-            .AppendLine("namespace Testing")
-            .AppendLine("{")
-            .AppendLine("    class TestClass")
-            .AppendLine("    {")
-            .AppendLine($"        void TestMethod(bool actual)")
-            .AppendLine("        {")
-            .AppendLine($"            {assertion}")
-            .AppendLine("        }")
-            .AppendLine("    }")
-            .AppendLine("}")
-            .ToString());
+            => VerifyCSharpDiagnostic($$"""
+                using System;
+                using AwesomeAssertions;
+                using AwesomeAssertions.Extensions;
+                using System.Threading.Tasks; using MsAssert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+                using Microsoft . VisualStudio . TestTools . UnitTesting;
+                namespace Testing
+                {
+                    class TestClass
+                    {
+                        void TestMethod(bool actual)
+                        {
+                            {{assertion}}
+                        }
+                    }
+                }
+                """);
 
         [TestMethod]
         [AssertionDiagnostic("Assert.IsTrue(actual{0});")]
         [AssertionDiagnostic("Assert.IsTrue(bool.Parse(\"true\"){0});")]
         [Implemented]
         public void AssertIsTrue_NestedUsingInNamespace8_TestAnalyzer(string assertion)
-            => VerifyCSharpDiagnostic(new StringBuilder()
-            .AppendLine("using System;")
-            .AppendLine("using AwesomeAssertions;")
-            .AppendLine("using AwesomeAssertions.Extensions;")
-            .AppendLine("using System.Threading.Tasks;")
-            .AppendLine("namespace Testing")
-            .AppendLine("{")
-            .AppendLine("    using Microsoft.VisualStudio.TestTools.UnitTesting;")
-            .AppendLine("    class TestClass")
-            .AppendLine("    {")
-            .AppendLine($"        void TestMethod(bool actual)")
-            .AppendLine("        {")
-            .AppendLine($"            {assertion}")
-            .AppendLine("        }")
-            .AppendLine("    }")
-            .AppendLine("}")
-            .ToString());
+            => VerifyCSharpDiagnostic($$"""
+                using System;
+                using AwesomeAssertions;
+                using AwesomeAssertions.Extensions;
+                using System.Threading.Tasks;
+                namespace Testing
+                {
+                    using Microsoft.VisualStudio.TestTools.UnitTesting;
+                    class TestClass
+                    {
+                        void TestMethod(bool actual)
+                        {
+                            {{assertion}}
+                        }
+                    }
+                }
+                """);
 
         [TestMethod]
         [AssertionCodeFix(
@@ -860,28 +856,50 @@ namespace AwesomeAssertions.Analyzers.Tests.Tips
         [Implemented]
         public void StringAssertDoesNotMatch_TestCodeFix(string oldAssertion, string newAssertion) => VerifyCSharpFix("string actual, System.Text.RegularExpressions.Regex pattern", oldAssertion, newAssertion);
 
-        private void VerifyCSharpDiagnostic(string source)
+        [TestMethod]
+        [AssertionDiagnostic("throw new AssertFailedException();")]
+        [Implemented]
+        public void ThrowAssertFailedException_TestAnalyzer(string assertion)
+            => VerifyCSharpDiagnostic(string.Empty, assertion);
+
+        [TestMethod]
+        [AssertionDiagnostic("throw new AssertInconclusiveException();")]
+        [Implemented]
+        public void ThrowAssertInconclusiveException_TestNoAnalyzer(string assertion)
+            => VerifyNoCSharpDiagnostic(string.Empty, assertion);
+
+        private static void VerifyCSharpDiagnostic(string source)
+        {
+            VerifyCSharpDiagnosticUsingAllAnalyzers(source,
+                new DiagnosticResult
+                {
+                    Id = AssertAnalyzer.MSTestsRule.Id,
+                    Message = AssertAnalyzer.Message,
+                    Locations =
+                    [
+                        new DiagnosticResultLocation("Test0.cs", 12, 13)
+                    ],
+                    Severity = DiagnosticSeverity.Info
+                });
+        }
+
+        private static void VerifyCSharpDiagnosticUsingAllAnalyzers(string source, params DiagnosticResult[] expectedDiagnostics)
         {
             DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
                 .WithAllAnalyzers()
                 .WithSources(source)
                 .WithPackageReferences(PackageReference.AwesomeAssertions_latest, PackageReference.MSTestTestFramework_3_1_1)
-                .WithExpectedDiagnostics(new DiagnosticResult
-                {
-                    Id = AssertAnalyzer.MSTestsRule.Id,
-                    Message = AssertAnalyzer.Message,
-                    Locations = new DiagnosticResultLocation[]
-                    {
-                        new DiagnosticResultLocation("Test0.cs", 12, 13)
-                    },
-                    Severity = DiagnosticSeverity.Info
-                })
+                .WithExpectedDiagnostics(expectedDiagnostics)
             );
         }
-        private void VerifyCSharpDiagnostic(string methodArguments, string assertion)
+
+        private static void VerifyCSharpDiagnostic(string methodArguments, string assertion)
             => VerifyCSharpDiagnostic(GenerateCode.MsTestAssertion(methodArguments, assertion));
 
-        private void VerifyCSharpFix(string methodArguments, string oldAssertion, string newAssertion)
+        private static void VerifyNoCSharpDiagnostic(string methodArguments, string assertion)
+            => VerifyCSharpDiagnosticUsingAllAnalyzers(GenerateCode.MsTestAssertion(methodArguments, assertion));
+
+        private static void VerifyCSharpFix(string methodArguments, string oldAssertion, string newAssertion)
         {
             var oldSource = GenerateCode.MsTestAssertion(methodArguments, oldAssertion);
             var newSource = GenerateCode.MsTestAssertion(methodArguments, newAssertion);
