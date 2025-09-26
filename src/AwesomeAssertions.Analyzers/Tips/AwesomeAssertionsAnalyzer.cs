@@ -388,16 +388,12 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                         }
                     }
 
-                    if (subject.TryGetSingleChildOrSelf<IPropertyReferenceOperation>(out var propertyReference) && !propertyReference.Property.IsIndexer)
-                    {
-                        return;
-                    }
-                    else if (subject.TryGetFirstDescendent<IArrayElementReferenceOperation>(out _))
-                    {
-                        context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveElementAt_IndexerShouldBe));
-                    }
-                    else if (subject.TryGetFirstDescendentOrSelf(out propertyReference) && propertyReference.Property.IsIndexer && 
-                        (propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IListOfT) || propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IReadonlyListOfT)))
+                    subject = subject.UnwrapConversion();
+
+                    bool isListIndexer = subject is IPropertyReferenceOperation propertyReference && propertyReference.Property.IsIndexer &&
+                        (propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IListOfT) || propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IReadonlyListOfT));
+
+                    if (subject is IArrayElementReferenceOperation || isListIndexer)
                     {
                         context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveElementAt_IndexerShouldBe));
                     }
