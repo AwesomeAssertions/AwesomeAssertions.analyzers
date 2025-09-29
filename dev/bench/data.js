@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1758660487751,
+  "lastUpdate": 1759134079862,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -14036,6 +14036,42 @@ window.BENCHMARK_DATA = {
             "value": 257.55860005106246,
             "unit": "ns",
             "range": "± 2.7638792907650576"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "f2abf0c00e22f7db0df3eb0be9046d43029343c6",
+          "message": "Fix ElementAt suggestion with field reference (#68)\n\n* Fix ElementAt suggestion with field reference\n* Fix copy and paste error in NumericTests",
+          "timestamp": "2025-09-29T10:19:55+02:00",
+          "tree_id": "87096fa9f00ebbadb89478d7e3df2fbbd9c76111",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/f2abf0c00e22f7db0df3eb0be9046d43029343c6"
+        },
+        "date": 1759134079110,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 261.8467375210353,
+            "unit": "ns",
+            "range": "± 2.579577030203492"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 264.8624675432841,
+            "unit": "ns",
+            "range": "± 2.447460286251801"
           }
         ]
       }
