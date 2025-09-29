@@ -846,12 +846,14 @@ namespace AwesomeAssertions.Analyzers.Tests
             DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(GenerateCode.GenericIListCodeBlockAssertion(assertion));
 
         [TestMethod]
+        [DataRow("List<Value>")]
+        [DataRow("Value[]")]
         [Implemented]
-        public void CollectionShouldHaveElementAt_AccessObjectPropertyOfIndexedValue_TestNoAnalyzer()
+        public void CollectionShouldHaveElementAt_AccessObjectPropertyOfIndexedValue_TestNoAnalyzer(string collectionType)
         {
             // I cannot see the relevant difference to CollectionShouldHaveElementAt_AccessPropertyOfIndexedValue_TestNoAnalyzer,
             // but it makes a difference.
-            string source = """
+            string source = $$"""
                 using System.Collections.Generic;
                 using AwesomeAssertions;
 
@@ -859,9 +861,32 @@ namespace AwesomeAssertions.Analyzers.Tests
 
                 public sealed class TestClass
                 {
-                    public void TestMethod(List<Value> list)
+                    public void TestMethod({{collectionType}} list)
                     {
                         list[0].InstanceValue.Should().Be(1);
+                    }
+                }
+                """;
+            DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(source);
+        }
+
+        [TestMethod]
+        [DataRow("List<Value>")]
+        [DataRow("Value[]")]
+        [Implemented]
+        public void CollectionShouldHaveElementAt_AccessObjectFieldOfIndexedValue_TestNoAnalyzer(string collectionType)
+        {
+            string source = $$"""
+                using System.Collections.Generic;
+                using AwesomeAssertions;
+
+                using Value = System.ValueTuple<object>;
+
+                public sealed class TestClass
+                {
+                    public void TestMethod({{collectionType}} list)
+                    {
+                        list[0].Item1.Should().Be(1);
                     }
                 }
                 """;

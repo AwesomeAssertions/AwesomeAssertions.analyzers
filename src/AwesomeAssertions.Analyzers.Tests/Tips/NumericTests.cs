@@ -53,7 +53,7 @@ namespace AwesomeAssertions.Analyzers.Tests
 
         [TestMethod]
         [DataRow("actual.Should().BeLessThanOrEqualTo(upper, \"because reason 1\").And.BeGreaterThanOrEqualTo(lower, \"because reason 2\");")]
-        [DataRow("actual.Should().BeLessThanOrEqualTo(upper, \"because reason 1\").And.BeGreaterThanOrEqualTo(lower, \"because reason 2\");")]
+        [DataRow("actual.Should().BeGreaterThanOrEqualTo(lower, \"because reason 1\").And.BeLessThanOrEqualTo(upper, \"because reason 2\");")]
         [Implemented]
         public void NumericShouldBeInRange_BeLessThanOrEqualToAndBeGreaterThanOrEqualTo_WithMessagesInBothAssertions_TestAnalyzer(string assertion)
         {
