@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1759380613065,
+  "lastUpdate": 1759380636492,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -14108,6 +14108,42 @@ window.BENCHMARK_DATA = {
             "value": 282.87952454884845,
             "unit": "ns",
             "range": "± 3.0358384146766535"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "14bfdef6e57e3a43e95230ce278beed526e36af2",
+          "message": "chore(deps): update benchmark-action/github-action-benchmark action to v1.20.7 (#69)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-10-02T06:49:09+02:00",
+          "tree_id": "a423c6e9b33c7719bc38922fede4945a172a7334",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/14bfdef6e57e3a43e95230ce278beed526e36af2"
+        },
+        "date": 1759380634925,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 272.4314752987453,
+            "unit": "ns",
+            "range": "± 4.024582643494647"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 266.61007278760275,
+            "unit": "ns",
+            "range": "± 1.4242967302081377"
           }
         ]
       }
