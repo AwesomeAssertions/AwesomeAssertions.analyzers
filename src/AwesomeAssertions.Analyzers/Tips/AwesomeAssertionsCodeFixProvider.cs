@@ -134,12 +134,14 @@ public sealed partial class AwesomeAssertionsCodeFixProvider : CodeFixProviderBa
                     }
                 ]);
             case nameof(DiagnosticMetadata.CollectionShouldBeEmpty_CountPropertyShouldBe0):
+            case nameof(DiagnosticMetadata.CollectionShouldBeEmpty_LengthShouldBe0):
                 return RemoveExpressionBeforeShouldAndRenameAssertionWithoutFirstArgumentWithArgumentsFromRemoved("BeEmpty");
             case nameof(DiagnosticMetadata.CollectionShouldBeEmpty_CountShouldBe0):
                 return RemoveMethodBeforeShouldAndRenameAssertionWithoutFirstArgumentWithArgumentsFromRemoved("BeEmpty");
             case nameof(DiagnosticMetadata.CollectionShouldContainSingle_CountShouldBe1):
                 return RemoveMethodBeforeShouldAndRenameAssertionWithoutFirstArgumentWithArgumentsFromRemoved("ContainSingle");
             case nameof(DiagnosticMetadata.CollectionShouldContainSingle_CountPropertyShouldBe1):
+            case nameof(DiagnosticMetadata.CollectionShouldContainSingle_LengthShouldBe1):
                 return RemoveExpressionBeforeShouldAndRenameAssertionWithoutFirstArgumentWithArgumentsFromRemoved("ContainSingle");
             case nameof(DiagnosticMetadata.CollectionShouldHaveCount_CountShouldBe):
                 return RemoveExpressionBeforeShouldAndRenameAssertion("HaveCount");

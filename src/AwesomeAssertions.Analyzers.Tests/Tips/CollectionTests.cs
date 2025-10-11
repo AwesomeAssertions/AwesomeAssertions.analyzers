@@ -310,12 +310,24 @@ namespace AwesomeAssertions.Analyzers.Tests
         public void CollectionShouldHaveCount_CountShouldBe0_TestAnalyzer(string assertion) => VerifyCSharpDiagnosticCodeBlock(assertion, DiagnosticMetadata.CollectionShouldBeEmpty_CountShouldBe0);
 
         [TestMethod]
+        [AssertionDiagnostic("actual.Length.Should().Be(0{0});")]
+        [AssertionDiagnostic("actual.ToArray().Length.Should().Be(0{0}).And.ToString();")]
+        [Implemented]
+        public void CollectionShouldHaveCount_LengthShouldBe0_TestAnalyzer(string assertion) => VerifyArrayCSharpDiagnosticCodeBlock(assertion, DiagnosticMetadata.CollectionShouldBeEmpty_LengthShouldBe0);
+
+        [TestMethod]
         [AssertionDiagnostic("actual.Count().Should().Be(1{0});")]
         [AssertionDiagnostic("actual.AsEnumerable().Count().Should().Be(1{0}).And.ToString();")]
         [AssertionDiagnostic("actual.ToList().Count().Should().Be(1{0}).And.ToString();")]
         [AssertionDiagnostic("actual.ToArray().Count().Should().Be(1{0}).And.ToString();")]
         [Implemented]
         public void CollectionShouldHaveCount_CountShouldBe1_TestAnalyzer(string assertion) => VerifyCSharpDiagnosticCodeBlock(assertion, DiagnosticMetadata.CollectionShouldContainSingle_CountShouldBe1);
+
+        [TestMethod]
+        [AssertionDiagnostic("actual.Length.Should().Be(1{0});")]
+        [AssertionDiagnostic("actual.ToArray().Length.Should().Be(1{0}).And.ToString();")]
+        [Implemented]
+        public void CollectionShouldHaveCount_ArrayLengthShouldBe1_TestAnalyzer(string assertion) => VerifyArrayCSharpDiagnosticCodeBlock(assertion, DiagnosticMetadata.CollectionShouldContainSingle_LengthShouldBe1);
 
         [TestMethod]
         [AssertionDiagnostic("(array.Count() + 1).Should().Be(0{0}).And.ToString();")]
@@ -395,8 +407,14 @@ namespace AwesomeAssertions.Analyzers.Tests
             oldAssertion: "actual.ToList().Count.Should().Be(0{0});",
             newAssertion: "actual.ToList().Should().BeEmpty({0});")]
         [AssertionCodeFix(
+            oldAssertion: "actual.ToArray().Length.Should().Be(0{0});",
+            newAssertion: "actual.ToArray().Should().BeEmpty({0});")]
+        [AssertionCodeFix(
             oldAssertion: "actual.ToList().Count.Should().Be(1{0});",
             newAssertion: "actual.ToList().Should().ContainSingle({0});")]
+        [AssertionCodeFix(
+            oldAssertion: "actual.ToArray().Length.Should().Be(1{0});",
+            newAssertion: "actual.ToArray().Should().ContainSingle({0});")]
         [AssertionCodeFix(
             oldAssertion: "actual.ToList().Count.Should().Be(6{0});",
             newAssertion: "actual.ToList().Should().HaveCount(6{0});")]
