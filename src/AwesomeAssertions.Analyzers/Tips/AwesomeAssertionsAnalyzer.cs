@@ -339,7 +339,18 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                         switch (propertyBeforeShould.Property.Name)
                         {
                             case nameof(Array.Length) when propertyBeforeShould.IsContainedInType(SpecialType.System_Array) && propertyBeforeShould.Instance.Type is IArrayTypeSymbol { Rank: 1 }:
-                                context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCount_LengthShouldBe));
+                                if (assertion.Arguments[0].IsLiteralValue(1))
+                                {
+                                    context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldContainSingle_LengthShouldBe1));
+                                }
+                                else if (assertion.Arguments[0].IsLiteralValue(0))
+                                {
+                                    context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldBeEmpty_LengthShouldBe0));
+                                }
+                                else
+                                {
+                                    context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCount_LengthShouldBe));
+                                }
                                 return;
                             case nameof(string.Length) when propertyBeforeShould.IsContainedInType(SpecialType.System_String):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.StringShouldHaveLength_LengthShouldBe));

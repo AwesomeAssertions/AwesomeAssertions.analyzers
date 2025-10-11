@@ -35,9 +35,11 @@ public class DiagnosticMetadata
     public static DiagnosticMetadata CollectionShouldContainSingle_ShouldHaveCount1 { get; } = new("Use .Should().ContainSingle()", GetHelpLink("Collections-15"));
     public static DiagnosticMetadata CollectionShouldContainSingle_CountShouldBe1 { get; } = new("Use .Should().ContainSingle()", GetHelpLink("Collections-15"));
     public static DiagnosticMetadata CollectionShouldContainSingle_CountPropertyShouldBe1 { get; } = new("Use .Should().ContainSingle()", GetHelpLink("Collections-15"));
+    public static DiagnosticMetadata CollectionShouldContainSingle_LengthShouldBe1 { get; } = new("Use .Should().ContainSingle()", GetHelpLink("Collections-15"));
     public static DiagnosticMetadata CollectionShouldBeEmpty_ShouldHaveCount0 { get; } = new("Use .Should().BeEmpty()", GetHelpLink("Collections-16"));
     public static DiagnosticMetadata CollectionShouldBeEmpty_CountShouldBe0 { get; } = new("Use .Should().BeEmpty()", GetHelpLink("Collections-16"));
     public static DiagnosticMetadata CollectionShouldBeEmpty_CountPropertyShouldBe0 { get; } = new("Use .Should().BeEmpty()", GetHelpLink("Collections-16"));
+    public static DiagnosticMetadata CollectionShouldBeEmpty_LengthShouldBe0 { get; } = new("Use .Should().BeEmpty()", GetHelpLink("Collections-16"));
     public static DiagnosticMetadata CollectionShouldHaveSameCount_ShouldHaveCountOtherCollectionCount { get; } = new("Use .Should().HaveSameCount()", GetHelpLink("Collections-17"));
     public static DiagnosticMetadata CollectionShouldNotHaveSameCount_CountShouldNotBeOtherCollectionCount { get; } = new("Use .Should().NotHaveSameCount()", GetHelpLink("Collections-18"));
     public static DiagnosticMetadata CollectionShouldContainProperty_WhereShouldNotBeEmpty { get; } = new("Use .Should().Contain()", GetHelpLink("Collections-19"));
