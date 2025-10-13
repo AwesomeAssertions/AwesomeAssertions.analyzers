@@ -72,31 +72,36 @@ namespace AwesomeAssertions.Analyzers.TestUtils
 
             namespace TestNamespace
             {
-                public class RandomClass : IList<{{genericType}}>
-                {
-                    public {{genericType}} this[int index]
-                    {
-                        get => throw new System.NotImplementedException();
-                        set => throw new System.NotImplementedException();
-                    }
-                    public int Count { get; }
-                    public bool IsReadOnly { get; }
-                    public void Add({{genericType}} item) => throw new System.NotImplementedException();
-                    public void Clear() => throw new System.NotImplementedException();
-                    public bool Contains({{genericType}} item) => throw new System.NotImplementedException();
-                    public void CopyTo({{genericType}}[] array, int arrayIndex) => throw new System.NotImplementedException();
-                    public IEnumerator<{{genericType}}> GetEnumerator() => throw new System.NotImplementedException();
-                    public int IndexOf({{genericType}} item) => throw new System.NotImplementedException();
-                    public void Insert(int index, {{genericType}} item) => throw new System.NotImplementedException();
-                    public bool Remove({{genericType}} item) => throw new System.NotImplementedException();
-                    public void RemoveAt(int index) => throw new System.NotImplementedException();
-                    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-                }
+                {{ClassImplementsIList(genericType)}}
                 public sealed class TestClass
                 {
                     public void TestMethod(RandomClass actual) =>
                         {{assertion}}
                 }
+            }
+            """;
+
+        public static string ClassImplementsIList(string genericType, string additionalMethods = "") => $$"""
+            public class RandomClass : IList<{{genericType}}>
+            {
+                public {{genericType}} this[int index]
+                {
+                    get => throw new System.NotImplementedException();
+                    set => throw new System.NotImplementedException();
+                }
+                public int Count { get; }
+                public bool IsReadOnly { get; }
+                public void Add({{genericType}} item) => throw new System.NotImplementedException();
+                public void Clear() => throw new System.NotImplementedException();
+                public bool Contains({{genericType}} item) => throw new System.NotImplementedException();
+                public void CopyTo({{genericType}}[] array, int arrayIndex) => throw new System.NotImplementedException();
+                public IEnumerator<{{genericType}}> GetEnumerator() => throw new System.NotImplementedException();
+                public int IndexOf({{genericType}} item) => throw new System.NotImplementedException();
+                public void Insert(int index, {{genericType}} item) => throw new System.NotImplementedException();
+                public bool Remove({{genericType}} item) => throw new System.NotImplementedException();
+                public void RemoveAt(int index) => throw new System.NotImplementedException();
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+                {{additionalMethods}}
             }
             """;
 
