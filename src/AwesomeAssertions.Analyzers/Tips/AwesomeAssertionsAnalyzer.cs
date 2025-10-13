@@ -202,7 +202,9 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldOnlyContainProperty_AllShouldBeTrue));
                                 return;
                             case nameof(Enumerable.Contains) when invocationBeforeShould.IsContainedInType(metadata.Enumerable) && invocationBeforeShould.Arguments.Length is 2:
-                            case nameof(ICollection<object>.Contains) when invocationBeforeShould.ImplementsOrIsInterface(SpecialType.System_Collections_Generic_ICollection_T) && invocationBeforeShould.Arguments.Length is 1:
+                            case nameof(ICollection<>.Contains) when invocationBeforeShould.ImplementsOrIsInterface(SpecialType.System_Collections_Generic_ICollection_T)
+                                && invocationBeforeShould.Arguments.Length is 1
+                                && invocationBeforeShould.AreMethodParameterSameTypeAsContainingTypeArguments((parameter: 0, typeArgument: 0)):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldContainItem_ContainsShouldBeTrue));
                                 return;
                             case nameof(string.EndsWith) when invocationBeforeShould.IsContainedInType(SpecialType.System_String):
@@ -211,11 +213,11 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                             case nameof(string.StartsWith) when invocationBeforeShould.IsContainedInType(SpecialType.System_String):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.StringShouldStartWith_StartsWithShouldBeTrue));
                                 return;
-                            case nameof(Dictionary<string, object>.ContainsKey) when (invocationBeforeShould.ImplementsOrIsInterface(metadata.IDictionaryOfT2) || invocationBeforeShould.ImplementsOrIsInterface(metadata.IReadonlyDictionaryOfT2))
+                            case nameof(Dictionary<,>.ContainsKey) when (invocationBeforeShould.ImplementsOrIsInterface(metadata.IDictionaryOfT2) || invocationBeforeShould.ImplementsOrIsInterface(metadata.IReadonlyDictionaryOfT2))
                                     && invocationBeforeShould.AreMethodParameterSameTypeAsContainingTypeArguments((parameter: 0, typeArgument: 0)):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.DictionaryShouldContainKey_ContainsKeyShouldBeTrue));
                                 return;
-                            case nameof(Dictionary<string, object>.ContainsValue) when invocationBeforeShould.IsContainedInType(metadata.DictionaryOfT2)
+                            case nameof(Dictionary<,>.ContainsValue) when invocationBeforeShould.IsContainedInType(metadata.DictionaryOfT2)
                                     && invocationBeforeShould.AreMethodParameterSameTypeAsContainingTypeArguments((parameter: 0, typeArgument: 1)):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.DictionaryShouldContainValue_ContainsValueShouldBeTrue));
                                 return;
@@ -248,13 +250,15 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldNotContainProperty_AnyLambdaShouldBeFalse));
                                 return;
                             case nameof(Enumerable.Contains) when invocationBeforeShould.IsContainedInType(metadata.Enumerable) && invocationBeforeShould.Arguments.Length is 2:
-                            case nameof(ICollection<object>.Contains) when invocationBeforeShould.ImplementsOrIsInterface(SpecialType.System_Collections_Generic_ICollection_T) && invocationBeforeShould.Arguments.Length is 1:
+                            case nameof(ICollection<>.Contains) when invocationBeforeShould.ImplementsOrIsInterface(SpecialType.System_Collections_Generic_ICollection_T)
+                                && invocationBeforeShould.Arguments.Length is 1
+                                && invocationBeforeShould.AreMethodParameterSameTypeAsContainingTypeArguments((parameter: 0, typeArgument: 0)):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldNotContainItem_ContainsShouldBeFalse));
                                 return;
-                            case nameof(IDictionary<string, object>.ContainsKey) when invocationBeforeShould.ImplementsOrIsInterface(metadata.IDictionaryOfT2) || invocationBeforeShould.ImplementsOrIsInterface(metadata.IReadonlyDictionaryOfT2):
+                            case nameof(IDictionary<,>.ContainsKey) when invocationBeforeShould.ImplementsOrIsInterface(metadata.IDictionaryOfT2) || invocationBeforeShould.ImplementsOrIsInterface(metadata.IReadonlyDictionaryOfT2):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.DictionaryShouldNotContainKey_ContainsKeyShouldBeFalse));
                                 return;
-                            case nameof(Dictionary<string, object>.ContainsValue) when invocationBeforeShould.IsContainedInType(metadata.DictionaryOfT2):
+                            case nameof(Dictionary<,>.ContainsValue) when invocationBeforeShould.IsContainedInType(metadata.DictionaryOfT2):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.DictionaryShouldNotContainValue_ContainsValueShouldBeFalse));
                                 return;
                         }
@@ -355,7 +359,7 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                             case nameof(string.Length) when propertyBeforeShould.IsContainedInType(SpecialType.System_String):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.StringShouldHaveLength_LengthShouldBe));
                                 return;
-                            case nameof(List<object>.Count) when propertyBeforeShould.ImplementsOrIsInterface(SpecialType.System_Collections_Generic_ICollection_T):
+                            case nameof(List<>.Count) when propertyBeforeShould.ImplementsOrIsInterface(SpecialType.System_Collections_Generic_ICollection_T):
                                 if (assertion.Arguments[0].IsLiteralValue(1))
                                 {
                                     context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldContainSingle_CountPropertyShouldBe1));
@@ -449,7 +453,7 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                         switch (propertyBeforeShould.Property.Name)
                         {
                             case nameof(Array.Length) when propertyBeforeShould.IsContainedInType(SpecialType.System_Array):
-                            case nameof(List<object>.Count) when propertyBeforeShould.ImplementsOrIsInterface(SpecialType.System_Collections_Generic_ICollection_T):
+                            case nameof(List<>.Count) when propertyBeforeShould.ImplementsOrIsInterface(SpecialType.System_Collections_Generic_ICollection_T):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCountGreaterThanOrEqualTo_CountShouldBeGreaterThanOrEqualTo));
                                 return;
                         }
@@ -538,8 +542,8 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                     {
                         if (!assertion.HasEmptyBecauseAndReasonArgs(startingIndex: 1) && !chainedInvocation.HasEmptyBecauseAndReasonArgs(startingIndex: 1)) return;
 
-                        if (assertion.Arguments[0].Value is IPropertyReferenceOperation { Property.Name: nameof(KeyValuePair<string, object>.Key) } firstPropertyReference
-                        && chainedInvocation.Arguments[0].Value is IPropertyReferenceOperation { Property.Name: nameof(KeyValuePair<string, object>.Value) } secondPropertyReference)
+                        if (assertion.Arguments[0].Value is IPropertyReferenceOperation { Property.Name: nameof(KeyValuePair<,>.Key) } firstPropertyReference
+                        && chainedInvocation.Arguments[0].Value is IPropertyReferenceOperation { Property.Name: nameof(KeyValuePair<,>.Value) } secondPropertyReference)
                         {
                             if (firstPropertyReference.IsSamePropertyReference(secondPropertyReference))
                             {
@@ -563,8 +567,8 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                     {
                         if (!assertion.HasEmptyBecauseAndReasonArgs(startingIndex: 1) && !chainedInvocation.HasEmptyBecauseAndReasonArgs(startingIndex: 1)) return;
 
-                        if (assertion.Arguments[0].Value is IPropertyReferenceOperation { Property.Name: nameof(KeyValuePair<string, object>.Value) } firstPropertyReference
-                        && chainedInvocation.Arguments[0].Value is IPropertyReferenceOperation { Property.Name: nameof(KeyValuePair<string, object>.Key) } secondPropertyReference)
+                        if (assertion.Arguments[0].Value is IPropertyReferenceOperation { Property.Name: nameof(KeyValuePair<,>.Value) } firstPropertyReference
+                        && chainedInvocation.Arguments[0].Value is IPropertyReferenceOperation { Property.Name: nameof(KeyValuePair<,>.Key) } secondPropertyReference)
                         {
                             if (firstPropertyReference.IsSamePropertyReference(secondPropertyReference))
                             {

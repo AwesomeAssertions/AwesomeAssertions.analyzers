@@ -88,7 +88,7 @@ internal static class OperationExtensions
         if (invocation.TargetMethod.Parameters.Length != parameters.Length)
             return false;
 
-        if (invocation.TargetMethod.ContainingType.TypeArguments.Length < parameters.Max(x => x.typeArgument))
+        if (invocation.TargetMethod.ContainingType.TypeArguments.Length <= parameters.Max(x => x.typeArgument))
             return false;
 
         foreach (var (parameter, typeArgument) in parameters)

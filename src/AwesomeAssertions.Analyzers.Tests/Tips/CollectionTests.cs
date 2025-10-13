@@ -248,6 +248,34 @@ namespace AwesomeAssertions.Analyzers.Tests
         public void CollectionShouldContainItem_TestAnalyzer(string assertion) => VerifyCSharpDiagnosticCodeBlock(assertion, DiagnosticMetadata.CollectionShouldContainItem_ContainsShouldBeTrue);
 
         [TestMethod]
+        [AssertionDiagnostic("actual.Contains(expectedItem).Should().BeTrue({0});", "double", "string")]
+        [AssertionDiagnostic("actual.Contains(expectedItem).Should().BeTrue({0});", "object", "int")]
+        [Implemented]
+        public void CollectionShouldContainItem_ContainsArgumentIsOfOtherTypeThanCollectionArgument_TestNoAnalyzer(string assertion, string genericType, string containsType)
+        {
+            string source = $$"""
+                using System;
+                using System.Collections;
+                using System.Collections.Generic;
+
+                using AwesomeAssertions;
+                using AwesomeAssertions.Extensions;
+
+                namespace TestNamespace
+                {
+                    {{GenerateCode.ClassImplementsIList(genericType, $"public bool Contains({containsType} item) => true;")}}
+                    public sealed class TestClass
+                    {
+                        public void TestMethod(RandomClass actual, {{containsType}} expectedItem) =>
+                            {{assertion}}
+                    }
+                }
+                """;
+
+            DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(source);
+        }
+
+        [TestMethod]
         [AssertionCodeFix(
             oldAssertion: "actual.Contains(expectedItem).Should().BeTrue({0});",
             newAssertion: "actual.Should().Contain(expectedItem{0});")]
@@ -270,6 +298,34 @@ namespace AwesomeAssertions.Analyzers.Tests
         [AssertionDiagnostic("actual.ToArray().Contains(unexpectedItem).Should().BeFalse({0}).And.ToString();")]
         [Implemented]
         public void CollectionShouldNotContainItem_TestAnalyzer(string assertion) => VerifyCSharpDiagnosticCodeBlock(assertion, DiagnosticMetadata.CollectionShouldNotContainItem_ContainsShouldBeFalse);
+
+        [TestMethod]
+        [AssertionDiagnostic("actual.Contains(expectedItem).Should().BeFalse({0});", "double", "string")]
+        [AssertionDiagnostic("actual.Contains(expectedItem).Should().BeFalse({0});", "object", "int")]
+        [Implemented]
+        public void CollectionShouldNotContainItem_ContainsArgumentIsOfOtherTypeThanCollectionArgument_TestNoAnalyzer(string assertion, string genericType, string containsType)
+        {
+            string source = $$"""
+                using System;
+                using System.Collections;
+                using System.Collections.Generic;
+
+                using AwesomeAssertions;
+                using AwesomeAssertions.Extensions;
+
+                namespace TestNamespace
+                {
+                    {{GenerateCode.ClassImplementsIList(genericType, $"public bool Contains({containsType} item) => true;")}}
+                    public sealed class TestClass
+                    {
+                        public void TestMethod(RandomClass actual, {{containsType}} expectedItem) =>
+                            {{assertion}}
+                    }
+                }
+                """;
+
+            DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(source);
+        }
 
         [TestMethod]
         [AssertionCodeFix(
@@ -337,23 +393,23 @@ namespace AwesomeAssertions.Analyzers.Tests
         [AssertionDiagnostic("(list.Count + 1).Should().Be(1{0}).And.ToString();")]
         [AssertionDiagnostic("(list.Count + 1).Should().Be(expectedSize{0}).And.ToString();")]
         [Implemented]
-        public void CollectionShouldHaveCount_CountShouldBe_TestNoAnalyzer(string assertion) => DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(new StringBuilder()
-            .AppendLine("using System;")
-            .AppendLine("using System.Collections.Generic;")
-            .AppendLine("using System.Linq;")
-            .AppendLine("using AwesomeAssertions;")
-            .AppendLine("using AwesomeAssertions.Extensions;")
-            .AppendLine("namespace TestNamespace")
-            .AppendLine("{")
-            .AppendLine("    public class TestClass")
-            .AppendLine("    {")
-            .AppendLine("        public void TestMethod(string[] array, List<string> list, int expectedSize)")
-            .AppendLine("       {")
-            .AppendLine(assertion)
-            .AppendLine("       }")
-            .AppendLine("    }")
-            .AppendLine("}")
-            .ToString());
+        public void CollectionShouldHaveCount_CountShouldBe_TestNoAnalyzer(string assertion) => DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers($$"""
+            using System;
+            using System.Collections.Generic;
+            using System.Linq;
+            using AwesomeAssertions;
+            using AwesomeAssertions.Extensions;
+            namespace TestNamespace
+            {
+                public class TestClass
+                {
+                    public void TestMethod(string[] array, List<string> list, int expectedSize)
+                    {
+                        {{assertion}}
+                    }
+                }
+            }
+            """);
 
         [TestMethod]
         [AssertionDiagnostic(@"var array = new string[0, 0]; array.Length.Should().Be(0{0});")]
@@ -364,21 +420,21 @@ namespace AwesomeAssertions.Analyzers.Tests
         [AssertionDiagnostic(@"var array = new string[3, 3, 3]; array.Length.Should().Be(0{0});")]
         [AssertionDiagnostic(@"int[] array1 = new[] {{ 1, 2, 3 }}; int[] array2 = new[] {{ 4, 5, 6 }}; int[] both = new int[] {{ 1, 2, 3, 4, 5, 6 }}; (array1.Length + array2.Length).Should().Be(both.Length{0});")]
         [Implemented(Reason = "https://github.com/fluentassertions/fluentassertions.analyzers/issues/309")]
-        public void CollectionShouldHaveCount_LengthShouldBe_TestNoAnalyzer(string assertion) => DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers(new StringBuilder()
-            .AppendLine("using System;")
-            .AppendLine("using AwesomeAssertions;")
-            .AppendLine("using AwesomeAssertions.Extensions;")
-            .AppendLine("namespace TestNamespace")
-            .AppendLine("{")
-            .AppendLine("    public class TestClass")
-            .AppendLine("    {")
-            .AppendLine("        public void TestMethod()")
-            .AppendLine("       {")
-            .AppendLine(assertion)
-            .AppendLine("       }")
-            .AppendLine("    }")
-            .AppendLine("}")
-            .ToString());
+        public void CollectionShouldHaveCount_LengthShouldBe_TestNoAnalyzer(string assertion) => DiagnosticVerifier.VerifyCSharpDiagnosticUsingAllAnalyzers($$"""
+            using System;
+            using AwesomeAssertions;
+            using AwesomeAssertions.Extensions;
+            namespace TestNamespace
+            {
+                public class TestClass
+                {
+                    public void TestMethod()
+                    {
+                    {{assertion}}
+                    }
+                }
+            }
+            """);
 
         [TestMethod]
         [AssertionDiagnostic("actual.Should().HaveCount(expected.Count() + 1{0});")]
@@ -988,7 +1044,7 @@ namespace AwesomeAssertions.Analyzers.Tests
                 VisitorName = metadata.Name,
                 Locations =
                 [
-                    new DiagnosticResultLocation("Test0.cs", 33, 13)
+                    new DiagnosticResultLocation("Test0.cs", 34, 13)
                 ],
                 Severity = DiagnosticSeverity.Info
             });
