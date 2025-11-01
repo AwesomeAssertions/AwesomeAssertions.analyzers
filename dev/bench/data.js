@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1762003742657,
+  "lastUpdate": 1762004081052,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -14360,6 +14360,42 @@ window.BENCHMARK_DATA = {
             "value": 294.6607943693797,
             "unit": "ns",
             "range": "± 2.285175234574074"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b6b7808f7f969a2eba3c6e7eb7bc0913257add2f",
+          "message": "chore(deps): update dependency microsoft.net.test.sdk to v18 (#84)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-11-01T14:33:11+01:00",
+          "tree_id": "7734a93a3ec97641b0a3c1df3c3e27172e02b4f0",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/b6b7808f7f969a2eba3c6e7eb7bc0913257add2f"
+        },
+        "date": 1762004080082,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 321.33596542903354,
+            "unit": "ns",
+            "range": "± 1.9884506357251315"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 316.7575835386912,
+            "unit": "ns",
+            "range": "± 3.8769225694568457"
           }
         ]
       }
