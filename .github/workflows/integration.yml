@@ -15,7 +15,7 @@ jobs:
     env:
       NUGET_CERT_REVOCATION_MODE: offline
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Setup .NET 8
