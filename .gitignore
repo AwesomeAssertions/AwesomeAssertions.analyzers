@@ -262,3 +262,5 @@ __pycache__/
 /tools
 
 coverage.cobertura.xml
+
+BenchmarkDotNet.Artifacts/
