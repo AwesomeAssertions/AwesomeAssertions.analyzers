@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
     contents: write
@@ -26,6 +27,7 @@ jobs:
 
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1.20.7
+        if: ${{ github.event_name == 'push' }}
         with:
           name: AwesomeAssertions.Analyzers Benchmark
           tool: 'benchmarkdotnet'
