@@ -45,6 +45,14 @@ public class NunitTests
     [Implemented]
     public void Nunit3_NotReportedAsserts_TestAnalyzer(string assertion) => Nunit3VerifyNoDiagnostic(string.Empty, assertion);
 
+
+    [TestMethod]
+    [AssertionDiagnostic("throw new SuccessException(\"reason\");")]
+    [AssertionDiagnostic("throw new InconclusiveException(\"reason\");")]
+    [AssertionDiagnostic("throw new IgnoreException(\"reason\");")]
+    [Implemented]
+    public void Nunit3_NotReportedExplicitExceptions_TestAnalyzer(string assertion) => Nunit3VerifyNoDiagnostic(string.Empty, assertion);
+
     [TestMethod]
     [DataRow("Assert.Warn(\"warning message\");")]
     [DataRow("Assert.Warn(\"warning message {0} and more.\", DateTime.Now);")]
@@ -62,6 +70,13 @@ public class NunitTests
     [DataRow("Assert.Charlie();")]
     [Implemented]
     public void Nunit4_SpecialNotReportedAsserts_TestAnalyzer(string assertion) => Nunit4VerifyNoDiagnostic(string.Empty, assertion);
+
+    [TestMethod]
+    [AssertionDiagnostic("throw new SuccessException(\"reason\");")]
+    [AssertionDiagnostic("throw new InconclusiveException(\"reason\");")]
+    [AssertionDiagnostic("throw new IgnoreException(\"reason\");")]
+    [Implemented]
+    public void Nunit4_SpecialNotReportedExceptions_TestAnalyzer(string assertion) => Nunit4VerifyNoDiagnostic(string.Empty, assertion);
 
     #endregion
 
@@ -937,7 +952,7 @@ public class NunitTests
         }
     }
 
-    private static readonly string[] ComparableArguments = Array.ConvertAll(new string[] { "int", "uint", "long", "ulong", "float", "double", "decimal" }, x => $"{x} arg1, {x} arg2");
+    private static readonly string[] ComparableArguments = Array.ConvertAll(["int", "uint", "long", "ulong", "float", "double", "decimal"], x => $"{x} arg1, {x} arg2");
 
     #endregion
 
@@ -1945,24 +1960,24 @@ public class NunitTests
 
     #endregion
 
-    private void Nunit3VerifyDiagnostic(string methodArguments, string assertion)
+    private static void Nunit3VerifyDiagnostic(string methodArguments, string assertion)
         => VerifyDiagnostic(GenerateCode.Nunit3Assertion(methodArguments, assertion), PackageReference.Nunit_3_14_0);
-    private void Nunit3VerifyNoDiagnostic(string methodArguments, string assertion)
+    private static void Nunit3VerifyNoDiagnostic(string methodArguments, string assertion)
         => VerifyNoDiagnostic(GenerateCode.Nunit3Assertion(methodArguments, assertion), PackageReference.Nunit_3_14_0);
-    private void Nunit3VerifyFix(string methodArguments, string oldAssertion, string newAssertion)
+    private static void Nunit3VerifyFix(string methodArguments, string oldAssertion, string newAssertion)
         => VerifyFix(GenerateCode.Nunit3Assertion(methodArguments, oldAssertion), GenerateCode.Nunit3Assertion(methodArguments, newAssertion), PackageReference.Nunit_3_14_0);
-    private void Nunit3VerifyNoFix(string methodArguments, string assertion)
+    private static void Nunit3VerifyNoFix(string methodArguments, string assertion)
         => VerifyNoFix(GenerateCode.Nunit3Assertion(methodArguments, assertion), PackageReference.Nunit_3_14_0);
 
-    private void Nunit4VerifyDiagnostic(string methodArguments, string assertion)
+    private static void Nunit4VerifyDiagnostic(string methodArguments, string assertion)
         => VerifyDiagnostic(GenerateCode.Nunit4Assertion(methodArguments, assertion), PackageReference.Nunit_4_0_1);
-    private void Nunit4VerifyNoDiagnostic(string methodArguments, string assertion)
+    private static void Nunit4VerifyNoDiagnostic(string methodArguments, string assertion)
         => VerifyNoDiagnostic(GenerateCode.Nunit4Assertion(methodArguments, assertion), PackageReference.Nunit_4_0_1);
-    private void Nunit4VerifyFix(string methodArguments, string oldAssertion, string newAssertion)
+    private static void Nunit4VerifyFix(string methodArguments, string oldAssertion, string newAssertion)
         => VerifyFix(GenerateCode.Nunit4Assertion(methodArguments, oldAssertion), GenerateCode.Nunit4Assertion(methodArguments, newAssertion), PackageReference.Nunit_4_0_1);
-    private void Nunit4VerifyNoFix(string methodArguments, string assertion)
+    private static void Nunit4VerifyNoFix(string methodArguments, string assertion)
         => VerifyNoFix(GenerateCode.Nunit4Assertion(methodArguments, assertion), PackageReference.Nunit_4_0_1);
-    private void VerifyDiagnostic(string source, PackageReference nunit)
+    private static void VerifyDiagnostic(string source, PackageReference nunit)
     {
         DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
             .WithAllAnalyzers()
@@ -1972,16 +1987,16 @@ public class NunitTests
             {
                 Id = AssertAnalyzer.NUnitRule.Id,
                 Message = AssertAnalyzer.Message,
-                Locations = new DiagnosticResultLocation[]
-                {
+                Locations =
+                [
                         new("Test0.cs", 16, 13)
-                },
+                ],
                 Severity = DiagnosticSeverity.Info
             })
         );
     }
 
-    private void VerifyFix(string oldSource, string newSource, PackageReference nunit)
+    private static void VerifyFix(string oldSource, string newSource, PackageReference nunit)
     {
         DiagnosticVerifier.VerifyFix(new CodeFixVerifierArguments()
             .WithDiagnosticAnalyzer<AssertAnalyzer>()
@@ -1991,7 +2006,7 @@ public class NunitTests
             .WithPackageReferences(PackageReference.AwesomeAssertions_latest, nunit)
         );
     }
-    private void VerifyNoFix(string source, PackageReference nunit)
+    private static void VerifyNoFix(string source, PackageReference nunit)
     {
         DiagnosticVerifier.VerifyNoFix(new CodeFixVerifierArguments()
             .WithDiagnosticAnalyzer<AssertAnalyzer>()
@@ -2000,7 +2015,7 @@ public class NunitTests
             .WithPackageReferences(PackageReference.AwesomeAssertions_latest, nunit)
         );
     }
-    private void VerifyNoDiagnostic(string source, PackageReference nunit)
+    private static void VerifyNoDiagnostic(string source, PackageReference nunit)
     {
         DiagnosticVerifier.VerifyDiagnostic(new DiagnosticVerifierArguments()
             .WithAllAnalyzers()

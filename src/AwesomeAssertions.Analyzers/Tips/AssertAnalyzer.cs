@@ -115,6 +115,9 @@ public class AssertAnalyzer : DiagnosticAnalyzer
         private readonly INamedTypeSymbol _nunitStringAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.StringAssert");
         private readonly INamedTypeSymbol _nunitClassicAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.Legacy.ClassicAssert");
         private readonly INamedTypeSymbol _nunitResultStateExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.ResultStateException");
+        private readonly INamedTypeSymbol _nunitSuccessExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.SuccessException");
+        private readonly INamedTypeSymbol _nunitIgnoreExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.IgnoreException");
+        private readonly INamedTypeSymbol _nunitInconclusiveExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.InconclusiveException");
 
         public bool IsMSTestsAvailable => _msTestsAssertSymbol is not null;
         public bool IsNUnitAvailable => _nunitAssertionExceptionSymbol is not null;
@@ -218,7 +221,14 @@ public class AssertAnalyzer : DiagnosticAnalyzer
         public void AnalyzeNunitThrow(OperationAnalysisContext context)
         {
             var op = (IThrowOperation)context.Operation;
-            if (op.Exception is not null && op.Exception.UnwrapConversion().Type.IsOrInheritsFrom(_nunitResultStateExceptionSymbol))
+            var exceptionType = op.Exception?.UnwrapConversion().Type;
+
+            // some NUnit exception don't have have an AA equivalent. Though they might probably 
+            // better used with e.g. Assert.Ignore, it is valid to use them.
+            if (exceptionType.IsOrInheritsFrom(_nunitResultStateExceptionSymbol)
+                && !exceptionType.IsOrInheritsFrom(_nunitIgnoreExceptionSymbol)
+                && !exceptionType.IsOrInheritsFrom(_nunitInconclusiveExceptionSymbol)
+                && !exceptionType.IsOrInheritsFrom(_nunitSuccessExceptionSymbol))
             {
                 context.ReportDiagnostic(Diagnostic.Create(NUnitRule, op.Syntax.GetLocation()));
             }
