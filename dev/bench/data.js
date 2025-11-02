@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1762004081052,
+  "lastUpdate": 1762087903034,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -14396,6 +14396,42 @@ window.BENCHMARK_DATA = {
             "value": 316.7575835386912,
             "unit": "ns",
             "range": "± 3.8769225694568457"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "56953cc0f8bcef1719007c0bc5b7be6600b37f62",
+          "message": "Do not report for NUnit exception which don't fail a test (#90)",
+          "timestamp": "2025-11-02T13:50:13+01:00",
+          "tree_id": "1d3904ba085da0d35d2e7dd0ca59d13043706f6b",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/56953cc0f8bcef1719007c0bc5b7be6600b37f62"
+        },
+        "date": 1762087902135,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 310.73815286159515,
+            "unit": "ns",
+            "range": "± 1.0506716545622223"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 310.34685428325946,
+            "unit": "ns",
+            "range": "± 1.8617997321503506"
           }
         ]
       }
