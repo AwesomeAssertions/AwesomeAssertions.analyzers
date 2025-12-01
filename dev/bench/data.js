@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1762087903034,
+  "lastUpdate": 1764601394480,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -14432,6 +14432,42 @@ window.BENCHMARK_DATA = {
             "value": 310.34685428325946,
             "unit": "ns",
             "range": "± 1.8617997321503506"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1ba6167ec654f6d80d54962c672f2cf0ebd40122",
+          "message": "chore(deps): update dependency benchmarkdotnet to 0.15.8 (#94)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-12-01T16:01:48+01:00",
+          "tree_id": "41602e84db598ebf35578a3604008f460022bd19",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/1ba6167ec654f6d80d54962c672f2cf0ebd40122"
+        },
+        "date": 1764601393645,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 289.376926110341,
+            "unit": "ns",
+            "range": "± 1.252121051548365"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 295.05824862207686,
+            "unit": "ns",
+            "range": "± 0.3153357666449933"
           }
         ]
       }
