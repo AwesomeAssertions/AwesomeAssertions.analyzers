@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1765878856751,
+  "lastUpdate": 1765878876410,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -14504,6 +14504,42 @@ window.BENCHMARK_DATA = {
             "value": 298.5232764390799,
             "unit": "ns",
             "range": "± 1.010562050527591"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "45ffc441572c03925c3852fa7d1ec14841ccc77e",
+          "message": "chore(deps): update dependency microsoft.net.test.sdk to 18.0.1 (#95)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2025-12-16T10:53:11+01:00",
+          "tree_id": "b772cd0b4d782c25c671acb96ee2358072b04f70",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/45ffc441572c03925c3852fa7d1ec14841ccc77e"
+        },
+        "date": 1765878875718,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 313.66506452560424,
+            "unit": "ns",
+            "range": "± 4.294985738072476"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 301.7937171459198,
+            "unit": "ns",
+            "range": "± 1.7965266159896232"
           }
         ]
       }
