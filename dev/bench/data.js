@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1770618815557,
+  "lastUpdate": 1772358796212,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -14684,6 +14684,42 @@ window.BENCHMARK_DATA = {
             "value": 292.22719029017856,
             "unit": "ns",
             "range": "± 0.6613483639918922"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "51e99556c576f274933c4f0863821bba5f3fbc74",
+          "message": "chore(deps): update dependency coverlet.collector to v8 (#104)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-01T10:51:49+01:00",
+          "tree_id": "c3f352c51cef7fc33224d5d312296e25b93e5310",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/51e99556c576f274933c4f0863821bba5f3fbc74"
+        },
+        "date": 1772358794875,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 303.57679210390364,
+            "unit": "ns",
+            "range": "± 3.554754276887075"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 324.7169026533763,
+            "unit": "ns",
+            "range": "± 4.181651737017608"
           }
         ]
       }
