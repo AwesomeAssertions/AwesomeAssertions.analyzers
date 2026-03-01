@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1772358880226,
+  "lastUpdate": 1772359241681,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -14792,6 +14792,42 @@ window.BENCHMARK_DATA = {
             "value": 310.5531977653503,
             "unit": "ns",
             "range": "± 3.2542441501009085"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7bf7f74ea5b3d90ea9e07e54a178460b972a6e53",
+          "message": "chore(deps): update dependency coverlet.msbuild to v8 (#105)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-03-01T10:59:10+01:00",
+          "tree_id": "8784fbd2ee3a72f51b53e5fc1d0e8af52ba2a25d",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/7bf7f74ea5b3d90ea9e07e54a178460b972a6e53"
+        },
+        "date": 1772359240416,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 306.0046483039856,
+            "unit": "ns",
+            "range": "± 3.22517732856943"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 295.31998576436723,
+            "unit": "ns",
+            "range": "± 4.044815574415567"
           }
         ]
       }
