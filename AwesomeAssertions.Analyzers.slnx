@@ -1,0 +1,26 @@
+<Solution>
+  <Folder Name="/docs/">
+    <Project Path="src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.csproj" />
+    <Project Path="src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocsGenerator/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocsGenerator.csproj" />
+  </Folder>
+  <Folder Name="/SolutionItems/">
+    <File Path=".gitattributes" />
+    <File Path=".github/workflows/ci.yml" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit3/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit3.csproj" />
+    <Project Path="src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit4/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit4.csproj" />
+    <Project Path="src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Xunit/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Xunit.csproj" />
+    <Project Path="src/AwesomeAssertions.Analyzers/AwesomeAssertions.Analyzers.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="src/AwesomeAssertions.Analyzers.BenchmarkTests/AwesomeAssertions.Analyzers.BenchmarkTests.csproj" />
+    <Project Path="src/AwesomeAssertions.Analyzers.Tests/AwesomeAssertions.Analyzers.Tests.csproj" />
+    <Project Path="src/AwesomeAssertions.Analyzers.TestUtils/AwesomeAssertions.Analyzers.TestUtils.csproj" />
+  </Folder>
+</Solution>
