@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1780319067599,
+  "lastUpdate": 1780319078941,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15116,6 +15116,42 @@ window.BENCHMARK_DATA = {
             "value": 178.52847530841828,
             "unit": "ns",
             "range": "± 1.038587320467372"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "32463c93a2566c46be13e92860014bf6d288af0d",
+          "message": "chore(deps): update dependency coverlet.collector to 10.0.1 (#121)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-06-01T15:03:07+02:00",
+          "tree_id": "f807ceca8306657924a4505b749e6279d61c6a22",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/32463c93a2566c46be13e92860014bf6d288af0d"
+        },
+        "date": 1780319077707,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 164.63706871179434,
+            "unit": "ns",
+            "range": "± 0.40223563335689827"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 173.87035145209387,
+            "unit": "ns",
+            "range": "± 0.2892451332681745"
           }
         ]
       }
