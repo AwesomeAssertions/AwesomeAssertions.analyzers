@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1780345805947,
+  "lastUpdate": 1783073367420,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15332,6 +15332,42 @@ window.BENCHMARK_DATA = {
             "value": 187.4088970343272,
             "unit": "ns",
             "range": "± 0.7627348073687548"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4bee0becbefac33bc9e23e0a680605d9972a423c",
+          "message": "chore(deps): update actions/checkout action to v7 (#129)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-07-03T12:07:53+02:00",
+          "tree_id": "e34e5a7054835e535581b5bfb20fb51b3bcb0d69",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/4bee0becbefac33bc9e23e0a680605d9972a423c"
+        },
+        "date": 1783073366676,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 166.54927107266016,
+            "unit": "ns",
+            "range": "± 1.7796469977519065"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 165.78606878916423,
+            "unit": "ns",
+            "range": "± 0.4104964514370562"
           }
         ]
       }
