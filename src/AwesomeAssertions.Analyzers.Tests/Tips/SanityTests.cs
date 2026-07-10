@@ -282,7 +282,7 @@ namespace TestProject
                 .WithDiagnosticAnalyzer<AssertAnalyzer>()
                 .WithSources(oldSource)
                 .WithFixedSources(newSource)
-                .WithPackageReferences(PackageReference.AwesomeAssertions_latest, PackageReference.MSTestTestFramework_3_1_1)
+                .WithPackageReferences(PackageReference.AwesomeAssertions_latest, PackageReference.MSTestTestFramework_3_11_0)
             );
         }
 
