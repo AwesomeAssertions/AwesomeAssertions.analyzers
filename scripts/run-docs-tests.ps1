@@ -20,7 +20,7 @@ function RunTestsAndValidate {
         $i = 1;
         do {
             Write-Host "formatting code... - Iteration $i"
-            $out = dotnet format analyzers --diagnostics FAA0001 FAA0003 FAA0004 --severity info --verbosity normal 2>&1 | Out-String | Join-String
+            $out = dotnet format analyzers --diagnostics FAA0001 FAA0002 FAA0003 FAA0004 --severity info --verbosity normal 2>&1 | Out-String | Join-String
 
             Write-Host "-------------$i-------------"
             Write-Host $out
@@ -42,6 +42,7 @@ function RunTestsAndValidate {
 }
 
 RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs
+RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.MSTest3
 RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit4
 RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit3
 RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Xunit

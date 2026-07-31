@@ -1,7 +1,7 @@
+#pragma warning disable MSTEST0006 // Avoid '[ExpectedException]': Used as marker to find failing tests and extract code
 using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AwesomeAssertions;
 using System;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;

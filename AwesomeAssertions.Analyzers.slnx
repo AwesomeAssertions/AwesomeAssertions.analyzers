@@ -13,6 +13,7 @@
     <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.MSTest3/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.MSTest3.csproj" />
     <Project Path="src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit3/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit3.csproj" />
     <Project Path="src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit4/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit4.csproj" />
     <Project Path="src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Xunit/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Xunit.csproj" />

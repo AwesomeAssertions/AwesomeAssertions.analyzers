@@ -8,18 +8,18 @@ namespace AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs;
 
 public static class Program
 {
-    public static Task Main(string[] args) => ProgramUtils.RunMain<AwesomeAssertionsDocsGenerator, AwesomeAssertionsDocsVerifier>(args);
+    public static Task Main(string[] args) => ProgramUtils.RunMain<MsTestDocsGenerator, MsTestDocsVerifier>(args);
 
-    private sealed class AwesomeAssertionsDocsGenerator : DocsGenerator
+    private sealed class MsTestDocsGenerator : DocsGenerator
     {
         protected override Assembly TestAssembly { get; } = typeof(Program).Assembly;
         protected override string TestAttribute => "TestMethod"; // Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute
-        protected override string TestFile => Path.Join(Environment.CurrentDirectory, "AwesomeAssertionsAnalyzerTests.cs");
+        protected override string TestFile => Path.Join(Environment.CurrentDirectory, "MsTestAnalyzerTests.cs");
     }
-
-    private sealed class AwesomeAssertionsDocsVerifier : DocsVerifier
+    
+    private sealed class MsTestDocsVerifier : DocsVerifier
     {
         protected override string TestAttribute => "TestMethod"; // Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute
-        protected override string TestFile => Path.Join(Environment.CurrentDirectory, "AwesomeAssertionsAnalyzerTests.cs");
+        protected override string TestFile => Path.Join(Environment.CurrentDirectory, "MsTestAnalyzerTests.cs");
     }
 }
