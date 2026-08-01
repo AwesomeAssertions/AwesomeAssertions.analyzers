@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785565006762,
+  "lastUpdate": 1785565025078,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15440,6 +15440,42 @@ window.BENCHMARK_DATA = {
             "value": 179.01119598547618,
             "unit": "ns",
             "range": "± 2.973516739199975"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b68c2568e8c09bacd7a585f967d4470515ea2cf7",
+          "message": "chore(deps): update coverallsapp/github-action digest to 8d6379e (#131)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-08-01T08:15:26+02:00",
+          "tree_id": "02b16b207318a797c15a5e481a2f7cb057b30927",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/b68c2568e8c09bacd7a585f967d4470515ea2cf7"
+        },
+        "date": 1785565024086,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 187.44098426614488,
+            "unit": "ns",
+            "range": "± 1.9497247496820014"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 198.19217643737792,
+            "unit": "ns",
+            "range": "± 2.201682918400959"
           }
         ]
       }
