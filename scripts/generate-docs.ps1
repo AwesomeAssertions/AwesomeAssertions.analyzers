@@ -27,6 +27,7 @@ function GenerateDocs {
 }
 
 GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs
+GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.MSTest3
 GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit4
 GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit3
 GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Xunit
