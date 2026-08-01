@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785565025078,
+  "lastUpdate": 1785567770658,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15476,6 +15476,42 @@ window.BENCHMARK_DATA = {
             "value": 198.19217643737792,
             "unit": "ns",
             "range": "± 2.201682918400959"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1dba8e04304a892717f76b62fa888902fafc7655",
+          "message": "Split docs for MSTest and AA (#130)\n\n* This allows keeping MSTest3 for these documentation tests, but upgrade to MSTest4 for the rest",
+          "timestamp": "2026-08-01T09:01:17+02:00",
+          "tree_id": "88b042f447f52d2061c372061e74ca783617c744",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/1dba8e04304a892717f76b62fa888902fafc7655"
+        },
+        "date": 1785567769063,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 166.57038895289102,
+            "unit": "ns",
+            "range": "± 0.4165476566878917"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 167.29070558547974,
+            "unit": "ns",
+            "range": "± 0.7794933206340365"
           }
         ]
       }
