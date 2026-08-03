@@ -23,7 +23,7 @@ public class AwesomeAssertionsAnalyzerTests
         actual.Should().StartWith(expected);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void StringShouldStartWith_Failure()
     {
         using var scope = new AssertionScope();
@@ -52,7 +52,7 @@ public class AwesomeAssertionsAnalyzerTests
         actual.Should().EndWith(expected);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void StringShouldEndWith_Failure()
     {
         using var scope = new AssertionScope();
@@ -82,7 +82,7 @@ public class AwesomeAssertionsAnalyzerTests
         actual.Should().NotBeNullOrEmpty();
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void StringShouldNotBeNullOrEmpty_Failure()
     {
         using var scope = new AssertionScope();
@@ -111,7 +111,7 @@ public class AwesomeAssertionsAnalyzerTests
         actual.Should().BeNullOrEmpty();
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void StringShouldBeNullOrEmpty_Failure()
     {
         using var scope = new AssertionScope();
@@ -138,7 +138,7 @@ public class AwesomeAssertionsAnalyzerTests
         actual.Should().BeNullOrWhiteSpace();
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void StringShouldBeNullOrWhiteSpace_Failure()
     {
         using var scope = new AssertionScope();
@@ -165,7 +165,7 @@ public class AwesomeAssertionsAnalyzerTests
         actual.Should().NotBeNullOrWhiteSpace();
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void StringShouldNotBeNullOrWhiteSpace_Failure()
     {
         using var scope = new AssertionScope();
@@ -193,7 +193,7 @@ public class AwesomeAssertionsAnalyzerTests
         actual.Should().HaveLength(expected);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void StringShouldHaveLength_Failure()
     {
         using var scope = new AssertionScope();
@@ -221,7 +221,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().NotBeEmpty();
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldNotBeEmpty_Failure()
     {
         using var scope = new AssertionScope();
@@ -251,7 +251,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().BeEmpty();
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldBeEmpty_Failure()
     {
         using var scope = new AssertionScope();
@@ -282,7 +282,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().NotContain(i => i == 4);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldNotContainCondition_Failure()
     {
         using var scope = new AssertionScope();
@@ -310,7 +310,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().NotContain(4);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldNotContainItem_Failure()
     {
         using var scope = new AssertionScope();
@@ -337,7 +337,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().OnlyContain(x => x > 0);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldOnlyContainProperty_Failure()
     {
         using var scope = new AssertionScope();
@@ -364,7 +364,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().Contain(2);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldContainItem_Failure()
     {
         using var scope = new AssertionScope();
@@ -392,7 +392,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().Contain(i => i == 2);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldContainCondition_Failure()
     {
         using var scope = new AssertionScope();
@@ -421,7 +421,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().HaveCount(3);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldHaveCount_Count_Failure()
     {
         using var scope = new AssertionScope();
@@ -449,7 +449,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().HaveCount(3);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldHaveCount_Length_Failure()
     {
         using var scope = new AssertionScope();
@@ -476,7 +476,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().NotHaveCount(4);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldNotHaveCount_Count_Failure()
     {
         using var scope = new AssertionScope();
@@ -505,7 +505,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().ContainSingle();
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldContainSingle_Failure()
     {
         using var scope = new AssertionScope();
@@ -534,7 +534,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().HaveCountGreaterThan(2);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldHaveCountGreaterThan_CountShouldBeGreaterThan_Failure()
     {
         using var scope = new AssertionScope();
@@ -561,7 +561,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().HaveCountGreaterThanOrEqualTo(3);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldHaveCountGreaterThanOrEqualTo_CountShouldBeGreaterThanOrEqualTo_Failure()
     {
         using var scope = new AssertionScope();
@@ -588,7 +588,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().HaveCountLessThan(4);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldHaveCountLessThan_CountShouldBeLessThan_Failure()
     {
         using var scope = new AssertionScope();
@@ -615,7 +615,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().HaveCountLessThanOrEqualTo(3);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldHaveCountLessThanOrEqualTo_CountShouldBeLessThanOrEqualTo_Failure()
     {
         using var scope = new AssertionScope();
@@ -643,7 +643,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().HaveSameCount(otherCollection);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldHaveSameCount_ShouldHaveCountOtherCollectionCount_Failure()
     {
         using var scope = new AssertionScope();
@@ -672,7 +672,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().NotHaveSameCount(otherCollection);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldNotHaveSameCount_CountShouldNotBeOtherCollectionCount_Failure()
     {
         using var scope = new AssertionScope();
@@ -700,7 +700,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().ContainSingle(i => i == 1);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldContainSingle_WhereShouldHaveCount1_Failure()
     {
         using var scope = new AssertionScope();
@@ -728,7 +728,7 @@ public class AwesomeAssertionsAnalyzerTests
         collection.Should().NotBeNullOrEmpty();
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void CollectionShouldNotBeNullOrEmpty_Failure()
     {
         using var scope = new AssertionScope();
@@ -756,7 +756,7 @@ public class AwesomeAssertionsAnalyzerTests
         dictionary.Should().ContainKey("two");
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void DictionaryShouldContainKey_Failure()
     {
         using var scope = new AssertionScope();
@@ -783,7 +783,7 @@ public class AwesomeAssertionsAnalyzerTests
         dictionary.Should().NotContainKey("four");
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void DictionaryShouldNotContainKey_Failure()
     {
         using var scope = new AssertionScope();
@@ -810,7 +810,7 @@ public class AwesomeAssertionsAnalyzerTests
         dictionary.Should().ContainValue(2);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void DictionaryShouldContainValue_Failure()
     {
         using var scope = new AssertionScope();
@@ -837,7 +837,7 @@ public class AwesomeAssertionsAnalyzerTests
         dictionary.Should().NotContainValue(4);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void DictionaryShouldNotContainValue_Failure()
     {
         using var scope = new AssertionScope();
@@ -864,7 +864,7 @@ public class AwesomeAssertionsAnalyzerTests
         dictionary.Should().Contain("two", 2);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void DictionaryShouldContainKeyAndValue_Failure()
     {
         using var scope = new AssertionScope();
@@ -892,7 +892,7 @@ public class AwesomeAssertionsAnalyzerTests
         dictionary.Should().Contain(pair);
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void DictionaryShouldContainPair_Failure()
     {
         using var scope = new AssertionScope();
@@ -922,7 +922,7 @@ public class AwesomeAssertionsAnalyzerTests
         action.Should().Throw<Exception>().WithMessage("message");
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void ExceptionShouldThrowWithMessage_Be_Failure()
     {
         using var scope = new AssertionScope();
@@ -953,7 +953,7 @@ public class AwesomeAssertionsAnalyzerTests
         action.Should().Throw<Exception>().WithMessage("*mess*");
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void ExceptionShouldThrowWithMessage_Contain_Failure()
     {
         using var scope = new AssertionScope();
@@ -984,7 +984,7 @@ public class AwesomeAssertionsAnalyzerTests
         action.Should().Throw<Exception>().WithMessage("*age");
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void ExceptionShouldThrowWithMessage_EndWith_Failure()
     {
         using var scope = new AssertionScope();
@@ -1015,7 +1015,7 @@ public class AwesomeAssertionsAnalyzerTests
         action.Should().Throw<Exception>().WithMessage("mes*");
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void ExceptionShouldThrowWithMessage_StartWith_Failure()
     {
         using var scope = new AssertionScope();
@@ -1046,7 +1046,7 @@ public class AwesomeAssertionsAnalyzerTests
         action.Should().ThrowExactly<ArgumentException>().WithMessage("message");
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void ExceptionShouldThrowExactlyWithMessage_Be_Failure()
     {
         using var scope = new AssertionScope();
@@ -1077,7 +1077,7 @@ public class AwesomeAssertionsAnalyzerTests
         action.Should().ThrowExactly<ArgumentException>().WithMessage("*mess*");
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void ExceptionShouldThrowExactlyWithMessage_Contain_Failure()
     {
         using var scope = new AssertionScope();
@@ -1108,7 +1108,7 @@ public class AwesomeAssertionsAnalyzerTests
         action.Should().ThrowExactly<ArgumentException>().WithMessage("*age");
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void ExceptionShouldThrowExactlyWithMessage_EndWith_Failure()
     {
         using var scope = new AssertionScope();
@@ -1139,7 +1139,7 @@ public class AwesomeAssertionsAnalyzerTests
         action.Should().ThrowExactly<ArgumentException>().WithMessage("mes*");
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void ExceptionShouldThrowExactlyWithMessage_StartWith_Failure()
     {
         using var scope = new AssertionScope();
@@ -1170,7 +1170,7 @@ public class AwesomeAssertionsAnalyzerTests
         action.Should().ThrowExactly<ArgumentException>().WithInnerExceptionExactly<InvalidOperationException>();
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void ExceptionShouldThrowExactlyWithInnerExceptionExactly_BeOfType_Failure()
     {
         using var scope = new AssertionScope();
@@ -1201,7 +1201,7 @@ public class AwesomeAssertionsAnalyzerTests
         action.Should().Throw<ArgumentException>().WithInnerExceptionExactly<InvalidOperationException>();
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void ExceptionShouldThrowWithInnerExceptionExactly_BeOfType_Failure()
     {
         using var scope = new AssertionScope();
@@ -1232,7 +1232,7 @@ public class AwesomeAssertionsAnalyzerTests
         action.Should().ThrowExactly<ArgumentException>().WithInnerException<InvalidOperationException>();
     }
 
-    [TestMethod, ExpectedException(typeof(AssertFailedException))]
+    [ExpectedAssertionException]
     public void ExceptionShouldThrowExactlyWithInnerException_BeAssignableTo_Failure()
     {
         using var scope = new AssertionScope();

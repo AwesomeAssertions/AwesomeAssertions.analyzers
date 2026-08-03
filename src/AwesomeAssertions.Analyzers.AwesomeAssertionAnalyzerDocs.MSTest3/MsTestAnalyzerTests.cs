@@ -1,4 +1,5 @@
 #pragma warning disable MSTEST0006 // Avoid '[ExpectedException]': Used as marker to find failing tests and extract code
+#pragma warning disable MSTEST0039 // Use newer methods to assert exceptions: These tests show migrations, also for older methods
 using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
