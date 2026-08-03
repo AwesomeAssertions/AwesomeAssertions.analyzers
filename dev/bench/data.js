@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785567770658,
+  "lastUpdate": 1785749328319,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15512,6 +15512,42 @@ window.BENCHMARK_DATA = {
             "value": 167.29070558547974,
             "unit": "ns",
             "range": "± 0.7794933206340365"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "19211e42671e941dc1547f071973c4011ef64568",
+          "message": "Fix NU1507 warning (#138)\n\nFix warning NU1507: There are 2 package sources defined in your configuration. When using central package management, please map your package sources with package source mapping (https://aka.ms/nuget-package-source-mapping) or specify a single package source.\n\nThis error can occur if no nuget.config is available and a system configuration is picked up.",
+          "timestamp": "2026-08-03T11:27:10+02:00",
+          "tree_id": "f54fe506b36493740a252cdb2478914e1f2595ca",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/19211e42671e941dc1547f071973c4011ef64568"
+        },
+        "date": 1785749326501,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 177.06820288300514,
+            "unit": "ns",
+            "range": "± 3.4875099460835566"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 190.14019275506337,
+            "unit": "ns",
+            "range": "± 3.3004138880535177"
           }
         ]
       }
