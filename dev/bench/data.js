@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785765853099,
+  "lastUpdate": 1785834481477,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15656,6 +15656,42 @@ window.BENCHMARK_DATA = {
             "value": 170.89704743027687,
             "unit": "ns",
             "range": "± 3.199446395748652"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ad03723304bf5b6333a5fd6e9b0df20d454086a8",
+          "message": "Upgrade to MSTest 4.x (#137)",
+          "timestamp": "2026-08-04T11:06:20+02:00",
+          "tree_id": "208484000f57010d28599002167554e46614103a",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/ad03723304bf5b6333a5fd6e9b0df20d454086a8"
+        },
+        "date": 1785834479895,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 201.75927551587424,
+            "unit": "ns",
+            "range": "± 1.3672197219997033"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 205.4025184949239,
+            "unit": "ns",
+            "range": "± 1.45775900883501"
           }
         ]
       }
