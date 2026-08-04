@@ -3,8 +3,16 @@
       <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
     <ItemGroup>
-        <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.1" />
-        <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.3.1" />
+        <!--
+          Microsoft.CodeAnalysis.CSharp* packages must have a version a low as possible because they determine the minimum required .NET SDK version for using the analyzer.
+          https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/issues/6#issuecomment-2838984849
+        -->
+        <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="[4.3.1]" />
+        <!--
+          Microsoft.CodeAnalysis.Workspaces* packages must have a version a low as possible because they determine the minimum required .NET SDK version for using the analyzer.
+          https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/issues/6#issuecomment-2838984849
+        -->
+        <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="[4.3.1]" />
         <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="5.6.0" />
         <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.CodeFix.Testing" Version="1.1.4" />
         <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing" Version="1.1.4" />

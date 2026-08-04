@@ -1,0 +1,46 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "labels": ["dependencies"],
+    "extends": ["config:recommended"],
+    // We have defined a close timeslot (below).
+    // So, we need larger amount of PRs per hour get more/all updates.
+    "prHourlyLimit": 10,
+    "packageRules": [
+        // Disable updates of .NET SDK. We want to update that manually only.
+        {
+            "matchDatasources": ["dotnet-version"],
+            "enabled": false
+        },
+        // *.NUnit3 projects specifically test the behavior of this major version
+        {
+            "matchPackageNames": [ "nunit" ],
+            "matchFileNames": ["**/*.NUnit3/**"],
+            "allowedVersions": "< 4.0.0"
+        },
+        // *.NUnit4 projects specifically test the behavior of this major version
+        {
+            "matchPackageNames": [ "nunit" ],
+            "matchFileNames": ["**/*.NUnit4/**"],
+            "allowedVersions": "< 5.0.0"
+        },
+        // *.MSTest3 projects specifically test the behavior of this major version
+        {
+            "matchPackageNames": [ "MSTest*" ],
+            "matchFileNames": ["**/*.MSTest3/**"],
+            "allowedVersions": "< 4.0.0"
+        },
+        // Disable updates for pinned packages.
+        // https://github.com/renovatebot/renovate/blob/main/lib/modules/manager/nuget/readme.md#disabling-updates-for-pinned-versions
+        {
+            "matchManagers": ["nuget"],
+            "matchCurrentValue": "/^\\[[^,]+\\]$/",
+            "enabled": false
+        },
+        {
+            "matchPackageNames": ["*"],
+            "description": "Every month on the first day of the month",
+            "schedule": [ "* * 1 * *" ]
+        }
+    ]
+}
+
