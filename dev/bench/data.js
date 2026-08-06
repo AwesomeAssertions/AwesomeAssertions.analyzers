@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785834481477,
+  "lastUpdate": 1786015293336,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15692,6 +15692,42 @@ window.BENCHMARK_DATA = {
             "value": 205.4025184949239,
             "unit": "ns",
             "range": "± 1.45775900883501"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "adad763a5d529b5c8d929604a6979aea5e2d9625",
+          "message": "Merge pull request #139 from AwesomeAssertions/cbersch/restrict-update-of-nunit-and-mstest\n\nRestrict update of NUnit and MSTest",
+          "timestamp": "2026-08-06T13:19:52+02:00",
+          "tree_id": "2a57151780cf7b331a3cef361d03c95170f637c5",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/adad763a5d529b5c8d929604a6979aea5e2d9625"
+        },
+        "date": 1786015292310,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 172.39887667894362,
+            "unit": "ns",
+            "range": "± 3.9716774816038574"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 180.22666311264038,
+            "unit": "ns",
+            "range": "± 1.9330793880525667"
           }
         ]
       }
