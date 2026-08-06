@@ -1,0 +1,7 @@
+{
+  "name": "awesomeassertions-analyzers-renovate-validator",
+  "private": true,
+  "devDependencies": {
+    "renovate": "44.11.4"
+  }
+}
