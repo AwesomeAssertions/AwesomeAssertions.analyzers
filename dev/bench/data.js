@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788236428872,
+  "lastUpdate": 1788236452616,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15764,6 +15764,42 @@ window.BENCHMARK_DATA = {
             "value": 164.12761856042422,
             "unit": "ns",
             "range": "± 0.5074430065112389"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e33ec4948e6ff544f47b4b9b53117a7c2e57d4af",
+          "message": "Merge pull request #147 from AwesomeAssertions/renovate/major-xunit-dotnet-monorepo\n\nchore(deps): update dependency xunit.runner.visualstudio to v4",
+          "timestamp": "2026-09-01T06:19:19+02:00",
+          "tree_id": "25476991b6beda2d3d9c31636d40a8f755d65fad",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/e33ec4948e6ff544f47b4b9b53117a7c2e57d4af"
+        },
+        "date": 1788236451654,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 173.27177771500178,
+            "unit": "ns",
+            "range": "± 1.387128835284171"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 185.09093708651406,
+            "unit": "ns",
+            "range": "± 0.6935678184091584"
           }
         ]
       }
