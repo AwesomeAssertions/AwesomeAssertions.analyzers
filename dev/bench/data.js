@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788236706522,
+  "lastUpdate": 1788236716091,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15944,6 +15944,42 @@ window.BENCHMARK_DATA = {
             "value": 150.67648894446236,
             "unit": "ns",
             "range": "± 0.34851990091874446"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "55f9b3e13774c5d041033ab5e78bdaccf8e5626f",
+          "message": "Merge pull request #142 from AwesomeAssertions/renovate/dotnet-monorepo\n\nchore(deps): update dependency microsoft.codeanalysis.analyzers to 5.9.0",
+          "timestamp": "2026-09-01T06:20:58+02:00",
+          "tree_id": "46110c129e6368fbed819df7e6facd6003ab4aba",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/55f9b3e13774c5d041033ab5e78bdaccf8e5626f"
+        },
+        "date": 1788236713762,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 171.92807472546895,
+            "unit": "ns",
+            "range": "± 2.5329256547396706"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 179.51654287746973,
+            "unit": "ns",
+            "range": "± 0.6120130658541939"
           }
         ]
       }
