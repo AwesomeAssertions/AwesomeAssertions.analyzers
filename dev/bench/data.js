@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786015293336,
+  "lastUpdate": 1788236428872,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15728,6 +15728,42 @@ window.BENCHMARK_DATA = {
             "value": 180.22666311264038,
             "unit": "ns",
             "range": "± 1.9330793880525667"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "cd80a091c515e44940290ea5e76a44c2806ca061",
+          "message": "Merge pull request #146 from AwesomeAssertions/renovate/major-dotnet-monorepo\n\nchore(deps): update dependency microsoft.codeanalysis.csharp.workspaces to v5",
+          "timestamp": "2026-09-01T06:18:54+02:00",
+          "tree_id": "1ebb6a5bedba39607cff196e62fdd4b4ad1a2524",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/cd80a091c515e44940290ea5e76a44c2806ca061"
+        },
+        "date": 1788236427898,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 164.5600073678153,
+            "unit": "ns",
+            "range": "± 0.9456819892304736"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 164.12761856042422,
+            "unit": "ns",
+            "range": "± 0.5074430065112389"
           }
         ]
       }
