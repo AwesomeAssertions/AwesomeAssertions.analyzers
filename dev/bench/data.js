@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788236623113,
+  "lastUpdate": 1788236642890,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15872,6 +15872,42 @@ window.BENCHMARK_DATA = {
             "value": 126.44360310236613,
             "unit": "ns",
             "range": "± 0.9841964430232146"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fe07525e86b01418297927050ea210cd3ccc6503",
+          "message": "Merge pull request #144 from AwesomeAssertions/renovate/nunit3testadapter-6.x\n\nchore(deps): update dependency nunit3testadapter to 6.3.0",
+          "timestamp": "2026-09-01T06:20:25+02:00",
+          "tree_id": "336737eb234aba3b1fb46a8edeef9209374ad371",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/fe07525e86b01418297927050ea210cd3ccc6503"
+        },
+        "date": 1788236641874,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 198.79031559626262,
+            "unit": "ns",
+            "range": "± 3.3391732469893047"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 178.37045469428554,
+            "unit": "ns",
+            "range": "± 5.636493974714656"
           }
         ]
       }
