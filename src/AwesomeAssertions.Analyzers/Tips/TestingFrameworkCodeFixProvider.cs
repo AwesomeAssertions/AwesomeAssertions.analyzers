@@ -51,17 +51,16 @@ public abstract class TestingFrameworkCodeFixProvider<TTestContext> : CodeFixPro
 
     protected abstract Func<CancellationToken, Task<Document>> TryComputeFixCore(IInvocationOperation invocation, CodeFixContext context, TTestContext t, Diagnostic diagnostic);
 
-    protected static bool ArgumentsAreTypeOf(IInvocationOperation invocation, params ITypeSymbol[] types) => ArgumentsAreTypeOf(invocation, 0, types);
-    protected static bool ArgumentsAreTypeOf(IInvocationOperation invocation, int startFromIndex, params ITypeSymbol[] types)
+    protected static bool ArgumentsAreTypeOf(IInvocationOperation invocation, params ITypeSymbol[] types)
     {
-        if (invocation.TargetMethod.Parameters.Length != types.Length + startFromIndex)
+        if (invocation.TargetMethod.Parameters.Length != types.Length)
         {
             return false;
         }
 
-        for (int i = startFromIndex; i < types.Length; i++)
+        for (int i = 0; i < types.Length; i++)
         {
-            if (!invocation.TargetMethod.Parameters[i].Type.EqualsSymbol(types[i]))
+            if (types[i] is not null && !invocation.TargetMethod.Parameters[i].Type.EqualsSymbol(types[i]))
             {
                 return false;
             }
@@ -131,6 +130,7 @@ public abstract class TestingFrameworkCodeFixProvider : TestingFrameworkCodeFixP
         public INamedTypeSymbol Double { get; } = compilation.GetTypeByMetadataName("System.Double");
         public INamedTypeSymbol Decimal { get; } = compilation.GetTypeByMetadataName("System.Decimal");
         public INamedTypeSymbol Boolean { get; } = compilation.GetTypeByMetadataName("System.Boolean");
+        public INamedTypeSymbol NullableBoolean { get; } = compilation.GetTypeByMetadataName("System.Nullable`1").Construct(compilation.GetTypeByMetadataName("System.Boolean"));
         public INamedTypeSymbol Action { get; } = compilation.GetTypeByMetadataName("System.Action");
         public INamedTypeSymbol Type { get; } = compilation.GetTypeByMetadataName("System.Type");
         public INamedTypeSymbol DateTime { get; } = compilation.GetTypeByMetadataName("System.DateTime");

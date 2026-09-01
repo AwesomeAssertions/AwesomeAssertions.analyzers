@@ -76,17 +76,17 @@ namespace TestProject
         [TestMethod]
         [Implemented]
         public void ShouldAddAwesomeAssertionsUsing_WhenAwesomeAssertionIsNotInScope_ForMsTest()
-            => ShouldAddAwesomeAssertionsUsing_WhenAwesomeAssertionIsNotInScope<MsTestCodeFixProvider>("IsTrue", "using Microsoft.VisualStudio.TestTools.UnitTesting;", PackageReference.MSTestTestFramework_3_1_1);
+            => ShouldAddAwesomeAssertionsUsing_WhenAwesomeAssertionIsNotInScope<MsTestCodeFixProvider>("IsTrue", "using Microsoft.VisualStudio.TestTools.UnitTesting;", PackageReference.MSTestTestFramework_3_11_0);
 
         [TestMethod]
         [Implemented]
         public void ShouldNotAddAwesomeAssertionsUsing_WhenAwesomeAssertionIsInGlobalScope_ForMsTest()
-            => ShouldNotAddAwesomeAssertionsUsing_WhenAwesomeAssertionIsInGlobalScope<MsTestCodeFixProvider>("IsTrue", "using Microsoft.VisualStudio.TestTools.UnitTesting;", PackageReference.MSTestTestFramework_3_1_1);
+            => ShouldNotAddAwesomeAssertionsUsing_WhenAwesomeAssertionIsInGlobalScope<MsTestCodeFixProvider>("IsTrue", "using Microsoft.VisualStudio.TestTools.UnitTesting;", PackageReference.MSTestTestFramework_3_11_0);
 
         [TestMethod]
         [Implemented]
         public void ShouldNotAddAwesomeAssertionsUsing_WhenAwesomeAssertionIsInAnyScope_ForMsTest()
-            => ShouldNotAddAwesomeAssertionsUsing_WhenAwesomeAssertionIsInAnyScope<MsTestCodeFixProvider>("IsTrue", "using Microsoft.VisualStudio.TestTools.UnitTesting;", PackageReference.MSTestTestFramework_3_1_1);
+            => ShouldNotAddAwesomeAssertionsUsing_WhenAwesomeAssertionIsInAnyScope<MsTestCodeFixProvider>("IsTrue", "using Microsoft.VisualStudio.TestTools.UnitTesting;", PackageReference.MSTestTestFramework_3_11_0);
 
         private void ShouldAddAwesomeAssertionsUsing_WhenAwesomeAssertionIsNotInScope<TCodeFixProvider>(string assertTrue, string usingDirective, PackageReference testingLibraryReference) where TCodeFixProvider : CodeFixProvider, new()
         {
