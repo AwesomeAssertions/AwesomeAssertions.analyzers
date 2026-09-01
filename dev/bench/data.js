@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788236501642,
+  "lastUpdate": 1788236623113,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15836,6 +15836,42 @@ window.BENCHMARK_DATA = {
             "value": 182.0118136326472,
             "unit": "ns",
             "range": "± 1.713752514548056"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e2ae94c4002cc0eeffdaf097f2a485cd5d5d868d",
+          "message": "Merge pull request #143 from AwesomeAssertions/renovate/vstest-monorepo\n\nchore(deps): update dependency microsoft.net.test.sdk to 18.9.0",
+          "timestamp": "2026-09-01T06:20:43+02:00",
+          "tree_id": "ca1fb81470e64414c2ebbf8c35dd5309eb86f145",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/e2ae94c4002cc0eeffdaf097f2a485cd5d5d868d"
+        },
+        "date": 1788236622022,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 127.441129054342,
+            "unit": "ns",
+            "range": "± 0.8343969388091694"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 126.44360310236613,
+            "unit": "ns",
+            "range": "± 0.9841964430232146"
           }
         ]
       }
