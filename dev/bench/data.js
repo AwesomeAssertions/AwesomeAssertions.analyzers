@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788236452616,
+  "lastUpdate": 1788236501642,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15800,6 +15800,42 @@ window.BENCHMARK_DATA = {
             "value": 185.09093708651406,
             "unit": "ns",
             "range": "± 0.6935678184091584"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "44e3c0ed5f4346df4c171be0263426649f4511fd",
+          "message": "Merge pull request #145 from AwesomeAssertions/renovate/renovate-44.x\n\nchore(deps): update dependency renovate to v44.53.0",
+          "timestamp": "2026-09-01T06:20:09+02:00",
+          "tree_id": "d7e930bc0f28722b87cd331a6d1b0d37d932f4e3",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/44e3c0ed5f4346df4c171be0263426649f4511fd"
+        },
+        "date": 1788236500175,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 176.51521965435572,
+            "unit": "ns",
+            "range": "± 1.2732980051333416"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 182.0118136326472,
+            "unit": "ns",
+            "range": "± 1.713752514548056"
           }
         ]
       }
