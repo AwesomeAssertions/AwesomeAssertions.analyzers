@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788236642890,
+  "lastUpdate": 1788236706522,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -15908,6 +15908,42 @@ window.BENCHMARK_DATA = {
             "value": 178.37045469428554,
             "unit": "ns",
             "range": "± 5.636493974714656"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fb500af5d1b6a75ffb80c20dd51b42c39531fac3",
+          "message": "Merge pull request #141 from AwesomeAssertions/renovate/awesomeassertions-9.x\n\nchore(deps): update dependency awesomeassertions to 9.6.0",
+          "timestamp": "2026-09-01T06:21:27+02:00",
+          "tree_id": "76c6e4f66247c2bad16601e983f313fef19d8773",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/fb500af5d1b6a75ffb80c20dd51b42c39531fac3"
+        },
+        "date": 1788236704400,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 138.23567029408045,
+            "unit": "ns",
+            "range": "± 0.5888929573304206"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 150.67648894446236,
+            "unit": "ns",
+            "range": "± 0.34851990091874446"
           }
         ]
       }
