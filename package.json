@@ -2,6 +2,6 @@
   "name": "awesomeassertions-analyzers-renovate-validator",
   "private": true,
   "devDependencies": {
-    "renovate": "44.53.0"
+    "renovate": "44.61.6"
   }
 }
