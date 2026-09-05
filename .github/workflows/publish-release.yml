@@ -8,6 +8,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing
     permissions:
       contents: read
       id-token: write
