@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788507564373,
+  "lastUpdate": 1788606093425,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -16016,6 +16016,42 @@ window.BENCHMARK_DATA = {
             "value": 183.6593407222203,
             "unit": "ns",
             "range": "± 0.47275643728978894"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "wordkap@gmail.com",
+            "name": "Artyom M.",
+            "username": "ScarletKuro"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9ac2e7785ca9f45baa1128ee8a0fa9bcc7e84b99",
+          "message": "Use NuGet Trusted Publishing for releases (#149)\n\nCo-authored-by: Lukas Grützmacher <44983012+lg2de@users.noreply.github.com>",
+          "timestamp": "2026-09-05T13:59:52+03:00",
+          "tree_id": "e0aa6541943ce4f17fa0f056bfd0ac2aef278659",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/9ac2e7785ca9f45baa1128ee8a0fa9bcc7e84b99"
+        },
+        "date": 1788606092096,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 115.91555328369141,
+            "unit": "ns",
+            "range": "± 3.9445626906023934"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 131.3154039978981,
+            "unit": "ns",
+            "range": "± 1.8475322983258915"
           }
         ]
       }
