@@ -8,6 +8,10 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -24,15 +28,14 @@ jobs:
         shell: pwsh
         run: |
           $tag = $env:GITHUB_REF.Substring('refs/tags/v'.Length)
-          dotnet pack src/AwesomeAssertions.Analyzers/ --output out --configuration Release --include-symbols -p:Version=$tag
+          dotnet pack src/AwesomeAssertions.Analyzers/ --output out --configuration Release -p:Version=$tag
+
+      - name: NuGet login
+        id: nuget-login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: ${{ secrets.NUGET_USER }}
 
       - name: Publish NuGet package
-        shell: pwsh
-        run: |
-          $symbols = Get-ChildItem out/*.symbols.nupkg | ForEach-Object FullName;
-          foreach ($symbol in $symbols) {
-            Write-Host "Pushing symbols $symbol";
-            $nupkg = $symbol.Replace(".symbols.nupkg",".nupkg");
-            Write-Host "Pushing nupkg $nupkg";
-            dotnet nuget push $nupkg --skip-duplicate --api-key ${{ secrets.NUGETAPIKEY }} --source https://api.nuget.org/v3/index.json;
-          }
+        shell: bash
+        run: dotnet nuget push "out/*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" --skip-duplicate
