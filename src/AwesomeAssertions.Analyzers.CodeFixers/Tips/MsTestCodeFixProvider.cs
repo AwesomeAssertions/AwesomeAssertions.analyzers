@@ -1,6 +1,5 @@
 using System.Collections.Immutable;
 using System.Composition;
-using System.Globalization;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Operations;
@@ -11,7 +10,7 @@ namespace AwesomeAssertions.Analyzers;
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MsTestCodeFixProvider)), Shared]
 public class MsTestCodeFixProvider : TestingFrameworkCodeFixProvider
 {
-    public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(AssertAnalyzer.MSTestsRule.Id);
+    public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(RuleIdentifiers.MsTestRule);
 
     protected override CreateChangedDocument TryComputeFixCore(IInvocationOperation invocation, CodeFixContext context, TestingFrameworkCodeFixContext t, Diagnostic diagnostic)
     {
@@ -27,7 +26,7 @@ public class MsTestCodeFixProvider : TestingFrameworkCodeFixProvider
 
     private CreateChangedDocument TryComputeFixForAssert(IInvocationOperation invocation, CodeFixContext context, TestingFrameworkCodeFixContext t)
     {
-        var actualSubjectIndex = invocation.Arguments.Length is 1 ? 0 
+        var actualSubjectIndex = invocation.Arguments.Length is 1 ? 0
             : invocation.Arguments[1].IsLiteralValue() ? 0 : 1;
         switch (invocation.TargetMethod.Name)
         {

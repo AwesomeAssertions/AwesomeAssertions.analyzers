@@ -18,12 +18,6 @@ public class CsProjectArguments
 
 public static class CsProjectArgumentsExtensions
 {
-    public static TCsProjectArguments WithTargetFramework<TCsProjectArguments>(this TCsProjectArguments arguments, TargetFramework targetFramework) where TCsProjectArguments : CsProjectArguments
-    {
-        arguments.TargetFramework = targetFramework;
-        return arguments;
-    }
-
     public static TCsProjectArguments WithSources<TCsProjectArguments>(this TCsProjectArguments arguments, params string[] sources) where TCsProjectArguments : CsProjectArguments
     {
         arguments.Sources = sources;

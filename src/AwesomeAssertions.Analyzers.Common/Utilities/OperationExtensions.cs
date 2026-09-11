@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.Operations;
 
 namespace AwesomeAssertions.Analyzers;
 
-internal static class OperationExtensions
+public static class OperationExtensions
 {
     /// <summary>
     /// Tries to get the first descendent of the parent operation. where each operation has only one child.

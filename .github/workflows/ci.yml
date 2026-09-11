@@ -22,9 +22,9 @@ jobs:
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
-      - run: dotnet build
+      - run: dotnet build --configuration Release
       - run: dotnet test src/AwesomeAssertions.Analyzers.Tests --configuration Release --filter 'TestCategory=Completed' /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
-      - run: dotnet pack src/AwesomeAssertions.Analyzers/AwesomeAssertions.Analyzers.csproj
+      - run: dotnet pack src/AwesomeAssertions.Analyzers.Pack/AwesomeAssertions.Analyzers.Pack.csproj --configuration Release
       - name: Check for coverage file existence
         id: check_files
         uses: andstor/file-existence-action@558493d6c74bf472d87c84eab196434afc2fa029 # v3

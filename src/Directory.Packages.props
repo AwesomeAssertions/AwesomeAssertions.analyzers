@@ -3,36 +3,33 @@
       <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
     <ItemGroup>
-        <!--
-          Microsoft.CodeAnalysis.CSharp* packages must have a version a low as possible because they determine the minimum required .NET SDK version for using the analyzer.
-          https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/issues/6#issuecomment-2838984849
-        -->
-        <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="[4.3.1]" />
-        <!--
-          Microsoft.CodeAnalysis.Workspaces* packages must have a version a low as possible because they determine the minimum required .NET SDK version for using the analyzer.
-          https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/issues/6#issuecomment-2838984849
-        -->
-        <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="[4.3.1]" />
-        <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="5.9.0" />
-        <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.CodeFix.Testing" Version="1.1.4" />
-        <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing" Version="1.1.4" />
+		<PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="5.9.0" />
+      <!--
+        Microsoft.CodeAnalysis.CSharp* packages must have a version a low as possible because they determine the minimum required .NET SDK version for using the analyzer.
+        https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/issues/6#issuecomment-2838984849
+      -->
+      <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="[4.3.1]" />
+      <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="[4.3.1]" />
+      <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="[4.3.1]" />
+      <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.CodeFix.Testing" Version="1.1.4" />
+      <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing" Version="1.1.4" />
 
-        <PackageVersion Include="AwesomeAssertions" Version="9.6.0" />
+      <PackageVersion Include="AwesomeAssertions" Version="9.6.0" />
 
-        <PackageVersion Include="NUnit3TestAdapter" Version="6.3.0" />
-        <PackageVersion Include="NUnit" Version="4.6.1" />
+      <PackageVersion Include="NUnit3TestAdapter" Version="6.3.0" />
+      <PackageVersion Include="NUnit" Version="4.6.1" />
 
-        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
-        <PackageVersion Include="MSTest.TestAdapter" Version="4.3.3" />
-        <PackageVersion Include="MSTest.TestFramework" Version="4.3.3" />
+      <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+      <PackageVersion Include="MSTest.TestAdapter" Version="4.3.3" />
+      <PackageVersion Include="MSTest.TestFramework" Version="4.3.3" />
 
-        <PackageVersion Include="xunit.assert" Version="2.9.3" />
-        <PackageVersion Include="xunit" Version="2.9.3" />
-        <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.0" />
+      <PackageVersion Include="xunit.assert" Version="2.9.3" />
+      <PackageVersion Include="xunit" Version="2.9.3" />
+      <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.0" />
 
-        <PackageVersion Include="coverlet.collector" Version="10.0.1" />
-        <PackageVersion Include="coverlet.msbuild" Version="10.0.1" />
+      <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+      <PackageVersion Include="coverlet.msbuild" Version="10.0.1" />
 
-        <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
+      <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
     </ItemGroup>
   </Project>

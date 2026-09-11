@@ -2,11 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="coverlet.msbuild" >
+    <PackageReference Include="coverlet.msbuild">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -14,10 +13,10 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="MSTest.TestAdapter" />
     <PackageReference Include="MSTest.TestFramework" />
-    <PackageReference Include="xunit.assert" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AwesomeAssertions.Analyzers.CodeFixers\AwesomeAssertions.Analyzers.CodeFixers.csproj" />
     <ProjectReference Include="..\AwesomeAssertions.Analyzers.TestUtils\AwesomeAssertions.Analyzers.TestUtils.csproj" />
   </ItemGroup>
   

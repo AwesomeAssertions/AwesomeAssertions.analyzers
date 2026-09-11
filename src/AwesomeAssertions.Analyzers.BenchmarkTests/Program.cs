@@ -1,10 +1,3 @@
-using BenchmarkDotNet.Running;
+using AwesomeAssertions.Analyzers.BenchmarkTests;
 
-namespace AwesomeAssertions.Analyzers.BenchmarkTests
-{
-    public class Program
-    {
-        public static void Main() 
-            => BenchmarkDotNet.Running.BenchmarkRunner.Run<AwesomeAssertionsBenchmarks>();
-    }
-}
+BenchmarkDotNet.Running.BenchmarkRunner.Run<AwesomeAssertionsBenchmarks>();

@@ -1,4 +1,5 @@
 ﻿using AwesomeAssertions.Analyzers.TestUtils;
+using AwesomeAssertions.Analyzers.Tips;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
