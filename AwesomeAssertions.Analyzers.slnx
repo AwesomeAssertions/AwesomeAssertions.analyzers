@@ -10,13 +10,16 @@
     <File Path="Directory.Build.props" />
     <File Path="LICENSE" />
     <File Path="README.md" />
-    <File Path="Directory.Packages.props" />
+    <File Path="src/Directory.Packages.props" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.MSTest3/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.MSTest3.csproj" />
     <Project Path="src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit3/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit3.csproj" />
     <Project Path="src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit4/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit4.csproj" />
     <Project Path="src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Xunit/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Xunit.csproj" />
+    <Project Path="src/AwesomeAssertions.Analyzers.CodeFixers/AwesomeAssertions.Analyzers.CodeFixers.csproj" />
+    <Project Path="src/AwesomeAssertions.Analyzers.Common/AwesomeAssertions.Analyzers.Common.csproj" />
+    <Project Path="src/AwesomeAssertions.Analyzers.Pack/AwesomeAssertions.Analyzers.Pack.csproj" />
     <Project Path="src/AwesomeAssertions.Analyzers/AwesomeAssertions.Analyzers.csproj" />
   </Folder>
   <Folder Name="/tests/">

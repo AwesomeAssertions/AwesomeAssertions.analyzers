@@ -16,7 +16,7 @@ namespace AwesomeAssertions.Analyzers;
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NunitCodeFixProvider)), Shared]
 public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFixProvider.NunitCodeFixContext>
 {
-    public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(AssertAnalyzer.NUnitRule.Id);
+    public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(RuleIdentifiers.NunitRule);
     protected override NunitCodeFixContext CreateTestContext(SemanticModel semanticModel) => new(semanticModel.Compilation);
     protected override CreateChangedDocument TryComputeFixCore(IInvocationOperation invocation, CodeFixContext context, NunitCodeFixContext t, Diagnostic diagnostic)
     {
@@ -116,7 +116,7 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
         public static void ByVal(object? actual, IResolveConstraint expression, string? message, params object?[]? args)
         */
 
-        var actualSubjectIndex = invocation.Arguments.Length is 1 ? 0 
+        var actualSubjectIndex = invocation.Arguments.Length is 1 ? 0
             : invocation.Arguments[1].IsLiteralValue() ? 0 : 1;
         switch (invocation.TargetMethod.Name)
         {
@@ -434,7 +434,7 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
         var constraint = invocation.Arguments[1].Value.UnwrapConversion();
         var subject = invocation.Arguments[0];
 
-        var rewriter = new AssertThatRewriter(invocation, context, constraint);
+        var rewriter = new AssertThatRewriter(invocation, context);
         var matcher = new AssertThatMatcher(constraint, t);
 
         if (matcher.Is("True") // Assert.That(subject, Is.True)
@@ -671,7 +671,7 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
             return false;
         }
     }
-    public class AssertThatRewriter(IInvocationOperation invocation, CodeFixContext context, IOperation constraint)
+    public class AssertThatRewriter(IInvocationOperation invocation, CodeFixContext context)
     {
         public CreateChangedDocument Should(string assertion)
         {

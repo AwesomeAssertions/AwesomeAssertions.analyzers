@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 
+namespace AwesomeAssertions.Analyzers.TestUtils;
+
 public static class SolutionExtensions
 {
     private static readonly string NugetPackagesPath = Environment.GetEnvironmentVariable("NUGET_PACKAGES")
@@ -52,6 +54,6 @@ public static class SolutionExtensions
         using var zip = new ZipArchive(stream, ZipArchiveMode.Read);
 
         Directory.CreateDirectory(packagePath);
-        zip.ExtractToDirectory(packagePath, overwriteFiles: true);
+        await zip.ExtractToDirectoryAsync(packagePath, overwriteFiles: true);
     }
 }

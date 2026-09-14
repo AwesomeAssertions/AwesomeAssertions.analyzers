@@ -1,5 +1,7 @@
 <Project>
   <PropertyGroup>
     <LangVersion>14.0</LangVersion>
+    <!-- Only AwesomeAssertions.Analyzers.Pack produces a NuGet package -->
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 </Project>

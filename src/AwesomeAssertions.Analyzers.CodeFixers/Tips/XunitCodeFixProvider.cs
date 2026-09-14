@@ -11,7 +11,7 @@ namespace AwesomeAssertions.Analyzers;
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(XunitCodeFixProvider)), Shared]
 public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
 {
-    public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(AssertAnalyzer.XunitRule.Id);
+    public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(RuleIdentifiers.XunitRule);
 
     protected override CreateChangedDocument TryComputeFixCore(IInvocationOperation invocation, CodeFixContext context, TestingFrameworkCodeFixContext t, Diagnostic diagnostic)
     {
