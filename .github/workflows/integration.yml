@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
-      - run: dotnet test src/AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs # before formatting
+      - run: dotnet test src/docs/AwesomeAssertions.Analyzers.Docs # before formatting
       - name: Run the docs generator
         shell: pwsh
         run: ./scripts/generate-docs.ps1 -ValidateNoChanges

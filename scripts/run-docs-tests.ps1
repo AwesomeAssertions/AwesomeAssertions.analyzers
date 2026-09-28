@@ -7,16 +7,11 @@ function RunTestsAndValidate {
         [string]$project
     )
 
-    Push-Location src
+    Push-Location src/docs
     Push-Location $project
     dotnet test
-    Pop-Location
-    Pop-Location
 
     if ($FormatAndExecuteTestsAgain) {
-        Push-Location src
-        Push-Location $project
-
         $i = 1;
         do {
             Write-Host "formatting code... - Iteration $i"
@@ -30,19 +25,14 @@ function RunTestsAndValidate {
             $i++
         } while ($out.Contains("Unable to fix FAA000"))
 
-        Pop-Location
-        Pop-Location
-
-        Push-Location src
-        Push-Location $project
         dotnet test
-        Pop-Location
-        Pop-Location
     }
+    Pop-Location
+    Pop-Location
 }
 
-RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs
-RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.MSTest3
-RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit4
-RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit3
-RunTestsAndValidate -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Xunit
+RunTestsAndValidate -project AwesomeAssertions.Analyzers.Docs
+RunTestsAndValidate -project AwesomeAssertions.Analyzers.Docs.MSTest3
+RunTestsAndValidate -project AwesomeAssertions.Analyzers.Docs.Nunit4
+RunTestsAndValidate -project AwesomeAssertions.Analyzers.Docs.Nunit3
+RunTestsAndValidate -project AwesomeAssertions.Analyzers.Docs.Xunit
