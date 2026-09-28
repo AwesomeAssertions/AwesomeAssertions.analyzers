@@ -19,15 +19,15 @@ function GenerateDocs {
         [string]$project
     )
 
-    Push-Location src
+    Push-Location src/docs
     Push-Location $project
     dotnet run generate
     Pop-Location
     Pop-Location
 }
 
-GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs
-GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.MSTest3
-GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit4
-GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Nunit3
-GenerateDocs -project AwesomeAssertions.Analyzers.AwesomeAssertionAnalyzerDocs.Xunit
+GenerateDocs -project AwesomeAssertions.Analyzers.Docs
+GenerateDocs -project AwesomeAssertions.Analyzers.Docs.MSTest3
+GenerateDocs -project AwesomeAssertions.Analyzers.Docs.Nunit4
+GenerateDocs -project AwesomeAssertions.Analyzers.Docs.Nunit3
+GenerateDocs -project AwesomeAssertions.Analyzers.Docs.Xunit
