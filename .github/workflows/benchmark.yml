@@ -21,7 +21,7 @@ jobs:
         with:
           dotnet-version: 10.0.x
       - name: Run benchmark
-        run: cd src/AwesomeAssertions.Analyzers.BenchmarkTests && dotnet run -c Release --exporters json --filter '*'
+        run: cd tests/AwesomeAssertions.Analyzers.BenchmarkTests && dotnet run -c Release --exporters json --filter '*'
 
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1.22.1
@@ -29,7 +29,7 @@ jobs:
         with:
           name: AwesomeAssertions.Analyzers Benchmark
           tool: 'benchmarkdotnet'
-          output-file-path: src/AwesomeAssertions.Analyzers.BenchmarkTests/BenchmarkDotNet.Artifacts/results/AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks-report.json
+          output-file-path: tests/AwesomeAssertions.Analyzers.BenchmarkTests/BenchmarkDotNet.Artifacts/results/AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks-report.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
           alert-threshold: '200%'
