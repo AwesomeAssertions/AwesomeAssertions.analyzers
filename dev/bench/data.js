@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788606093425,
+  "lastUpdate": 1790574045594,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -16052,6 +16052,42 @@ window.BENCHMARK_DATA = {
             "value": 131.3154039978981,
             "unit": "ns",
             "range": "± 1.8475322983258915"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "89852176e6c0b320f350fc630cb6a0ecefc3910b",
+          "message": "Split analyzer and code fixers into two assemblies (#150)",
+          "timestamp": "2026-09-28T07:39:34+02:00",
+          "tree_id": "2747d586d04e6e185bbee90a3a1c5f0ef3d4caf8",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/89852176e6c0b320f350fc630cb6a0ecefc3910b"
+        },
+        "date": 1790574043854,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 125.38930126598903,
+            "unit": "ns",
+            "range": "± 0.7513360720188421"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 123.51366920471192,
+            "unit": "ns",
+            "range": "± 0.1544434870050138"
           }
         ]
       }
