@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790574045594,
+  "lastUpdate": 1790589761109,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -16088,6 +16088,42 @@ window.BENCHMARK_DATA = {
             "value": 123.51366920471192,
             "unit": "ns",
             "range": "± 0.1544434870050138"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ef5e7442a90b893716ce4f6d4d3422817fc982ee",
+          "message": "Bump adm-zip and renovate (#151)\n\nBumps [adm-zip](https://github.com/cthackers/adm-zip) to 0.6.1 and updates ancestor dependency [renovate](https://github.com/renovatebot/renovate). These dependencies need to be updated together.\n\n\nUpdates `adm-zip` from 0.6.0 to 0.6.1\n- [Release notes](https://github.com/cthackers/adm-zip/releases)\n- [Changelog](https://github.com/cthackers/adm-zip/blob/master/history.md)\n- [Commits](https://github.com/cthackers/adm-zip/compare/v0.6.0...v0.6.1)\n\nUpdates `renovate` from 44.61.6 to 44.106.0\n- [Release notes](https://github.com/renovatebot/renovate/releases)\n- [Commits](https://github.com/renovatebot/renovate/compare/44.61.6...44.106.0)\n\n---\nupdated-dependencies:\n- dependency-name: adm-zip\n  dependency-version: 0.6.1\n  dependency-type: indirect\n- dependency-name: renovate\n  dependency-version: 44.106.0\n  dependency-type: direct:development\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+          "timestamp": "2026-09-28T12:01:12+02:00",
+          "tree_id": "2913f57a4865da675c3970df8b436e3b19986cf4",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/ef5e7442a90b893716ce4f6d4d3422817fc982ee"
+        },
+        "date": 1790589758395,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 131.70772955814996,
+            "unit": "ns",
+            "range": "± 0.5441296416291509"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 133.6844216267268,
+            "unit": "ns",
+            "range": "± 1.2654074888283289"
           }
         ]
       }
