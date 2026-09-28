@@ -13,7 +13,7 @@ namespace AwesomeAssertions.Analyzers;
 public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
 {
     public const string Title = "Simplify Assertion";
-    public const string DiagnosticId = "FAA0001";
+    public const string DiagnosticId = RuleIdentifiers.AwesomeAssertionsTips;
     public const string Message = "Clean up AwesomeAssertion usage";
 
     protected static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, Message, Constants.Tips.Category, DiagnosticSeverity.Info, true);

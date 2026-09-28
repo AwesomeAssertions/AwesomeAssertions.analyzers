@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace AwesomeAssertions.Analyzers.Utilities;
 
-internal static class TypesExtensions
+public static class TypesExtensions
 {
     public static bool IsTypeOrConstructedFromTypeOrImplementsType(this INamedTypeSymbol type, INamedTypeSymbol other)
     {
@@ -46,7 +46,7 @@ internal static class TypesExtensions
         {
             current = current.OriginalDefinition;
         }
-        return current.EqualsSymbol(interfaceType) 
+        return current.EqualsSymbol(interfaceType)
             || current.AllInterfaces.Any(@interface => @interface.OriginalDefinition.EqualsSymbol(interfaceType));
     }
     public static bool ImplementsOrIsInterface(this ITypeSymbol type, SpecialType specialType)

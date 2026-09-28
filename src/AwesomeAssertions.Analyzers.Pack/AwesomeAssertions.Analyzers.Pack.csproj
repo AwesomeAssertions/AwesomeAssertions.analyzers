@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>AwesomeAssertions.Analyzers</RootNamespace>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>AwesomeAssertions.Analyzers</PackageId>
+    <Authors>AwesomeAssertions, Meir Blachman and contributors</Authors>
+    <Copyright>Copyright Meir Blachman 2017-2025, AwesomeAssertions 2025-</Copyright>
+
+    <Description>Analyzers to help writing AwesomeAssertions the right way.</Description>
+    <PackageTags>FluentAssertions AwesomeAssertions Analyzers</PackageTags>
+    <PackageReleaseNotes>See https://github.com/awesomeassertions/awesomeassertions.analyzers/releases/</PackageReleaseNotes>
+    
+    <PackageReadmeFile>docs\README.md</PackageReadmeFile>
+    <PackageIcon>AwesomeAssertions.png</PackageIcon>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/awesomeassertions/awesomeassertions.analyzers</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/awesomeassertions/awesomeassertions.analyzers</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);AddAnalyzersToPackage</TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Build order only: the assemblies are packed by manually referencing them, and PrivateAssets="all" keeps those projects out of the NuGet package dependencies -->
+    <ProjectReference Include="..\AwesomeAssertions.Analyzers\AwesomeAssertions.Analyzers.csproj" ReferenceOutputAssembly="false" PrivateAssets="all" />
+    <ProjectReference Include="..\AwesomeAssertions.Analyzers.CodeFixers\AwesomeAssertions.Analyzers.CodeFixers.csproj" ReferenceOutputAssembly="false" PrivateAssets="all" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="docs" />
+    <None Include="..\..\assets\AwesomeAssertions.png" Pack="true" PackagePath="" />
+    <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <!-- Add analyzer dll explicitly to the package (https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#targetsfortfmspecificcontentinpackage) -->
+  <Target Name="AddAnalyzersToPackage">
+
+    <ItemGroup>
+        <TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)../AwesomeAssertions.Analyzers/bin/$(Configuration)/netstandard2.0/AwesomeAssertions.Analyzers.dll" PackagePath="analyzers/dotnet/cs/" />
+        <TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)../AwesomeAssertions.Analyzers.Common/bin/$(Configuration)/netstandard2.0/AwesomeAssertions.Analyzers.Common.dll" PackagePath="analyzers/dotnet/cs/" />
+        <TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)../AwesomeAssertions.Analyzers.CodeFixers/bin/$(Configuration)/netstandard2.0/AwesomeAssertions.Analyzers.CodeFixers.dll" PackagePath="analyzers/dotnet/cs/" />
+    </ItemGroup>
+  </Target>
+
+</Project>

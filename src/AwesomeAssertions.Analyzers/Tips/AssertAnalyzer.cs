@@ -33,11 +33,11 @@ using Microsoft.CodeAnalysis.Operations;
 namespace AwesomeAssertions.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class AssertAnalyzer : DiagnosticAnalyzer
+public sealed class AssertAnalyzer : DiagnosticAnalyzer
 {
     public static readonly string Message = "Use AwesomeAssertions equivalent";
     public static readonly DiagnosticDescriptor XunitRule = new(
-       "FAA0002",
+       RuleIdentifiers.XunitRule,
        title: "Replace Xunit assertion with Fluent Assertions equivalent",
        messageFormat: Message,
        description: "",
@@ -46,7 +46,7 @@ public class AssertAnalyzer : DiagnosticAnalyzer
        isEnabledByDefault: true);
 
     public static readonly DiagnosticDescriptor MSTestsRule = new(
-       "FAA0003",
+       RuleIdentifiers.MsTestRule,
        title: "Replace MSTests assertion with Fluent Assertions equivalent",
        messageFormat: Message,
        description: "",
@@ -55,7 +55,7 @@ public class AssertAnalyzer : DiagnosticAnalyzer
        isEnabledByDefault: true);
 
     public static readonly DiagnosticDescriptor NUnitRule = new(
-       "FAA0004",
+       RuleIdentifiers.NunitRule,
        title: "Replace NUnit assertion with Fluent Assertions equivalent",
        messageFormat: Message,
        description: "",

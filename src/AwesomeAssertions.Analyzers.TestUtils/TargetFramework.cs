@@ -1,3 +1,5 @@
+namespace AwesomeAssertions.Analyzers.TestUtils;
+
 public enum TargetFramework
 {
     NetStandard2_0,

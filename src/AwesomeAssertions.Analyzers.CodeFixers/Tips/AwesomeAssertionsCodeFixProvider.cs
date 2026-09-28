@@ -15,8 +15,8 @@ namespace AwesomeAssertions.Analyzers;
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(AwesomeAssertionsCodeFixProvider)), Shared]
 public sealed partial class AwesomeAssertionsCodeFixProvider : CodeFixProviderBase<AwesomeAssertionsCodeFixProvider.EmptyTestContext>
 {
-    protected override string Title => AwesomeAssertionsAnalyzer.Title;
-    public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(AwesomeAssertionsAnalyzer.DiagnosticId);
+    protected override string Title => "Simplify Assertion";
+    public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(RuleIdentifiers.AwesomeAssertionsTips);
 
     protected override CreateChangedDocument TryComputeFix(IInvocationOperation assertion, CodeFixContext context, EmptyTestContext t, Diagnostic diagnostic)
     {
