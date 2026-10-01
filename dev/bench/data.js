@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790829977516,
+  "lastUpdate": 1790830334427,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -16340,6 +16340,42 @@ window.BENCHMARK_DATA = {
             "value": 151.2183759395893,
             "unit": "ns",
             "range": "± 1.5833877064278308"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "4f113a9547565324d6cccd9a32b3e8dff0f03e2b",
+          "message": "chore(deps): update dependency microsoft.net.test.sdk to 18.10.1 (#157)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-10-01T06:50:31+02:00",
+          "tree_id": "27ebb4465a4930e9579abe48cc52bce7d7cdc242",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/4f113a9547565324d6cccd9a32b3e8dff0f03e2b"
+        },
+        "date": 1790830333240,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 195.9645140852247,
+            "unit": "ns",
+            "range": "± 0.6209821295478092"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 195.24651783704758,
+            "unit": "ns",
+            "range": "± 0.4706836644070133"
           }
         ]
       }
