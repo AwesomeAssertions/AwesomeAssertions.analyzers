@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790596906466,
+  "lastUpdate": 1790829794118,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -16160,6 +16160,42 @@ window.BENCHMARK_DATA = {
             "value": 186.6275643825531,
             "unit": "ns",
             "range": "± 1.5295823665466037"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c110ed098033311a28dbed9bd01d35f0bb6f5593",
+          "message": "chore(deps): update dependency nunit to v5 (#160)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-10-01T06:41:36+02:00",
+          "tree_id": "e16271bc5d28974b0e77048044aa0ca93c8f765a",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/c110ed098033311a28dbed9bd01d35f0bb6f5593"
+        },
+        "date": 1790829792129,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 167.54736015001933,
+            "unit": "ns",
+            "range": "± 1.0090142905412516"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 173.22649363676706,
+            "unit": "ns",
+            "range": "± 1.3408569506224406"
           }
         ]
       }
