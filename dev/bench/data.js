@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790829839340,
+  "lastUpdate": 1790829975614,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -16268,6 +16268,42 @@ window.BENCHMARK_DATA = {
             "value": 203.59849246342978,
             "unit": "ns",
             "range": "± 2.46209106367626"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "d1ed4f84c05565e0a6b2577df6d9909d58746139",
+          "message": "chore(deps): update dependency coverlet.msbuild to 10.1.0 (#156)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-10-01T06:43:25+02:00",
+          "tree_id": "78f50da69309fa6c5f9885627439b930640dfa41",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/d1ed4f84c05565e0a6b2577df6d9909d58746139"
+        },
+        "date": 1790829974338,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 180.58894116878508,
+            "unit": "ns",
+            "range": "± 4.885018889618101"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 172.77387828826903,
+            "unit": "ns",
+            "range": "± 3.9821021565703414"
           }
         ]
       }
