@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790832564539,
+  "lastUpdate": 1791049158087,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -16412,6 +16412,42 @@ window.BENCHMARK_DATA = {
             "value": 92.89514638582865,
             "unit": "ns",
             "range": "± 1.0145897954121768"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "a272c072429e25af30c51d95b52c6f517f4e1345",
+          "message": "chore(deps): update dependency renovate to v44.132.4 (#161)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-10-03T19:37:40+02:00",
+          "tree_id": "b8bcddc7597ac29ca0ad374693be0c65fd0c2914",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/a272c072429e25af30c51d95b52c6f517f4e1345"
+        },
+        "date": 1791049156911,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 195.5774898290634,
+            "unit": "ns",
+            "range": "± 2.1532040269897563"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 194.70554962158204,
+            "unit": "ns",
+            "range": "± 1.2687897396443812"
           }
         ]
       }
