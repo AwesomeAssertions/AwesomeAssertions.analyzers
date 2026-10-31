@@ -6,25 +6,29 @@ using AwesomeAssertions.Analyzers.Docs.Generator;
 
 namespace AwesomeAssertions.Analyzers.Docs;
 
-public class Program
+public static class Program
 {
     public static Task Main(string[] args) => ProgramUtils.RunMain<Nunit4DocsGenerator, Nunit4DocsVerifier>(args);
 
-    private class Nunit4DocsGenerator : DocsGenerator
+    private sealed class Nunit4DocsGenerator : DocsGenerator
     {
         protected override Assembly TestAssembly { get; } = typeof(Program).Assembly;
+
         protected override string TestAttribute => "Test"; // NUnit.Framework.TestAttribute
+
         protected override string TestFile => Path.Join(Environment.CurrentDirectory, "Nunit4AnalyzerTests.cs");
 
         protected override void ResetTestFramework()
         {
-            var testContext = typeof(NUnit.Framework.Internal.TestExecutionContext);
+            Type testContext = typeof(NUnit.Framework.Internal.TestExecutionContext);
             testContext.GetProperty("CurrentContext").SetValue(null, new NUnit.Framework.Internal.TestExecutionContext.AdhocContext());
         }
     }
-    private class Nunit4DocsVerifier : DocsVerifier
+
+    private sealed class Nunit4DocsVerifier : DocsVerifier
     {
         protected override string TestAttribute => "Test"; // NUnit.Framework.TestAttribute
+
         protected override string TestFile => Path.Join(Environment.CurrentDirectory, "Nunit4AnalyzerTests.cs");
     }
 }

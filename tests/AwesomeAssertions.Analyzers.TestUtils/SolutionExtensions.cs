@@ -13,7 +13,7 @@ public static class SolutionExtensions
     private static readonly string NugetPackagesPath = Environment.GetEnvironmentVariable("NUGET_PACKAGES")
         ?? (OperatingSystem.IsWindows() ? Environment.ExpandEnvironmentVariables("%userprofile%\\.nuget\\packages") : "~/.nuget/packages");
 
-    private static readonly HttpClient HttpClient = new HttpClient();
+    private static readonly HttpClient HttpClient = new();
     private static readonly Task SetupPackages = Task.WhenAll(PackageReference.AllDependencies.Select(p => DownloadPackageAsync(p.Name, p.Version)));
 
     public static Solution AddPackageReference(this Solution solution, ProjectId projectId, PackageReference package)
@@ -50,8 +50,8 @@ public static class SolutionExtensions
             return;
         }
 
-        await using var stream = await HttpClient.GetStreamAsync(new Uri($"https://www.nuget.org/api/v2/package/{packageId}/{version}")).ConfigureAwait(false);
-        using var zip = new ZipArchive(stream, ZipArchiveMode.Read);
+        await using Stream stream = await HttpClient.GetStreamAsync(new Uri($"https://www.nuget.org/api/v2/package/{packageId}/{version}")).ConfigureAwait(false);
+        await using var zip = new ZipArchive(stream, ZipArchiveMode.Read);
 
         Directory.CreateDirectory(packagePath);
         await zip.ExtractToDirectoryAsync(packagePath, overwriteFiles: true);

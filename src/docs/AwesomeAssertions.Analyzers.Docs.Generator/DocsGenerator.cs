@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -12,77 +13,84 @@ namespace AwesomeAssertions.Analyzers.Docs.Generator;
 
 public abstract class DocsGenerator
 {
+    private const string OldAssertionComment = "// old assertion:";
+    private const string NewAssertionComment = "// new assertion:";
+
     protected abstract Assembly TestAssembly { get; }
+
     protected abstract string TestAttribute { get; }
+
     protected abstract string TestFile { get; }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S3776:Cognitive Complexity of methods should not be too high", Justification = "Fix later")]
     public async Task Execute()
     {
         Console.WriteLine($"Input file: {TestFile}");
 
-        var compilation = SyntaxFactory.ParseCompilationUnit(await File.ReadAllTextAsync(TestFile));
-        var tree = compilation.SyntaxTree;
+        CompilationUnitSyntax compilation = SyntaxFactory.ParseCompilationUnit(await File.ReadAllTextAsync(TestFile));
+        SyntaxTree tree = compilation.SyntaxTree;
 
         Console.WriteLine($"File: {Path.GetFileName(TestFile)}");
 
-        var docsName = Path.GetFileNameWithoutExtension(TestFile).Replace("Tests", ".md");
+        var docsName = Path.GetFileNameWithoutExtension(TestFile).Replace("Tests", ".md", StringComparison.Ordinal);
 
         var docs = new StringBuilder();
         var toc = new StringBuilder();
         var scenarios = new StringBuilder();
 
-        docs.AppendLine("<!--");
-        docs.AppendLine("This is a generated file, please edit src\\docs\\AwesomeAssertions.Analyzers.Docs.Generator\\DocsGenerator.cs to change the contents");
-        docs.AppendLine("-->");
-        docs.AppendLine();
+        docs.AppendLine("<!--")
+            .AppendLine("This is a generated file, please edit src\\docs\\AwesomeAssertions.Analyzers.Docs.Generator\\DocsGenerator.cs to change the contents")
+            .AppendLine("-->")
+            .AppendLine();
 
-        var subject = Path.GetFileNameWithoutExtension(TestFile).Replace("AnalyzerTests", string.Empty);
-        docs.AppendLine($"# {subject} Analyzer Docs");
-        docs.AppendLine();
+        var subject = Path.GetFileNameWithoutExtension(TestFile).Replace("AnalyzerTests", string.Empty, StringComparison.Ordinal);
+        docs.AppendLine($"# {subject} Analyzer Docs")
+            .AppendLine();
 
-        scenarios.AppendLine("## Scenarios");
-        scenarios.AppendLine();
+        scenarios.AppendLine("## Scenarios")
+            .AppendLine();
 
-        var root = await tree.GetRootAsync();
-        var classDef = root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
-        var methods = root.DescendantNodes().OfType<MethodDeclarationSyntax>();
+        SyntaxNode root = await tree.GetRootAsync();
+        ClassDeclarationSyntax classDef = root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
+        IEnumerable<MethodDeclarationSyntax> methods = root.DescendantNodes().OfType<MethodDeclarationSyntax>();
         var methodsMap = methods.ToDictionary(m => m.Identifier.Text);
 
-        var classType = TestAssembly.GetType($"AwesomeAssertions.Analyzers.Docs.{classDef.Identifier.Text}");
+        Type classType = TestAssembly.GetType($"AwesomeAssertions.Analyzers.Docs.{classDef.Identifier.Text}");
         var classInstance = Activator.CreateInstance(classType);
 
-        foreach (var method in methods.Where(m => m.AttributeLists.Any(list => list.Attributes.Count is 1 && list.Attributes[0].Name.ToString() == TestAttribute)))
+        foreach (MethodDeclarationSyntax method in methods.Where(m => m.AttributeLists.Any(list => list.Attributes.Count is 1 && list.Attributes[0].Name.ToString() == TestAttribute)))
         {
             // success scenario:
             {
-                scenarios.AppendLine($"### scenario: {method.Identifier}");
-                scenarios.AppendLine();
+                scenarios.AppendLine($"### scenario: {method.Identifier}")
+                    .AppendLine();
                 var bodyLines = method.Body.ToFullString().Split(Environment.NewLine)[1..^2];
                 var paddingToRemove = bodyLines[0].IndexOf(bodyLines[0].TrimStart());
-                var normalizedBody = bodyLines.Select(l => l.Length > paddingToRemove ? l.Substring(paddingToRemove) : l).Aggregate((a, b) => $"{a}{Environment.NewLine}{b}");
+                var normalizedBody = bodyLines.Select(l => l.Length > paddingToRemove ? l.Substring(paddingToRemove) : l).Aggregate((a, b) => a + Environment.NewLine + b);
                 var methodBody = $"```cs{Environment.NewLine}{normalizedBody}{Environment.NewLine}```";
-                scenarios.AppendLine(methodBody);
-                scenarios.AppendLine();
+                scenarios.AppendLine(methodBody)
+                    .AppendLine();
 
                 var newAssertion = bodyLines[^1].Trim();
 
-                toc.AppendLine($"- [{method.Identifier}](#scenario-{method.Identifier.Text.ToLower()}) - `{newAssertion}`");
+#pragma warning disable CA1308 // Normalize strings to uppercase: wrong here
+                toc.AppendLine($"- [{method.Identifier}](#scenario-{method.Identifier.Text.ToLowerInvariant()}) - `{newAssertion}`");
+#pragma warning restore CA1308 // Normalize strings to uppercase
             }
 
             // AwesomeAssertion failures scenario:
-            if (methodsMap.TryGetValue($"{method.Identifier.Text}_Failure", out var testWithFailure))
+            if (methodsMap.TryGetValue($"{method.Identifier.Text}_Failure", out MethodDeclarationSyntax testWithFailure))
             {
-                var testMethodWithFailure = classType.GetMethod(testWithFailure.Identifier.Text);
+                MethodInfo testMethodWithFailure = classType.GetMethod(testWithFailure.Identifier.Text);
 
                 var failureMessages = SplitAssertionFailureMessages(GetMethodExceptionMessage(classInstance, testMethodWithFailure));
 
                 var bodyLines = testWithFailure.Body.ToFullString().Split(Environment.NewLine)[2..^2];
                 var paddingToRemove = bodyLines[0].IndexOf(bodyLines[0].TrimStart());
+                SyntaxTrivia oldAssertionComment = GetOldAssertionComment(testWithFailure);
+                SyntaxTrivia newAssertionComment = GetNewAssertionComment(testWithFailure);
 
-                var oldAssertionComment = testWithFailure.DescendantTrivia().First(x => x.IsKind(SyntaxKind.SingleLineCommentTrivia) && x.ToString().Equals("// old assertion:"));
-                var newAssertionComment = testWithFailure.DescendantTrivia().First(x => x.IsKind(SyntaxKind.SingleLineCommentTrivia) && x.ToString().Equals("// new assertion:"));
-
-                var statements = testWithFailure.Body.Statements.OfType<ExpressionStatementSyntax>();
+                IEnumerable<ExpressionStatementSyntax> statements = testWithFailure.Body.Statements.OfType<ExpressionStatementSyntax>();
 
                 var oldAssertionStatements = statements.Where(x => x.Span.CompareTo(oldAssertionComment.Span) > 0 && x.Span.CompareTo(newAssertionComment.Span) < 0).ToArray();
                 var newAssertionStatement = statements.Single(x => x.Span.CompareTo(newAssertionComment.Span) > 0);
@@ -114,76 +122,82 @@ public abstract class DocsGenerator
                 var newAssertion = newAssertionStatement.ToString().TrimStart() + " \t// fail message: " + string.Join($"{Environment.NewLine}// ", newFailureMessage.Split(Environment.NewLine));
 
                 var arrange = bodyLines.TakeWhile(x => !string.IsNullOrEmpty(x))
-                    .Select(l => l.Length > paddingToRemove ? l.Substring(paddingToRemove) : l).Aggregate((a, b) => $"{a}{Environment.NewLine}{b}");
+                    .Select(l => l.Length > paddingToRemove ? l.Substring(paddingToRemove) : l).Aggregate((a, b) => a + Environment.NewLine + b);
 
-                scenarios.AppendLine($"#### Failure messages");
-                scenarios.AppendLine();
-                scenarios.AppendLine("```cs");
-                scenarios.AppendLine(arrange);
-                scenarios.AppendLine();
-                scenarios.AppendLine($"// old assertion:");
+                scenarios.AppendLine("#### Failure messages")
+                    .AppendLine()
+                    .AppendLine("```cs")
+                    .AppendLine(arrange)
+                    .AppendLine()
+                    .AppendLine(OldAssertionComment);
                 foreach (var oldAssertion in oldAssertions)
                 {
                     scenarios.AppendLine(oldAssertion);
                 }
-                scenarios.AppendLine();
-                scenarios.AppendLine($"// new assertion:");
-                scenarios.AppendLine(newAssertion);
-                scenarios.AppendLine("```");
-                scenarios.AppendLine();
+
+                scenarios.AppendLine()
+                    .AppendLine(NewAssertionComment)
+                    .AppendLine(newAssertion)
+                    .AppendLine("```")
+                    .AppendLine();
             }
 
             // Testing Libraries failures scenarios:
-            if (methodsMap.TryGetValue($"{method.Identifier.Text}_Failure_NewAssertion", out var testWithFailureNewAssertion))
+            if (methodsMap.TryGetValue($"{method.Identifier.Text}_Failure_NewAssertion", out MethodDeclarationSyntax testWithFailureNewAssertion))
             {
-                var testWithFailureOldAssertions = methodsMap.Where(x => x.Key.StartsWith($"{method.Identifier.Text}_Failure_OldAssertion")).Select(x => x.Value);
+                IEnumerable<MethodDeclarationSyntax> testWithFailureOldAssertions = methodsMap.Where(x => x.Key.StartsWith($"{method.Identifier.Text}_Failure_OldAssertion")).Select(x => x.Value);
 
-                var testMethodWithFailureOldAssertions = testWithFailureOldAssertions.Select(m => classType.GetMethod(m.Identifier.Text));
-                var testMethodWithFailureNewAssertion = classType.GetMethod(testWithFailureNewAssertion.Identifier.Text);
+                IEnumerable<MethodInfo> testMethodWithFailureOldAssertions = testWithFailureOldAssertions.Select(m => classType.GetMethod(m.Identifier.Text));
+                MethodInfo testMethodWithFailureNewAssertion = classType.GetMethod(testWithFailureNewAssertion.Identifier.Text);
 
                 var exceptionMessageLinesOldAssertions = testMethodWithFailureOldAssertions.Select(m => GetMethodExceptionMessage(classInstance, m)).ToArray();
                 var exceptionMessageLinesNewAssertion = GetMethodExceptionMessage(classInstance, testMethodWithFailureNewAssertion);
 
-                var oldAssertionComment = testWithFailureOldAssertions.Select(x => x.DescendantTrivia().First(x => x.IsKind(SyntaxKind.SingleLineCommentTrivia) && x.ToString().Equals("// old assertion:"))).ToArray();
-                var newAssertionComment = testWithFailureNewAssertion.DescendantTrivia().First(x => x.IsKind(SyntaxKind.SingleLineCommentTrivia) && x.ToString().Equals("// new assertion:"));
+                SyntaxTrivia[] oldAssertionComment = testWithFailureOldAssertions.Select(x => GetOldAssertionComment(x)).ToArray();
+                SyntaxTrivia newAssertionComment = GetNewAssertionComment(testWithFailureNewAssertion);
 
                 var bodyLines = testWithFailureNewAssertion.Body.ToFullString().Split(Environment.NewLine)[2..^2];
                 var paddingToRemove = bodyLines[0].IndexOf(bodyLines[0].TrimStart());
 
-                var oldAssertions = testWithFailureOldAssertions.Select((x, i) => x.Body.Statements.OfType<ExpressionStatementSyntax>().Single(x => x.Span.CompareTo(oldAssertionComment[i].Span) > 0).ToString().TrimStart() + " /* fail message: " + AwesomeAssertionAnalyzerDocsUtils.ReplaceStackTrace(exceptionMessageLinesOldAssertions[i]) + " */");
+                IEnumerable<string> oldAssertions = testWithFailureOldAssertions.Select((x, i) => x.Body.Statements.OfType<ExpressionStatementSyntax>().Single(x => x.Span.CompareTo(oldAssertionComment[i].Span) > 0).ToString().TrimStart() + " /* fail message: " + AwesomeAssertionAnalyzerDocsUtils.ReplaceStackTrace(exceptionMessageLinesOldAssertions[i]) + " */");
                 var newAssertion = testWithFailureNewAssertion.Body.Statements.OfType<ExpressionStatementSyntax>().Single(x => x.Span.CompareTo(newAssertionComment.Span) > 0).ToString().TrimStart() + " /* fail message: " + exceptionMessageLinesNewAssertion + " */";
 
                 var arrange = bodyLines.TakeWhile(x => !string.IsNullOrEmpty(x))
-                    .Select(l => l.Length > paddingToRemove ? l.Substring(paddingToRemove) : l).Aggregate((a, b) => $"{a}{Environment.NewLine}{b}");
+                    .Select(l => l.Length > paddingToRemove ? l.Substring(paddingToRemove) : l).Aggregate((a, b) => a + Environment.NewLine + b);
 
-                scenarios.AppendLine($"#### Failure messages");
-                scenarios.AppendLine();
-                scenarios.AppendLine("```cs");
-                scenarios.AppendLine(arrange);
-                scenarios.AppendLine();
-                scenarios.AppendLine($"// old assertion:");
+                scenarios.AppendLine("#### Failure messages")
+                    .AppendLine()
+                    .AppendLine("```cs")
+                    .AppendLine(arrange)
+                    .AppendLine()
+                    .AppendLine(OldAssertionComment);
                 foreach (var oldAssertion in oldAssertions)
                 {
                     scenarios.AppendLine(oldAssertion);
                 }
-                scenarios.AppendLine();
-                scenarios.AppendLine($"// new assertion:");
-                scenarios.AppendLine(newAssertion);
-                scenarios.AppendLine("```");
-                scenarios.AppendLine();
-            }
 
+                scenarios.AppendLine()
+                    .AppendLine(NewAssertionComment)
+                    .AppendLine(newAssertion)
+                    .AppendLine("```")
+                    .AppendLine();
+            }
         }
 
-        docs.AppendLine(toc.ToString());
-        docs.AppendLine();
-        docs.AppendLine(scenarios.ToString());
+        docs.Append(toc).AppendLine()
+            .AppendLine()
+            .Append(scenarios).AppendLine();
 
         var docsPath = Path.Combine(Environment.CurrentDirectory, "..", "..", "..", "docs", docsName);
         Directory.CreateDirectory(Path.GetDirectoryName(docsPath));
         await File.WriteAllTextAsync(docsPath, docs.ToString());
-
     }
+
+    private static SyntaxTrivia GetNewAssertionComment(MethodDeclarationSyntax testWithFailure) =>
+        testWithFailure.DescendantTrivia().First(x => x.IsKind(SyntaxKind.SingleLineCommentTrivia) && x.ToString().Equals(NewAssertionComment, StringComparison.Ordinal));
+
+    private static SyntaxTrivia GetOldAssertionComment(MethodDeclarationSyntax testWithFailure) =>
+        testWithFailure.DescendantTrivia().First(x => x.IsKind(SyntaxKind.SingleLineCommentTrivia) && x.ToString().Equals(OldAssertionComment, StringComparison.Ordinal));
 
     private string GetMethodExceptionMessage(object instance, MethodInfo method)
     {

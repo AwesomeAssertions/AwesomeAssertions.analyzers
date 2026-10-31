@@ -1,27 +1,20 @@
 using System;
 using System.Linq;
+using AwesomeAssertions.Analyzers.Tips.Editing;
+using AwesomeAssertions.Analyzers.Utilities;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 using Microsoft.CodeAnalysis.Operations;
 
-namespace AwesomeAssertions.Analyzers;
-
-
-public record struct AwesomeAssertionEditActionContext(
-    IInvocationOperation Assertion,
-    InvocationExpressionSyntax AssertionExpression,
-    IInvocationOperation Should,
-    IOperation Subject,
-    IInvocationOperation InvocationBeforeShould
-);
+namespace AwesomeAssertions.Analyzers.Tips;
 
 public static class AwesomeAssertionsEditAction
 {
     public static Action<DocumentEditor, AwesomeAssertionEditActionContext> RenameAssertion(string newName)
     {
-        return (DocumentEditor editor, AwesomeAssertionEditActionContext context) =>
+        return (editor, context) =>
         {
             var newNameNode = (IdentifierNameSyntax)editor.Generator.IdentifierName(newName);
             var memberAccess = (MemberAccessExpressionSyntax)context.AssertionExpression.Expression;
@@ -31,7 +24,7 @@ public static class AwesomeAssertionsEditAction
 
     public static Action<DocumentEditor, AwesomeAssertionEditActionContext> SkipInvocationBeforeShould()
     {
-        return (DocumentEditor editor, AwesomeAssertionEditActionContext context) =>
+        return (editor, context) =>
         {
             var invocationExpressionBeforeShould = (InvocationExpressionSyntax)context.InvocationBeforeShould.Syntax;
             var methodMemberAccess = (MemberAccessExpressionSyntax)invocationExpressionBeforeShould.Expression;
@@ -42,7 +35,7 @@ public static class AwesomeAssertionsEditAction
 
     public static Action<DocumentEditor, AwesomeAssertionEditActionContext> SkipExpressionBeforeShould()
     {
-        return (DocumentEditor editor, AwesomeAssertionEditActionContext context) =>
+        return (editor, context) =>
         {
             IEditAction skipExpressionNodeAction = context.Subject switch
             {
@@ -57,29 +50,28 @@ public static class AwesomeAssertionsEditAction
 
     public static Action<DocumentEditor, AwesomeAssertionEditActionContext> RemoveAssertionArgument(int index)
     {
-        return (DocumentEditor editor, AwesomeAssertionEditActionContext context) =>
-        {
+        return (editor, context) =>
             editor.RemoveNode(context.AssertionExpression.ArgumentList.Arguments[index]);
-        };
     }
 
     public static Action<DocumentEditor, AwesomeAssertionEditActionContext> PrependArgumentsFromInvocationBeforeShouldToAssertion(int skipAssertionArguments = 0)
     {
-        return (DocumentEditor editor, AwesomeAssertionEditActionContext context) =>
+        return (editor, context) =>
         {
             var invocationExpressionBeforeShould = (InvocationExpressionSyntax)context.InvocationBeforeShould.Syntax;
-            var argumentList = invocationExpressionBeforeShould.ArgumentList;
+            ArgumentListSyntax argumentList = invocationExpressionBeforeShould.ArgumentList;
 
-            var combinedArguments = SyntaxFactory.ArgumentList(argumentList.Arguments.AddRange(context.AssertionExpression.ArgumentList.Arguments.Skip(skipAssertionArguments)));
+            ArgumentListSyntax combinedArguments = SyntaxFactory.ArgumentList(argumentList.Arguments.AddRange(context.AssertionExpression.ArgumentList.Arguments.Skip(skipAssertionArguments)));
             editor.ReplaceNode(context.AssertionExpression.ArgumentList, combinedArguments);
         };
     }
+
     public static Action<DocumentEditor, AwesomeAssertionEditActionContext> RemoveInvocationOnAssertionArgument(int assertionArgumentIndex, int invocationArgumentIndex)
     {
-        return (DocumentEditor editor, AwesomeAssertionEditActionContext context) =>
+        return (editor, context) =>
         {
             var invocationArgument = (IInvocationOperation)context.Assertion.Arguments[assertionArgumentIndex].Value;
-            var expected = invocationArgument.Arguments[invocationArgumentIndex].Value.UnwrapConversion();
+            IOperation expected = invocationArgument.Arguments[invocationArgumentIndex].Value.UnwrapConversion();
 
             editor.ReplaceNode(invocationArgument.Syntax, expected.Syntax);
         };
@@ -87,9 +79,9 @@ public static class AwesomeAssertionsEditAction
 
     public static Action<DocumentEditor, AwesomeAssertionEditActionContext> UnwrapInvocationOnSubject(int argumentIndex)
     {
-        return (DocumentEditor editor, AwesomeAssertionEditActionContext context) =>
+        return (editor, context) =>
         {
-            var subjectReference = ((IInvocationOperation)context.Subject).Arguments[argumentIndex].Value;
+            IOperation subjectReference = ((IInvocationOperation)context.Subject).Arguments[argumentIndex].Value;
 
             editor.ReplaceNode(context.Subject.Syntax, subjectReference.Syntax.WithTriviaFrom(context.Subject.Syntax));
         };

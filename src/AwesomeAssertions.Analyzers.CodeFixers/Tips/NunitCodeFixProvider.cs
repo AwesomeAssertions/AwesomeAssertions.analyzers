@@ -1,27 +1,34 @@
+using System;
 using System.Collections.Immutable;
 using System.Composition;
+using System.Linq;
+using AwesomeAssertions.Analyzers.Tips.Editing;
+using AwesomeAssertions.Analyzers.Utilities;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.Operations;
-using CreateChangedDocument = System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task<Microsoft.CodeAnalysis.Document>>;
-using System;
-using AwesomeAssertions.Analyzers.Utilities;
-using Microsoft.CodeAnalysis.Simplification;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
-using System.Linq;
+using Microsoft.CodeAnalysis.Operations;
+using Microsoft.CodeAnalysis.Simplification;
+using CreateChangedDocument = System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task<Microsoft.CodeAnalysis.Document>>;
 
-namespace AwesomeAssertions.Analyzers;
+namespace AwesomeAssertions.Analyzers.Tips;
 
-[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NunitCodeFixProvider)), Shared]
-public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFixProvider.NunitCodeFixContext>
+#pragma warning disable AV1555 // Avoid using non-(nullable-)boolean named arguments: at the moment better for clarity
+#pragma warning disable AV1537 // If-else-if construct should end with an unconditional else clause: Wrong, here
+#pragma warning disable S1192 // String literals should not be duplicated: Better readability with duplication
+[Shared]
+[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NunitCodeFixProvider))]
+public sealed class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFixProvider.NunitCodeFixContext>
 {
     public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(RuleIdentifiers.NunitRule);
+
     protected override NunitCodeFixContext CreateTestContext(SemanticModel semanticModel) => new(semanticModel.Compilation);
+
     protected override CreateChangedDocument TryComputeFixCore(IInvocationOperation invocation, CodeFixContext context, NunitCodeFixContext t, Diagnostic diagnostic)
     {
-        var assertType = invocation.TargetMethod.ContainingType;
-        var nunitVersion = assertType.ContainingAssembly.Identity.Version;
+        INamedTypeSymbol assertType = invocation.TargetMethod.ContainingType;
+        Version nunitVersion = assertType.ContainingAssembly.Identity.Version;
 
         var isNunit3 = nunitVersion >= new Version(3, 0, 0, 0) && nunitVersion < new Version(4, 0, 0, 0);
         var isNunit4 = nunitVersion >= new Version(4, 0, 0, 0) && nunitVersion < new Version(5, 0, 0, 0);
@@ -31,93 +38,23 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
             "Assert" when invocation.TargetMethod.Name is "That" => TryComputeFixForNunitThat(invocation, context, t),
             "Assert" when isNunit3 => TryComputeFixForNunitClassicAssert(invocation, context, t),
             "ClassicAssert" when isNunit4 => TryComputeFixForNunitClassicAssert(invocation, context, t),
-            //"StringAssert" => TryComputeFixForStringAssert(invocation, context, t),
             "CollectionAssert" => TryComputeFixForCollectionAssert(invocation, context, t),
             _ => null
         };
     }
 
-    private CreateChangedDocument TryComputeFixForNunitClassicAssert(IInvocationOperation invocation, CodeFixContext context, NunitCodeFixContext t)
+    private static CreateChangedDocument TryComputeFixForNunitClassicAssert(IInvocationOperation invocation, CodeFixContext context, NunitCodeFixContext t)
     {
-        /*
-        public static void Greater(IComparable arg1, IComparable arg2, string message, params object[] args)
-        public static void Greater(IComparable arg1, IComparable arg2)
-        public static void Less(IComparable arg1, IComparable arg2, string message, params object[] args)
-        public static void Less(IComparable arg1, IComparable arg2)
-        public static void GreaterOrEqual(IComparable arg1, IComparable arg2, string message, params object[] args)
-        public static void GreaterOrEqual(IComparable arg1, IComparable arg2)
-        public static void LessOrEqual(IComparable arg1, IComparable arg2, string message, params object[] args)
-        public static void LessOrEqual(IComparable arg1, IComparable arg2)
-        public static void IsNaN(double aDouble, string? message, params object?[]? args)
-        public static void IsNaN(double aDouble)
-        public static void IsNaN(double? aDouble, string? message, params object?[]? args)
-        public static void IsNaN(double? aDouble)
-        public static void IsEmpty(IEnumerable collection, string? message, params object?[]? args)
-        public static void IsEmpty(IEnumerable collection)
-        public static void IsNotEmpty(IEnumerable collection, string? message, params object?[]? args)
-        public static void IsNotEmpty(IEnumerable collection)
-        public static void Pass(string? message, params object?[]? args)
-        public static void Pass(string? message)
-        public static void Pass()
-        public static void Fail(string? message, params object?[]? args)
-        public static void Fail(string? message)
-        public static void Fail()
-        public static void Warn(string? message, params object?[]? args)
-        public static void Warn(string? message)
-        public static void Ignore(string? message, params object?[]? args)
-        public static void Ignore(string? message)
-        public static void Ignore()
-        public static void Inconclusive(string? message, params object?[]? args)
-        public static void Inconclusive(string? message)
-        public static void Inconclusive()
-        public static void Multiple(TestDelegate testDelegate)
-        public static void Multiple(AsyncTestDelegate testDelegate)
-        public static Exception? ThrowsAsync(IResolveConstraint expression, AsyncTestDelegate code, string? message, params object?[]? args)
-        public static Exception? ThrowsAsync(IResolveConstraint expression, AsyncTestDelegate code)
-        public static Exception? ThrowsAsync(Type expectedExceptionType, AsyncTestDelegate code, string? message, params object?[]? args)
-        public static Exception? ThrowsAsync(Type expectedExceptionType, AsyncTestDelegate code)
-        public static TActual? ThrowsAsync<TActual>(AsyncTestDelegate code, string? message, params object?[]? args) where TActual : Exception
-        public static TActual? ThrowsAsync<TActual>(AsyncTestDelegate code) where TActual : Exception
-        public static Exception? CatchAsync(AsyncTestDelegate code, string? message, params object?[]? args)
-        public static Exception? CatchAsync(AsyncTestDelegate code)
-        public static Exception? CatchAsync(Type expectedExceptionType, AsyncTestDelegate code, string? message, params object?[]? args)
-        public static Exception? CatchAsync(Type expectedExceptionType, AsyncTestDelegate code)
-        public static TActual? CatchAsync<TActual>(AsyncTestDelegate code, string? message, params object?[]? args) where TActual : Exception
-        public static TActual? CatchAsync<TActual>(AsyncTestDelegate code) where TActual : Exception
-        public static void DoesNotThrowAsync(AsyncTestDelegate code, string? message, params object?[]? args)
-        public static void DoesNotThrowAsync(AsyncTestDelegate code)
-        public static Exception? Throws(IResolveConstraint expression, TestDelegate code, string? message, params object?[]? args)
-        public static Exception? Throws(IResolveConstraint expression, TestDelegate code)
-        public static Exception? Throws(Type expectedExceptionType, TestDelegate code, string? message, params object?[]? args)
-        public static Exception? Throws(Type expectedExceptionType, TestDelegate code)
-        public static TActual? Throws<TActual>(TestDelegate code, string? message, params object?[]? args) where TActual : Exception
-        public static TActual? Throws<TActual>(TestDelegate code) where TActual : Exception
-        public static Exception? Catch(TestDelegate code, string? message, params object?[]? args)
-        public static Exception? Catch(TestDelegate code)
-        public static Exception? Catch(Type expectedExceptionType, TestDelegate code, string? message, params object?[]? args)
-        public static Exception? Catch(Type expectedExceptionType, TestDelegate code)
-        public static TActual? Catch<TActual>(TestDelegate code, string? message, params object?[]? args) where TActual : Exception
-        public static TActual? Catch<TActual>(TestDelegate code) where TActual : Exception
-        public static void DoesNotThrow(TestDelegate code, string? message, params object?[]? args)
-        public static void DoesNotThrow(TestDelegate code)
-        public static void That(Func<bool> condition, string? message, params object?[]? args)
-        public static void That(Func<bool> condition)
-        public static void That(Func<bool> condition, Func<string?> getExceptionMessage)
-        public static void That<TActual>(ActualValueDelegate<TActual> del, IResolveConstraint expr)
-        public static void That<TActual>(ActualValueDelegate<TActual> del, IResolveConstraint expr, string? message, params object?[]? args)
-        public static void That<TActual>(ActualValueDelegate<TActual> del, IResolveConstraint expr, Func<string?> getExceptionMessage)
-        public static void That(TestDelegate code, IResolveConstraint constraint)
-        public static void That(TestDelegate code, IResolveConstraint constraint, string? message, params object?[]? args)
-        public static void That(TestDelegate code, IResolveConstraint constraint, Func<string?> getExceptionMessage)
-        public static void That<TActual>(TActual actual, IResolveConstraint expression)
-        public static void That<TActual>(TActual actual, IResolveConstraint expression, string? message, params object?[]? args)
-        public static void That<TActual>(TActual actual, IResolveConstraint expression, Func<string?> getExceptionMessage)
-        public static void ByVal(object? actual, IResolveConstraint expression)
-        public static void ByVal(object? actual, IResolveConstraint expression, string? message, params object?[]? args)
-        */
+        int actualSubjectIndex;
+        if (invocation.Arguments.Length is 1)
+        {
+            actualSubjectIndex = 0;
+        }
+        else
+        {
+            actualSubjectIndex = invocation.Arguments[1].IsLiteralValue() ? 0 : 1;
+        }
 
-        var actualSubjectIndex = invocation.Arguments.Length is 1 ? 0
-            : invocation.Arguments[1].IsLiteralValue() ? 0 : 1;
         switch (invocation.TargetMethod.Name)
         {
             case "True": // Assert.True(bool condition)
@@ -235,6 +172,7 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
 
                     return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(typeOf.TypeOperand), context, "BeAssignableTo", subjectIndex: 1, argumentsToRemove: [0]);
                 }
+
             case "IsAssignableFrom" when ArgumentsAreTypeOf(invocation, t.Object): // Assert.IsAssignableFrom<T>(object actual)
             case "IsAssignableFrom" when ArgumentsAreTypeOf(invocation, t.Object, t.String, t.ObjectArray): // Assert.IsAssignableFrom<T>(object actual, string message, params object[] parms)
                 return DocumentEditorUtils.RenameGenericMethodToSubjectShouldGenericAssertion(invocation, context, "BeAssignableTo", subjectIndex: 0, argumentsToRemove: []);
@@ -248,6 +186,7 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
 
                     return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(typeOf.TypeOperand), context, "NotBeAssignableTo", subjectIndex: 1, argumentsToRemove: [0]);
                 }
+
             case "IsNotAssignableFrom" when ArgumentsAreTypeOf(invocation, t.Object): // Assert.IsNotAssignableFrom<T>(object actual)
             case "IsNotAssignableFrom" when ArgumentsAreTypeOf(invocation, t.Object, t.String, t.ObjectArray): // Assert.IsNotAssignableFrom<T>(object actual, string message, params object[] parms)
                 return DocumentEditorUtils.RenameGenericMethodToSubjectShouldGenericAssertion(invocation, context, "NotBeAssignableTo", subjectIndex: 0, argumentsToRemove: []);
@@ -261,6 +200,7 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
 
                     return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(typeOf.TypeOperand), context, "BeOfType", subjectIndex: 1, argumentsToRemove: [0]);
                 }
+
             case "IsInstanceOf" when ArgumentsAreTypeOf(invocation, t.Object): // Assert.IsInstanceOf<T>(object actual)
             case "IsInstanceOf" when ArgumentsAreTypeOf(invocation, t.Object, t.String, t.ObjectArray): // Assert.IsInstanceOf<T>(object actual, string message, params object[] parms)
                 return DocumentEditorUtils.RenameGenericMethodToSubjectShouldGenericAssertion(invocation, context, "BeOfType", subjectIndex: 0, argumentsToRemove: []);
@@ -274,44 +214,21 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
 
                     return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(typeOf.TypeOperand), context, "NotBeOfType", subjectIndex: 1, argumentsToRemove: [0]);
                 }
+
             case "IsNotInstanceOf" when ArgumentsAreTypeOf(invocation, t.Object): // Assert.IsNotInstanceOf<T>(object actual)
             case "IsNotInstanceOf" when ArgumentsAreTypeOf(invocation, t.Object, t.String, t.ObjectArray): // Assert.IsNotInstanceOf<T>(object actual, string message, params object[] parms)
                 return DocumentEditorUtils.RenameGenericMethodToSubjectShouldGenericAssertion(invocation, context, "NotBeOfType", subjectIndex: 0, argumentsToRemove: []);
             case "Contains": // Assert.Contains(object expected, ICollection actual)
-                {
-                    var subject = invocation.Arguments[1];
-                    var expected = invocation.Arguments[0];
-                    return RewriteContainsAssertion(invocation, context, "Contain", subject, expected);
-                }
+                IArgumentOperation subject = invocation.Arguments[1];
+                IArgumentOperation expected = invocation.Arguments[0];
+                return RewriteContainsAssertion(invocation, context, "Contain", subject, expected);
         }
+
         return null;
     }
 
-    private CreateChangedDocument TryComputeFixForCollectionAssert(IInvocationOperation invocation, CodeFixContext context, NunitCodeFixContext t)
+    private static CreateChangedDocument TryComputeFixForCollectionAssert(IInvocationOperation invocation, CodeFixContext context, NunitCodeFixContext t)
     {
-        /**
-            public static void AreEqual(IEnumerable expected, IEnumerable actual, IComparer comparer)
-            public static void AreEqual(IEnumerable expected, IEnumerable actual, IComparer comparer, string message, params object[] args)
-            public static void AreEquivalent(IEnumerable expected, IEnumerable actual)
-            public static void AreEquivalent(IEnumerable expected, IEnumerable actual, string message, params object[] args)
-            public static void AreNotEqual(IEnumerable expected, IEnumerable actual, IComparer comparer)
-            public static void AreNotEqual(IEnumerable expected, IEnumerable actual, IComparer comparer, string message, params object[] args)
-            public static void AreNotEquivalent(IEnumerable expected, IEnumerable actual)
-            public static void AreNotEquivalent(IEnumerable expected, IEnumerable actual, string message, params object[] args)
-            public static void IsNotSubsetOf(IEnumerable subset, IEnumerable superset)
-            public static void IsNotSubsetOf(IEnumerable subset, IEnumerable superset, string message, params object[] args)
-            public static void IsSubsetOf(IEnumerable subset, IEnumerable superset)
-            public static void IsSubsetOf(IEnumerable subset, IEnumerable superset, string message, params object[] args)
-            public static void IsNotSupersetOf(IEnumerable superset, IEnumerable subset)
-            public static void IsNotSupersetOf(IEnumerable superset, IEnumerable subset, string message, params object[] args)
-            public static void IsSupersetOf(IEnumerable superset, IEnumerable subset)
-            public static void IsSupersetOf(IEnumerable superset, IEnumerable subset, string message, params object[] args)
-            public static void IsOrdered(IEnumerable collection, string message, params object[] args)
-            public static void IsOrdered(IEnumerable collection)
-            public static void IsOrdered(IEnumerable collection, IComparer comparer, string message, params object[] args)
-            public static void IsOrdered(IEnumerable collection, IComparer comparer)
-        */
-
         if (IsArgumentTypeOfNonGenericEnumerable(invocation, argumentIndex: 0))
         {
             return null;
@@ -330,154 +247,113 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
             case "Contains": // CollectionAssert.Contain(IEnumerable collection, object actual)
                 return RewriteContainsAssertion(invocation, context, "Contain",
                     subject: invocation.Arguments[0],
-                    expectation: invocation.Arguments[1]
-                );
+                    expectation: invocation.Arguments[1]);
             case "DoesNotContain": // CollectionAssert.DoesNotContain(IEnumerable collection, object actual)
                 return RewriteContainsAssertion(invocation, context, "NotContain",
                     subject: invocation.Arguments[0],
-                    expectation: invocation.Arguments[1]
-                );
+                    expectation: invocation.Arguments[1]);
             case "AllItemsAreInstancesOfType": // CollectionAssert.AllItemsAreInstancesOfType(IEnumerable collection, Type expectedType)
+                if (invocation.Arguments[1].Value is not ITypeOfOperation typeOf)
                 {
-                    if (invocation.Arguments[1].Value is not ITypeOfOperation typeOf)
-                    {
-                        return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "AllBeOfType", subjectIndex: 0, argumentsToRemove: []);
-                    }
-
-                    return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(typeOf.TypeOperand), context, "AllBeOfType", subjectIndex: 0, argumentsToRemove: [1]);
+                    return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "AllBeOfType", subjectIndex: 0, argumentsToRemove: []);
                 }
+
+                return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(typeOf.TypeOperand), context, "AllBeOfType", subjectIndex: 0, argumentsToRemove: [1]);
+
             case "AllItemsAreNotNull": // CollectionAssert.AllItemsAreNotNull(IEnumerable collection)
                 return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "NotContainNulls", subjectIndex: 0, argumentsToRemove: []);
             case "AllItemsAreUnique": // CollectionAssert.AllItemsAreUnique(IEnumerable collection)
                 return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "OnlyHaveUniqueItems", subjectIndex: 0, argumentsToRemove: []);
         }
+
         return null;
     }
 
-    /* TODO:
-    StringAssert:
-
-    public static void Contains(string expected, string actual, string message, params object[] args)
-    public static void Contains(string expected, string actual)
-    public static void DoesNotContain(string expected, string actual, string message, params object[] args)
-    public static void DoesNotContain(string expected, string actual)
-    public static void StartsWith(string expected, string actual, string message, params object[] args)
-    public static void StartsWith(string expected, string actual)
-    public static void DoesNotStartWith(string expected, string actual, string message, params object[] args)
-    public static void DoesNotStartWith(string expected, string actual)
-    public static void EndsWith(string expected, string actual, string message, params object[] args)
-    public static void EndsWith(string expected, string actual)
-    public static void DoesNotEndWith(string expected, string actual, string message, params object[] args)
-    public static void DoesNotEndWith(string expected, string actual)
-    public static void AreEqualIgnoringCase(string expected, string actual, string message, params object[] args)
-    public static void AreEqualIgnoringCase(string expected, string actual)
-    public static void AreNotEqualIgnoringCase(string expected, string actual, string message, params object[] args)
-    public static void AreNotEqualIgnoringCase(string expected, string actual)
-    public static void IsMatch(string pattern, string actual, string message, params object[] args)
-    public static void IsMatch(string pattern, string actual)
-    public static void DoesNotMatch(string pattern, string actual, string message, params object[] args)
-    public static void DoesNotMatch(string pattern, string actual)
-    */
-
-    private CreateChangedDocument TryComputeFixForNunitThat(IInvocationOperation invocation, CodeFixContext context, NunitCodeFixContext t)
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S3776:Cognitive Complexity of methods should not be too high", Justification = "Fix later")]
+    private static CreateChangedDocument TryComputeFixForNunitThat(IInvocationOperation invocation, CodeFixContext context, NunitCodeFixContext t)
     {
-        /*
-            public static ConstraintExpression All;
-            public static DefaultConstraint Default;
-            public static GreaterThanConstraint Positive;
-            public static LessThanConstraint Negative;
-            public static NaNConstraint NaN;
-            public static EmptyConstraint Empty;
-            public static UniqueItemsConstraint Unique;
-            public static XmlSerializableConstraint XmlSerializable;
-            public static CollectionOrderedConstraint Ordered;
-            public static EqualConstraint EqualTo(object? expected);
-            public static SameAsConstraint SameAs(object? expected);
-            public static GreaterThanConstraint GreaterThan(object expected);
-            public static GreaterThanOrEqualConstraint GreaterThanOrEqualTo(object expected);
-            public static GreaterThanOrEqualConstraint AtLeast(object expected);
-            public static LessThanConstraint LessThan(object expected);
-            public static LessThanOrEqualConstraint LessThanOrEqualTo(object expected);
-            public static LessThanOrEqualConstraint AtMost(object expected);
-            public static ExactTypeConstraint TypeOf(Type expectedType);
-            public static ExactTypeConstraint TypeOf<TExpected>();
-            public static InstanceOfTypeConstraint InstanceOf(Type expectedType);
-            public static InstanceOfTypeConstraint InstanceOf<TExpected>();
-            public static AssignableFromConstraint AssignableFrom(Type expectedType);
-            public static AssignableFromConstraint AssignableFrom<TExpected>();
-            public static AssignableToConstraint AssignableTo(Type expectedType);
-            public static AssignableToConstraint AssignableTo<TExpected>();
-            public static CollectionEquivalentConstraint EquivalentTo(IEnumerable expected);
-            public static CollectionSubsetConstraint SubsetOf(IEnumerable expected);
-            public static CollectionSupersetConstraint SupersetOf(IEnumerable expected);
-            public static SamePathConstraint SamePath(string expected);
-            public static SubPathConstraint SubPathOf(string expected);
-            public static SamePathOrUnderConstraint SamePathOrUnder(string expected);
-            public static RangeConstraint InRange(object from, object to);
-            public static AnyOfConstraint AnyOf(params object?[]? expected);
-            public static AnyOfConstraint AnyOf(ICollection expected);
-        */
-
         // Assert.That(condition)
         if (invocation.Arguments[0].Value.Type.EqualsSymbol(t.Boolean)
             && (invocation.Arguments.Length is 1
                 || (invocation.Arguments.Length >= 2
                     && (invocation.Arguments[1].Value.Type.EqualsSymbol(t.NUnitString)
-                        || invocation.Arguments[1].Value.Type.EqualsSymbol(t.String))
-                    )
-                )
-            )
+                        || invocation.Arguments[1].Value.Type.EqualsSymbol(t.String)))))
         {
             return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "BeTrue", subjectIndex: 0, argumentsToRemove: []);
         }
 
-        var constraint = invocation.Arguments[1].Value.UnwrapConversion();
-        var subject = invocation.Arguments[0];
+        IOperation constraint = invocation.Arguments[1].Value.UnwrapConversion();
+        IArgumentOperation subject = invocation.Arguments[0];
 
         var rewriter = new AssertThatRewriter(invocation, context);
         var matcher = new AssertThatMatcher(constraint, t);
 
+#pragma warning disable MA0071 // Avoid using redundant else: false positive
         if (matcher.Is("True") // Assert.That(subject, Is.True)
             || matcher.Is("Not", "False")) // Assert.That(subject, Is.Not.False)
+        {
             return rewriter.Should("BeTrue");
+        }
         else if (matcher.Is("False") // Assert.That(subject, Is.False)
             || matcher.Is("Not", "True")) // Assert.That(subject, Is.Not.True)
+        {
             return rewriter.Should("BeFalse");
+        }
         else if (matcher.Is("Null")) // Assert.That(subject, Is.Null)
+        {
             return rewriter.Should("BeNull");
+        }
         else if (matcher.Is("Not", "Null")) // Assert.That(subject, Is.Not.Null)
+        {
             return rewriter.Should("NotBeNull");
+        }
         else if (!IsArgumentTypeOfNonGenericEnumerable(invocation, argumentIndex: 0))
         {
             if (matcher.Is("Empty") // Assert.That(subject, Is.Empty)
                 || matcher.Has("Count", "Zero")) // Assert.That(subject, Has.Count.Zero)
+            {
                 return rewriter.Should("BeEmpty");
+            }
             else if (matcher.Is("Not", "Empty") // Assert.That(subject, Is.Not.Empty)
                 || matcher.Has("Count", "Not", "Zero")) // Assert.That(subject, Has.Not.Zero)
+            {
                 return rewriter.Should("NotBeEmpty");
-            else if (matcher.Has([Property("Count")], Method("EqualTo"), out var argument))
+            }
+            else if (matcher.Has([Property("Count")], Method("EqualTo"), out IArgumentOperation argument))
             {
                 if (argument.IsLiteralValue(0))
+                {
                     return rewriter.Should("BeEmpty");
+                }
                 else if (argument.IsLiteralValue(1))
+                {
                     return rewriter.Should("ContainSingle");
-                else
-                    return rewriter.Should("HaveCount", argument);
+                }
+
+                return rewriter.Should("HaveCount", argument);
             }
             else if (matcher.Has([Property("Count")], Method("GreaterThan"), out argument))
             {
                 if (argument.IsLiteralValue(0))
+                {
                     return rewriter.Should("NotBeEmpty");
-                else
-                    return rewriter.Should("HaveCountGreaterThan", argument);
+                }
+
+                return rewriter.Should("HaveCountGreaterThan", argument);
             }
             else if (matcher.Is(Method("EqualTo"), out argument))
+            {
                 return rewriter.Should("Equal", argument);
+            }
             else if (matcher.Is("Not", Method("EqualTo"), out argument))
+            {
                 return rewriter.Should("NotEqual", argument);
-            else if (matcher.Is("All", GenericMethod("InstanceOf"), out argument, out var genericType)
+            }
+            else if (matcher.Is("All", GenericMethod("InstanceOf"), out argument, out ITypeSymbol genericType)
                     || matcher.Has("All", GenericMethod("InstanceOf"), out argument, out genericType))
+            {
                 return rewriter.ShouldGeneric("AllBeOfType", genericType);
+            }
             else if (matcher.Is("All", Method("InstanceOf"), out argument)
                     || matcher.Has("All", Method("InstanceOf"), out argument))
             {
@@ -485,40 +361,63 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
                 {
                     return rewriter.ShouldGeneric("AllBeOfType", typeOf.TypeOperand);
                 }
+
                 return rewriter.Should("AllBeOfType", argument);
             }
             else if (matcher.Is("Unique"))
+            {
                 return rewriter.Should("OnlyHaveUniqueItems");
+            }
             else if (matcher.Has("None", "Null")
                 || matcher.Is("All", "Not", "Null"))
+            {
                 return rewriter.Should("NotContainNulls");
+            }
         }
+#pragma warning restore MA0071 // Avoid using redundant else
+
         if (matcher.Is("Zero"))
+        {
             return rewriter.Should("Be", g => g.LiteralExpression(0));
+        }
         else if (matcher.Is("Not", "Zero"))
+        {
             return rewriter.Should("NotBe", g => g.LiteralExpression(0));
-        else if (matcher.Is(Method("GreaterThan"), out var argument))
+        }
+        else if (matcher.Is(Method("GreaterThan"), out IArgumentOperation argument))
+        {
             return rewriter.Should("BeGreaterThan", argument);
+        }
         else if (matcher.Is(Method("GreaterThanOrEqualTo"), out argument)
             || matcher.Is(Method("AtLeast"), out argument))
+        {
             return rewriter.Should("BeGreaterThanOrEqualTo", argument);
+        }
         else if (matcher.Is(Method("LessThan"), out argument))
+        {
             return rewriter.Should("BeLessThan", argument);
+        }
         else if (matcher.Is(Method("LessThanOrEqualTo"), out argument)
             || matcher.Is(Method("AtMost"), out argument))
+        {
             return rewriter.Should("BeLessThanOrEqualTo", argument);
+        }
         else if (matcher.Has(Method("Member"), out argument)
             || matcher.Does(Method("Contain"), out argument)
             || matcher.Contains(Method("Item"), out argument))
+        {
             return rewriter.ShouldCollectionContains("Contain", subject, invocation.Arguments[1], argument);
+        }
         else if (matcher.Has("No", Method("Member"), out argument)
             || matcher.Does("Not", Method("Contain"), out argument))
+        {
             return rewriter.ShouldCollectionContains("NotContain", subject, invocation.Arguments[1], argument);
+        }
 
         return null;
     }
 
-    private CreateChangedDocument RewriteContainsAssertion(IInvocationOperation invocation, CodeFixContext context, string assertion, IArgumentOperation subject, IArgumentOperation expectation)
+    private static CreateChangedDocument RewriteContainsAssertion(IInvocationOperation invocation, CodeFixContext context, string assertion, IArgumentOperation subject, IArgumentOperation expectation)
     {
         if (!subject.ImplementsOrIsInterface(SpecialType.System_Collections_Generic_IEnumerable_T))
         {
@@ -537,7 +436,7 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
                 };
 
                 var argumentToCast = (ArgumentSyntax)expectation.Syntax;
-                var castExpression = editActionContext.Editor.Generator.CastExpression(elementType, argumentToCast.Expression);
+                SyntaxNode castExpression = editActionContext.Editor.Generator.CastExpression(elementType, argumentToCast.Expression);
                 editActionContext.Editor.ReplaceNode(argumentToCast.Expression, castExpression.WithAdditionalAnnotations(Simplifier.Annotation));
             },
             EditAction.SubjectShouldAssertion(subjectIndex, assertion)
@@ -548,29 +447,56 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
     {
         (IOperation op, ISymbol containingType) TryGetNext(IOperation operation);
     }
-    private class MethodInvocationMatcher(string name) : IOperationMatcher
+
+    private sealed class MethodInvocationMatcher(string name) : IOperationMatcher
     {
         public IArgumentOperation Argument { get; private set; }
+
         public (IOperation op, ISymbol containingType) TryGetNext(IOperation operation)
         {
-            if (operation is not IInvocationOperation invocation) return default;
-            if (invocation.TargetMethod.Name != name) return default;
+            if (operation is not IInvocationOperation invocation)
+            {
+                return default;
+            }
+
+            if (invocation.TargetMethod.Name != name)
+            {
+                return default;
+            }
 
             Argument = invocation.Arguments[0];
 
             return (invocation.Instance, invocation.TargetMethod.ContainingType);
         }
     }
-    private class GenericMethodInvocationMatcher(string name) : IOperationMatcher
+
+    private sealed class GenericMethodInvocationMatcher(string name) : IOperationMatcher
     {
         public IArgumentOperation Argument { get; private set; }
+
         public ITypeSymbol TypeArgument { get; private set; }
+
         public (IOperation op, ISymbol containingType) TryGetNext(IOperation operation)
         {
-            if (operation is not IInvocationOperation invocation) return default;
-            if (invocation.TargetMethod.Name != name) return default;
-            if (!invocation.TargetMethod.IsGenericMethod) return default;
-            if (invocation.TargetMethod.TypeArguments.Length is not 1) return default;
+            if (operation is not IInvocationOperation invocation)
+            {
+                return default;
+            }
+
+            if (invocation.TargetMethod.Name != name)
+            {
+                return default;
+            }
+
+            if (!invocation.TargetMethod.IsGenericMethod)
+            {
+                return default;
+            }
+
+            if (invocation.TargetMethod.TypeArguments.Length is not 1)
+            {
+                return default;
+            }
 
             Argument = invocation.Arguments.FirstOrDefault();
             TypeArgument = invocation.TargetMethod.TypeArguments[0];
@@ -578,63 +504,90 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
             return (invocation.Instance, invocation.TargetMethod.ContainingType);
         }
     }
-    private class PropertyReferenceMatcher(string name) : IOperationMatcher
+
+    private sealed class PropertyReferenceMatcher(string name) : IOperationMatcher
     {
         public (IOperation op, ISymbol containingType) TryGetNext(IOperation operation)
             => operation is IPropertyReferenceOperation propertyReference && propertyReference.Property.Name == name ? (propertyReference.Instance, propertyReference.Member.ContainingType) : (null, null);
     }
-    private static MethodInvocationMatcher Method(string name) => new MethodInvocationMatcher(name);
-    private static GenericMethodInvocationMatcher GenericMethod(string name) => new GenericMethodInvocationMatcher(name);
-    private static PropertyReferenceMatcher Property(string name) => new PropertyReferenceMatcher(name);
+
+    private static MethodInvocationMatcher Method(string name) => new(name);
+
+    private static GenericMethodInvocationMatcher GenericMethod(string name) => new(name);
+
+    private static PropertyReferenceMatcher Property(string name) => new(name);
 
     private static bool IsArgumentTypeOfNonGenericEnumerable(IInvocationOperation invocation, int argumentIndex) => IsArgumentTypeOf(invocation, argumentIndex, SpecialType.System_Collections_IEnumerable);
+
     private static bool IsArgumentTypeOf(IInvocationOperation invocation, int argumentIndex, SpecialType type)
         => invocation.Arguments.Length > argumentIndex && invocation.Arguments[argumentIndex].IsTypeof(type);
+
     private static bool IsArgumentTypeOf(IInvocationOperation invocation, int argumentIndex, INamedTypeSymbol type)
         => invocation.Arguments.Length > argumentIndex && invocation.Arguments[argumentIndex].IsTypeof(type);
 
-    public class NunitCodeFixContext(Compilation compilation) : TestingFrameworkCodeFixProvider.TestingFrameworkCodeFixContext(compilation)
+    public sealed class NunitCodeFixContext(Compilation compilation) : TestingFrameworkCodeFixProvider.TestingFrameworkCodeFixContext(compilation)
     {
         public INamedTypeSymbol Is { get; } = compilation.GetTypeByMetadataName("NUnit.Framework.Is");
+
         public INamedTypeSymbol Has { get; } = compilation.GetTypeByMetadataName("NUnit.Framework.Has");
+
         public INamedTypeSymbol Does { get; } = compilation.GetTypeByMetadataName("NUnit.Framework.Does");
+
         public INamedTypeSymbol Contains { get; } = compilation.GetTypeByMetadataName("NUnit.Framework.Contains");
+
         public INamedTypeSymbol Throws { get; } = compilation.GetTypeByMetadataName("NUnit.Framework.Throws");
+
         public INamedTypeSymbol ConstraintExpression { get; } = compilation.GetTypeByMetadataName("NUnit.Framework.Constraints.ConstraintExpression");
+
         public INamedTypeSymbol NUnitString { get; } = compilation.GetTypeByMetadataName("NUnit.Framework.NUnitString");
     }
 
-    private class AssertThatMatcher(IOperation constraint, NunitCodeFixContext t)
+#pragma warning disable AV1562 // Do not declare a parameter as ref or out: Shorter here, and more readable than renaming to Try*
+    private sealed class AssertThatMatcher(IOperation constraint, NunitCodeFixContext context)
     {
-        public bool Is(MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(t.Is, methodMatcher, out argument);
-        public bool Is(string propertyMatcher, MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(t.Is, [Property(propertyMatcher)], methodMatcher, out argument);
-        public bool Is(string propertyMatcher, GenericMethodInvocationMatcher genericMethodMatcher, out IArgumentOperation argument, out ITypeSymbol genericType)
-            => Matches(t.Is, [Property(propertyMatcher)], genericMethodMatcher, out argument, out genericType);
-        public bool Is(PropertyReferenceMatcher[] propertyMatchers, GenericMethodInvocationMatcher genericMethodMatcher, out IArgumentOperation argument, out ITypeSymbol genericType)
-            => Matches(t.Is, propertyMatchers, genericMethodMatcher, out argument, out genericType);
+        public bool Is(MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(context.Is, methodMatcher, out argument);
 
-        public bool Has(MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(t.Has, methodMatcher, out argument);
-        public bool Has(string propertyMatcher, MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(t.Has, [Property(propertyMatcher)], methodMatcher, out argument);
+        public bool Is(string propertyMatcher, MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(context.Is, [Property(propertyMatcher)], methodMatcher, out argument);
+
+        public bool Is(string propertyMatcher, GenericMethodInvocationMatcher genericMethodMatcher, out IArgumentOperation argument, out ITypeSymbol genericType)
+            => Matches(context.Is, [Property(propertyMatcher)], genericMethodMatcher, out argument, out genericType);
+
+        public bool Is(params string[] matchers) => Matches(context.Is, matchers);
+
+        public bool Has(MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(context.Has, methodMatcher, out argument);
+
+        public bool Has(string propertyMatcher, MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(context.Has, [Property(propertyMatcher)], methodMatcher, out argument);
+
         public bool Has(string propertyMatcher, GenericMethodInvocationMatcher genericMethodMatcher, out IArgumentOperation argument, out ITypeSymbol genericType)
-            => Matches(t.Has, [Property(propertyMatcher)], genericMethodMatcher, out argument, out genericType);
-        public bool Does(MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(t.Does, methodMatcher, out argument);
-        public bool Contains(MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(t.Contains, methodMatcher, out argument);
-        public bool Contains(string propertyMatcher, MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(t.Contains, [Property(propertyMatcher)], methodMatcher, out argument);
-        public bool Does(string propertyMatcher, MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(t.Does, [Property(propertyMatcher)], methodMatcher, out argument);
-        public bool Is(params string[] matchers) => Matches(t.Is, matchers);
-        public bool Has(params string[] matchers) => Matches(t.Has, matchers);
-        public bool Has(IOperationMatcher[] matchers, MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(t.Has, matchers, methodMatcher, out argument);
+            => Matches(context.Has, [Property(propertyMatcher)], genericMethodMatcher, out argument, out genericType);
+
+        public bool Has(params string[] matchers) => Matches(context.Has, matchers);
+
+        public bool Has(IOperationMatcher[] matchers, MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(context.Has, matchers, methodMatcher, out argument);
+
+        public bool Contains(MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(context.Contains, methodMatcher, out argument);
+
+        public bool Does(string propertyMatcher, MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(context.Does, [Property(propertyMatcher)], methodMatcher, out argument);
+
+        public bool Does(MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(context.Does, methodMatcher, out argument);
 
         private bool Matches(INamedTypeSymbol type, params string[] matchers)
             => Matches(type, Array.ConvertAll(matchers, matcher => new PropertyReferenceMatcher(matcher)));
+
         private bool Matches(INamedTypeSymbol type, MethodInvocationMatcher methodMatcher, out IArgumentOperation argument) => Matches(type, [], methodMatcher, out argument);
+
         private bool Matches(INamedTypeSymbol type, IOperationMatcher[] matchers, MethodInvocationMatcher methodMatcher, out IArgumentOperation argument)
         {
             argument = null;
             var result = Matches(type, [.. matchers, methodMatcher]);
-            if (result) argument = methodMatcher.Argument;
+            if (result)
+            {
+                argument = methodMatcher.Argument;
+            }
+
             return result;
         }
+
         private bool Matches(INamedTypeSymbol type, IOperationMatcher[] matchers, GenericMethodInvocationMatcher genericMethodMatcher,
             out IArgumentOperation argument, out ITypeSymbol genericType)
         {
@@ -650,20 +603,27 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
 
             return result;
         }
+
         private bool Matches(INamedTypeSymbol type, params IOperationMatcher[] matchers)
         {
             IOperation currentOp = constraint;
-            for (var i = matchers.Length - 1; i >= 0; i--)
+            for (int i = matchers.Length - 1; i >= 0; i--)
             {
-                var (nextOp, containingType) = matchers[i].TryGetNext(currentOp);
-                if (containingType is null) return false;
+                (IOperation nextOp, ISymbol containingType) = matchers[i].TryGetNext(currentOp);
+                if (containingType is null)
+                {
+                    return false;
+                }
 
                 if (i is 0)
                 {
                     return containingType.EqualsSymbol(type);
                 }
 
-                if (nextOp is null) return false;
+                if (nextOp is null)
+                {
+                    return false;
+                }
 
                 currentOp = nextOp;
             }
@@ -671,18 +631,17 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
             return false;
         }
     }
-    public class AssertThatRewriter(IInvocationOperation invocation, CodeFixContext context)
+#pragma warning restore AV1562 // Do not declare a parameter as ref or out
+
+    private sealed class AssertThatRewriter(IInvocationOperation invocation, CodeFixContext context)
     {
         public CreateChangedDocument Should(string assertion)
         {
             return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, assertion, subjectIndex: 0, argumentsToRemove: [1]);
         }
-        public CreateChangedDocument ShouldGeneric(string assertion, ITypeSymbol genericType)
-        {
-            return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(genericType), context, assertion, subjectIndex: 0, argumentsToRemove: [1]);
-        }
 
         public CreateChangedDocument Should(string assertion, IArgumentOperation argument) => Should(assertion, _ => argument.Value.Syntax);
+
         public CreateChangedDocument Should(string assertion, Func<SyntaxGenerator, SyntaxNode> argumentGenerator)
         {
             return DocumentEditorUtils.RewriteExpression(invocation, [
@@ -691,8 +650,11 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
             ], context);
         }
 
-        public CreateChangedDocument ShouldCollectionContains(string assertion, IArgumentOperation subject, IArgumentOperation expectation)
-            => ShouldCollectionContains(assertion, subject, expectation, expectation);
+        public CreateChangedDocument ShouldGeneric(string assertion, ITypeSymbol genericType)
+        {
+            return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(genericType), context, assertion, subjectIndex: 0, argumentsToRemove: [1]);
+        }
+
         public CreateChangedDocument ShouldCollectionContains(string assertion, IArgumentOperation subject, IArgumentOperation oldExpectation, IArgumentOperation newExpectation)
         {
             if (!subject.ImplementsOrIsInterface(SpecialType.System_Collections_Generic_IEnumerable_T))
@@ -713,7 +675,7 @@ public class NunitCodeFixProvider : TestingFrameworkCodeFixProvider<NunitCodeFix
 
                     var argumentToCast = (ArgumentSyntax)newExpectation.Syntax;
                     var oldArgument = (ArgumentSyntax)oldExpectation.Syntax;
-                    var castExpression = editActionContext.Editor.Generator.CastExpression(elementType, argumentToCast.Expression);
+                    SyntaxNode castExpression = editActionContext.Editor.Generator.CastExpression(elementType, argumentToCast.Expression);
                     editActionContext.Editor.ReplaceNode(oldArgument.Expression, castExpression.WithAdditionalAnnotations(Simplifier.Annotation));
                 },
                 EditAction.SubjectShouldAssertion(subjectIndex, assertion)

@@ -24,7 +24,7 @@ public sealed class ExpectedAssertionExceptionAttribute : TestMethodAttribute
 
     public override async Task<TestResult[]> ExecuteAsync(ITestMethod testMethod)
     {
-        var results = await base.ExecuteAsync(testMethod);
+        TestResult[] results = await base.ExecuteAsync(testMethod);
 
         for (var i = 0; i < results.Length; i++)
         {
@@ -40,7 +40,6 @@ public sealed class ExpectedAssertionExceptionAttribute : TestMethodAttribute
         {
             result.Outcome = UnitTestOutcome.Failed;
             result.TestFailureException = new AssertFailedException($"Expected {nameof(AssertFailedException)} but no exception was thrown.");
-            return;
         }
         else if (result.Outcome == UnitTestOutcome.Failed)
         {
@@ -54,7 +53,7 @@ public sealed class ExpectedAssertionExceptionAttribute : TestMethodAttribute
                     result.TestFailureException = new AssertFailedException($"Expected {nameof(AssertFailedException)} but no exception was thrown.");
                     break;
                 default:
-                    var innerException = result.TestFailureException;
+                    Exception innerException = result.TestFailureException;
                     result.TestFailureException = new AssertFailedException($"Expected {nameof(AssertFailedException)} but got {innerException.GetType().Name}.", innerException);
                     break;
             }

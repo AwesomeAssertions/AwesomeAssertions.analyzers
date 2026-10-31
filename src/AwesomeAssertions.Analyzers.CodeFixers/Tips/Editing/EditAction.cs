@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 
-namespace AwesomeAssertions.Analyzers;
+namespace AwesomeAssertions.Analyzers.Tips.Editing;
 
 public static class EditAction
 {
@@ -20,7 +20,7 @@ public static class EditAction
     public static Action<EditActionContext> ReplaceAssertionArgument(int index, Func<SyntaxGenerator, SyntaxNode> expressionFactory)
         => context =>
     {
-        var argument = context.InvocationExpression.ArgumentList.Arguments[index];
+        ArgumentSyntax argument = context.InvocationExpression.ArgumentList.Arguments[index];
         var newArgumentExpression = (ExpressionSyntax)expressionFactory(context.Editor.Generator);
         context.Editor.ReplaceNode(argument.Expression, newArgumentExpression);
     };
@@ -35,7 +35,7 @@ public static class EditAction
         => context =>
     {
         var argument = (ArgumentSyntax)context.Editor.Generator.Argument(expressionFactory(context.Editor.Generator));
-        var arguments = context.AwesomeAssertion.ArgumentList.Arguments.Insert(index, argument);
+        SeparatedSyntaxList<ArgumentSyntax> arguments = context.AwesomeAssertion.ArgumentList.Arguments.Insert(index, argument);
         context.Editor.ReplaceNode(context.InvocationExpression.ArgumentList, context.InvocationExpression.ArgumentList.WithArguments(arguments));
     };
 }

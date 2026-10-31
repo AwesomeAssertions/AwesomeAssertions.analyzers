@@ -1,13 +1,14 @@
 <Solution>
   <Folder Name="/docs/">
-    <Project Path="src/docs/AwesomeAssertions.Analyzers.Docs/AwesomeAssertions.Analyzers.Docs.csproj" />
     <Project Path="src/docs/AwesomeAssertions.Analyzers.Docs.Generator/AwesomeAssertions.Analyzers.Docs.Generator.csproj" />
     <Project Path="src/docs/AwesomeAssertions.Analyzers.Docs.MSTest3/AwesomeAssertions.Analyzers.Docs.MSTest3.csproj" />
     <Project Path="src/docs/AwesomeAssertions.Analyzers.Docs.Nunit3/AwesomeAssertions.Analyzers.Docs.Nunit3.csproj" />
     <Project Path="src/docs/AwesomeAssertions.Analyzers.Docs.Nunit4/AwesomeAssertions.Analyzers.Docs.Nunit4.csproj" />
     <Project Path="src/docs/AwesomeAssertions.Analyzers.Docs.Xunit/AwesomeAssertions.Analyzers.Docs.Xunit.csproj" />
+    <Project Path="src/docs/AwesomeAssertions.Analyzers.Docs/AwesomeAssertions.Analyzers.Docs.csproj" />
   </Folder>
   <Folder Name="/SolutionItems/">
+    <File Path=".editorconfig" />
     <File Path=".gitattributes" />
     <File Path=".github/workflows/ci.yml" />
     <File Path=".gitignore" />
@@ -23,6 +24,7 @@
     <Project Path="src/AwesomeAssertions.Analyzers/AwesomeAssertions.Analyzers.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <File Path="tests/.editorconfig" />
     <Project Path="tests/AwesomeAssertions.Analyzers.BenchmarkTests/AwesomeAssertions.Analyzers.BenchmarkTests.csproj" />
     <Project Path="tests/AwesomeAssertions.Analyzers.Tests/AwesomeAssertions.Analyzers.Tests.csproj" />
     <Project Path="tests/AwesomeAssertions.Analyzers.TestUtils/AwesomeAssertions.Analyzers.TestUtils.csproj" />

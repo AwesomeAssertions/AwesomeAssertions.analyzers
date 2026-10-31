@@ -1,17 +1,18 @@
+#pragma warning disable // These tests show migrations, also for older methods. `ExpectedException` is used as marker to find failing tests and extract code
+using System;
 using System.Collections.Generic;
-using AwesomeAssertions;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 
 namespace AwesomeAssertions.Analyzers.Docs;
 
-public class Nunit4AnalyzerTests
+public sealed class Nunit4AnalyzerTests
 {
     [Test]
     public void AssertIsTrue()
     {
         // arrange
-        var flag = true;
+        const bool flag = true;
 
         // old assertion:
         ClassicAssert.IsTrue(flag);
@@ -24,61 +25,67 @@ public class Nunit4AnalyzerTests
         flag.Should().BeTrue();
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertIsTrue_Failure_OldAssertion_0()
     {
         // arrange
-        var flag = false;
+        const bool flag = false;
 
         // old assertion:
         ClassicAssert.True(flag);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertIsTrue_Failure_OldAssertion_1()
     {
         // arrange
-        var flag = false;
+        const bool flag = false;
 
         // old assertion:
         ClassicAssert.IsTrue(flag);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertIsTrue_Failure_OldAssertion_2()
     {
         // arrange
-        var flag = false;
+        const bool flag = false;
 
         // old assertion:
         Assert.That(flag);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertIsTrue_Failure_OldAssertion_3()
     {
         // arrange
-        var flag = false;
+        const bool flag = false;
 
         // old assertion:
         Assert.That(flag, Is.True);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertIsTrue_Failure_OldAssertion_4()
     {
         // arrange
-        var flag = false;
+        const bool flag = false;
 
         // old assertion:
         Assert.That(flag, Is.Not.False);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertIsTrue_Failure_NewAssertion()
     {
         // arrange
-        var flag = false;
+        const bool flag = false;
 
         // new assertion:
         flag.Should().BeTrue();
@@ -88,7 +95,7 @@ public class Nunit4AnalyzerTests
     public void AssertIsFalse()
     {
         // arrange
-        var flag = false;
+        const bool flag = false;
 
         // old assertion:
         ClassicAssert.IsFalse(flag);
@@ -100,51 +107,56 @@ public class Nunit4AnalyzerTests
         flag.Should().BeFalse();
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertIsFalse_Failure_OldAssertion_0()
     {
         // arrange
-        var flag = true;
+        const bool flag = true;
 
         // old assertion:
         ClassicAssert.False(flag);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertIsFalse_Failure_OldAssertion_1()
     {
         // arrange
-        var flag = true;
+        const bool flag = true;
 
         // old assertion:
         ClassicAssert.IsFalse(flag);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertIsFalse_Failure_OldAssertion_2()
     {
         // arrange
-        var flag = true;
+        const bool flag = true;
 
         // old assertion:
         Assert.That(flag, Is.False);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertIsFalse_Failure_OldAssertion_3()
     {
         // arrange
-        var flag = true;
+        const bool flag = true;
 
         // old assertion:
         Assert.That(flag, Is.Not.True);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertIsFalse_Failure_NewAssertion()
     {
         // arrange
-        var flag = true;
+        const bool flag = true;
 
         // new assertion:
         flag.Should().BeFalse();
@@ -165,7 +177,8 @@ public class Nunit4AnalyzerTests
         obj.Should().BeNull();
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertNull_Failure_OldAssertion_0()
     {
         // arrange
@@ -175,7 +188,8 @@ public class Nunit4AnalyzerTests
         ClassicAssert.Null(obj);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertNull_Failure_OldAssertion_1()
     {
         // arrange
@@ -185,7 +199,8 @@ public class Nunit4AnalyzerTests
         ClassicAssert.IsNull(obj);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertNull_Failure_OldAssertion_2()
     {
         // arrange
@@ -195,7 +210,8 @@ public class Nunit4AnalyzerTests
         Assert.That(obj, Is.Null);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertNull_Failure_NewAssertion()
     {
         // arrange
@@ -220,7 +236,8 @@ public class Nunit4AnalyzerTests
         obj.Should().NotBeNull();
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertNotNull_Failure_OldAssertion_0()
     {
         // arrange
@@ -230,7 +247,8 @@ public class Nunit4AnalyzerTests
         ClassicAssert.NotNull(obj);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertNotNull_Failure_OldAssertion_1()
     {
         // arrange
@@ -240,7 +258,8 @@ public class Nunit4AnalyzerTests
         ClassicAssert.IsNotNull(obj);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertNotNull_Failure_OldAssertion_2()
     {
         // arrange
@@ -250,7 +269,8 @@ public class Nunit4AnalyzerTests
         Assert.That(obj, Is.Not.Null);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertNotNull_Failure_NewAssertion()
     {
         // arrange
@@ -277,7 +297,8 @@ public class Nunit4AnalyzerTests
         collection.Should().BeEmpty();
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
 
     public void AssertIsEmpty_Failure_OldAssertion_0()
     {
@@ -288,7 +309,8 @@ public class Nunit4AnalyzerTests
         ClassicAssert.IsEmpty(collection);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
 
     public void AssertIsEmpty_Failure_OldAssertion_1()
     {
@@ -299,7 +321,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Is.Empty);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
 
     public void AssertIsEmpty_Failure_OldAssertion_2()
     {
@@ -310,7 +333,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Has.Count.EqualTo(0));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
 
     public void AssertIsEmpty_Failure_OldAssertion_3()
     {
@@ -321,7 +345,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Has.Count.Zero);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
 
     public void AssertIsEmpty_Failure_OldAssertion_4()
     {
@@ -332,7 +357,8 @@ public class Nunit4AnalyzerTests
         CollectionAssert.IsEmpty(collection);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
 
     public void AssertIsEmpty_Failure_NewAssertion()
     {
@@ -360,7 +386,8 @@ public class Nunit4AnalyzerTests
         collection.Should().NotBeEmpty();
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
 
     public void AssertIsNotEmpty_Failure_OldAssertion_0()
     {
@@ -371,7 +398,8 @@ public class Nunit4AnalyzerTests
         ClassicAssert.IsNotEmpty(collection);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
 
     public void AssertIsNotEmpty_Failure_OldAssertion_1()
     {
@@ -382,7 +410,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Is.Not.Empty);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
 
     public void AssertIsNotEmpty_Failure_OldAssertion_2()
     {
@@ -393,7 +422,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Has.Count.GreaterThan(0));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
 
     public void AssertIsNotEmpty_Failure_OldAssertion_3()
     {
@@ -404,7 +434,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Has.Count.Not.Zero);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
 
     public void AssertIsNotEmpty_Failure_OldAssertion_4()
     {
@@ -415,7 +446,8 @@ public class Nunit4AnalyzerTests
         CollectionAssert.IsNotEmpty(collection);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertIsNotEmpty_Failure_NewAssertion()
     {
         // arrange
@@ -429,7 +461,7 @@ public class Nunit4AnalyzerTests
     public void AssertZero()
     {
         // arrange
-        var number = 0;
+        const int number = 0;
 
         // old assertion:
         ClassicAssert.Zero(number);
@@ -439,31 +471,34 @@ public class Nunit4AnalyzerTests
         number.Should().Be(0);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertZero_Failure_OldAssertion_0()
     {
         // arrange
-        var number = 1;
+        const int number = 1;
 
         // old assertion:
         ClassicAssert.Zero(number);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertZero_Failure_OldAssertion_1()
     {
         // arrange
-        var number = 1;
+        const int number = 1;
 
         // old assertion:
         Assert.That(number, Is.Zero);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertZero_Failure_NewAssertion()
     {
         // arrange
-        var number = 1;
+        const int number = 1;
 
         // new assertion:
         number.Should().Be(0);
@@ -473,7 +508,7 @@ public class Nunit4AnalyzerTests
     public void AssertNotZero()
     {
         // arrange
-        var number = 1;
+        const int number = 1;
 
         // old assertion:
         ClassicAssert.NotZero(number);
@@ -483,31 +518,34 @@ public class Nunit4AnalyzerTests
         number.Should().NotBe(0);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertNotZero_Failure_OldAssertion_0()
     {
         // arrange
-        var number = 0;
+        const int number = 0;
 
         // old assertion:
         ClassicAssert.NotZero(number);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertNotZero_Failure_OldAssertion_1()
     {
         // arrange
-        var number = 0;
+        const int number = 0;
 
         // old assertion:
         Assert.That(number, Is.Not.Zero);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertNotZero_Failure_NewAssertion()
     {
         // arrange
-        var number = 0;
+        const int number = 0;
 
         // new assertion:
         number.Should().NotBe(0);
@@ -527,7 +565,8 @@ public class Nunit4AnalyzerTests
         obj1.Should().BeSameAs(obj2);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertAreSame_Failure_OldAssertion()
     {
         // arrange
@@ -538,7 +577,8 @@ public class Nunit4AnalyzerTests
         ClassicAssert.AreSame(obj1, obj2);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertAreSame_Failure_NewAssertion()
     {
         // arrange
@@ -563,7 +603,8 @@ public class Nunit4AnalyzerTests
         obj1.Should().NotBeSameAs(obj2);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertAreNotSame_Failure_OldAssertion()
     {
         // arrange
@@ -574,7 +615,8 @@ public class Nunit4AnalyzerTests
         ClassicAssert.AreNotSame(obj1, obj2);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertAreNotSame_Failure_NewAssertion()
     {
         // arrange
@@ -589,7 +631,7 @@ public class Nunit4AnalyzerTests
     public void AssertGreater()
     {
         // arrange
-        var number = 2;
+        const int number = 2;
 
         // old assertion:
         ClassicAssert.Greater(number, 1);
@@ -599,31 +641,34 @@ public class Nunit4AnalyzerTests
         number.Should().BeGreaterThan(1);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertGreater_Failure_OldAssertion_0()
     {
         // arrange
-        var number = 1;
+        const int number = 1;
 
         // old assertion:
         ClassicAssert.Greater(number, 1);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertGreater_Failure_OldAssertion_1()
     {
         // arrange
-        var number = 1;
+        const int number = 1;
 
         // old assertion:
         Assert.That(number, Is.GreaterThan(1));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertGreater_Failure_NewAssertion()
     {
         // arrange
-        var number = 1;
+        const int number = 1;
 
         // new assertion:
         number.Should().BeGreaterThan(1);
@@ -633,7 +678,7 @@ public class Nunit4AnalyzerTests
     public void AssertGreaterOrEqual()
     {
         // arrange
-        var number = 2;
+        const int number = 2;
 
         // old assertion:
         ClassicAssert.GreaterOrEqual(number, 1);
@@ -644,41 +689,45 @@ public class Nunit4AnalyzerTests
         number.Should().BeGreaterThanOrEqualTo(1);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertGreaterOrEqual_Failure_OldAssertion_0()
     {
         // arrange
-        var number = 1;
+        const int number = 1;
 
         // old assertion:
         ClassicAssert.GreaterOrEqual(number, 2);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertGreaterOrEqual_Failure_OldAssertion_1()
     {
         // arrange
-        var number = 1;
+        const int number = 1;
 
         // old assertion:
         Assert.That(number, Is.GreaterThanOrEqualTo(2));
     }
-    
-    [Test, ExpectedAssertionException]
+
+    [Test]
+    [ExpectedAssertionException]
     public void AssertGreaterOrEqual_Failure_OldAssertion_2()
     {
         // arrange
-        var number = 1;
+        const int number = 1;
 
         // old assertion:
         Assert.That(number, Is.AtLeast(2));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertGreaterOrEqual_Failure_NewAssertion()
     {
         // arrange
-        var number = 1;
+        const int number = 1;
 
         // new assertion:
         number.Should().BeGreaterThanOrEqualTo(2);
@@ -688,7 +737,7 @@ public class Nunit4AnalyzerTests
     public void AssertLess()
     {
         // arrange
-        var number = 1;
+        const int number = 1;
 
         // old assertion:
         ClassicAssert.Less(number, 2);
@@ -698,31 +747,34 @@ public class Nunit4AnalyzerTests
         number.Should().BeLessThan(2);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertLess_Failure_OldAssertion_0()
     {
         // arrange
-        var number = 2;
+        const int number = 2;
 
         // old assertion:
         ClassicAssert.Less(number, 1);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertLess_Failure_OldAssertion_1()
     {
         // arrange
-        var number = 2;
+        const int number = 2;
 
         // old assertion:
         Assert.That(number, Is.LessThan(1));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertLess_Failure_NewAssertion()
     {
         // arrange
-        var number = 2;
+        const int number = 2;
 
         // new assertion:
         number.Should().BeLessThan(1);
@@ -732,7 +784,7 @@ public class Nunit4AnalyzerTests
     public void AssertLessOrEqual()
     {
         // arrange
-        var number = 1;
+        const int number = 1;
 
         // old assertion:
         ClassicAssert.LessOrEqual(number, 2);
@@ -743,41 +795,45 @@ public class Nunit4AnalyzerTests
         number.Should().BeLessThanOrEqualTo(2);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertLessOrEqual_Failure_OldAssertion_0()
     {
         // arrange
-        var number = 2;
+        const int number = 2;
 
         // old assertion:
         ClassicAssert.LessOrEqual(number, 1);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertLessOrEqual_Failure_OldAssertion_1()
     {
         // arrange
-        var number = 2;
+        const int number = 2;
 
         // old assertion:
         Assert.That(number, Is.LessThanOrEqualTo(1));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertLessOrEqual_Failure_OldAssertion_2()
     {
         // arrange
-        var number = 2;
+        const int number = 2;
 
         // old assertion:
         Assert.That(number, Is.AtMost(1));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void AssertLessOrEqual_Failure_NewAssertion()
     {
         // arrange
-        var number = 2;
+        const int number = 2;
 
         // new assertion:
         number.Should().BeLessThanOrEqualTo(1);
@@ -798,7 +854,8 @@ public class Nunit4AnalyzerTests
         collection.Should().Equal(expected);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAreEqual_Failure_OldAssertion_0()
     {
         // arrange
@@ -809,7 +866,8 @@ public class Nunit4AnalyzerTests
         CollectionAssert.AreEqual(expected, collection);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAreEqual_Failure_OldAssertion_1()
     {
         // arrange
@@ -820,7 +878,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Is.EqualTo(expected));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAreEqual_Failure_NewAssertion()
     {
         // arrange
@@ -846,7 +905,8 @@ public class Nunit4AnalyzerTests
         collection.Should().NotEqual(expected);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAreNotEqual_Failure_OldAssertion_0()
     {
         // arrange
@@ -857,7 +917,8 @@ public class Nunit4AnalyzerTests
         CollectionAssert.AreNotEqual(expected, collection);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAreNotEqual_Failure_OldAssertion_1()
     {
         // arrange
@@ -868,7 +929,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Is.Not.EqualTo(expected));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAreNotEqual_Failure_NewAssertion()
     {
         // arrange
@@ -895,7 +957,8 @@ public class Nunit4AnalyzerTests
         collection.Should().Contain(2);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertContains_Failure_OldAssertion_0()
     {
         // arrange
@@ -905,7 +968,8 @@ public class Nunit4AnalyzerTests
         CollectionAssert.Contains(collection, 4);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertContains_Failure_OldAssertion_1()
     {
         // arrange
@@ -915,7 +979,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Has.Member(4));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertContains_Failure_OldAssertion_2()
     {
         // arrange
@@ -925,7 +990,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Does.Contain(4));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertContains_WithCasting_Failure_OldAssertion_3()
     {
         // arrange
@@ -936,7 +1002,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Contains.Item(item));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertContains_Failure_NewAssertion()
     {
         // arrange
@@ -962,7 +1029,8 @@ public class Nunit4AnalyzerTests
         collection.Should().Contain((int)item);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertContains_WithCasting_Failure_OldAssertion_0()
     {
         // arrange
@@ -972,8 +1040,9 @@ public class Nunit4AnalyzerTests
         // old assertion:
         CollectionAssert.Contains(collection, item);
     }
-    
-    [Test, ExpectedAssertionException]
+
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertContains_WithCasting_Failure_OldAssertion_1()
     {
         // arrange
@@ -984,7 +1053,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Has.Member(item));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertContains_WithCasting_Failure_OldAssertion_2()
     {
         // arrange
@@ -995,7 +1065,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Does.Contain(item));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertContains_WithCasting_Failure_NewAssertion()
     {
         // arrange
@@ -1021,7 +1092,8 @@ public class Nunit4AnalyzerTests
         collection.Should().NotContain(4);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertDoesNotContain_Failure_OldAssertion_0()
     {
         // arrange
@@ -1031,7 +1103,8 @@ public class Nunit4AnalyzerTests
         CollectionAssert.DoesNotContain(collection, 2);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertDoesNotContain_Failure_OldAssertion_1()
     {
         // arrange
@@ -1041,7 +1114,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Has.No.Member(2));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertDoesNotContain_Failure_OldAssertion_2()
     {
         // arrange
@@ -1051,7 +1125,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Does.Not.Contain(2));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertDoesNotContain_Failure_NewAssertion()
     {
         // arrange
@@ -1077,7 +1152,8 @@ public class Nunit4AnalyzerTests
         collection.Should().NotContain((int)item);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertDoesNotContain_WithCasting_Failure_OldAssertion_0()
     {
         // arrange
@@ -1088,7 +1164,8 @@ public class Nunit4AnalyzerTests
         CollectionAssert.DoesNotContain(collection, item);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertDoesNotContain_WithCasting_Failure_OldAssertion_1()
     {
         // arrange
@@ -1099,7 +1176,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Has.No.Member(item));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertDoesNotContain_WithCasting_Failure_OldAssertion_2()
     {
         // arrange
@@ -1110,7 +1188,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Does.Not.Contain(item));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertDoesNotContain_WithCasting_Failure_NewAssertion()
     {
         // arrange
@@ -1120,7 +1199,6 @@ public class Nunit4AnalyzerTests
         // new assertion:
         collection.Should().NotContain((int)item);
     }
-
 
     [Test]
     public void CollectionAssertAllItemsAreInstancesOfType()
@@ -1139,7 +1217,8 @@ public class Nunit4AnalyzerTests
         collection.Should().AllBeOfType<int>();
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreInstancesOfType_Failure_OldAssertion_0()
     {
         // arrange
@@ -1149,7 +1228,8 @@ public class Nunit4AnalyzerTests
         CollectionAssert.AllItemsAreInstancesOfType(collection, typeof(int));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreInstancesOfType_Failure_OldAssertion_1()
     {
         // arrange
@@ -1159,7 +1239,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Is.All.InstanceOf(typeof(int)));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreInstancesOfType_Failure_OldAssertion_2()
     {
         // arrange
@@ -1169,7 +1250,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Is.All.InstanceOf<int>());
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreInstancesOfType_Failure_OldAssertion_3()
     {
         // arrange
@@ -1179,7 +1261,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Has.All.InstanceOf(typeof(int)));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreInstancesOfType_Failure_OldAssertion_4()
     {
         // arrange
@@ -1189,7 +1272,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Has.All.InstanceOf<int>());
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreInstancesOfType_Failure_NewAssertion()
     {
         // arrange
@@ -1204,7 +1288,7 @@ public class Nunit4AnalyzerTests
     {
         // arrange
         var collection = new object[] { 1, 2, 3 };
-        var type = typeof(int);
+        Type type = typeof(int);
 
         // old assertion:
         CollectionAssert.AllItemsAreInstancesOfType(collection, type);
@@ -1215,45 +1299,49 @@ public class Nunit4AnalyzerTests
         collection.Should().AllBeOfType(type);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreInstancesOfType_WithTypeArgument_Failure_OldAssertion_0()
     {
         // arrange
         var collection = new object[] { 1, 2, "3" };
-        var type = typeof(int);
+        Type type = typeof(int);
 
         // old assertion:
         CollectionAssert.AllItemsAreInstancesOfType(collection, type);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreInstancesOfType_WithTypeArgument_Failure_OldAssertion_1()
     {
         // arrange
         var collection = new object[] { 1, 2, "3" };
-        var type = typeof(int);
+        Type type = typeof(int);
 
         // old assertion:
         Assert.That(collection, Is.All.InstanceOf(type));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreInstancesOfType_WithTypeArgument_Failure_OldAssertion_2()
     {
         // arrange
         var collection = new object[] { 1, 2, "3" };
-        var type = typeof(int);
+        Type type = typeof(int);
 
         // old assertion:
         Assert.That(collection, Has.All.InstanceOf(type));
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreInstancesOfType_WithTypeArgument_Failure_NewAssertion()
     {
         // arrange
         var collection = new object[] { 1, 2, "3" };
-        var type = typeof(int);
+        Type type = typeof(int);
 
         // new assertion:
         collection.Should().AllBeOfType(type);
@@ -1274,7 +1362,8 @@ public class Nunit4AnalyzerTests
         collection.Should().NotContainNulls();
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreNotNull_Failure_OldAssertion_0()
     {
         // arrange
@@ -1283,8 +1372,9 @@ public class Nunit4AnalyzerTests
         // old assertion:
         CollectionAssert.AllItemsAreNotNull(collection);
     }
-    
-    [Test, ExpectedAssertionException]
+
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreNotNull_Failure_OldAssertion_1()
     {
         // arrange
@@ -1294,7 +1384,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Has.None.Null);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreNotNull_Failure_OldAssertion_2()
     {
         // arrange
@@ -1304,7 +1395,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Is.All.Not.Null);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreNotNull_Failure_NewAssertion()
     {
         // arrange
@@ -1328,7 +1420,8 @@ public class Nunit4AnalyzerTests
         collection.Should().OnlyHaveUniqueItems();
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreUnique_Failure_OldAssertion_0()
     {
         // arrange
@@ -1338,7 +1431,8 @@ public class Nunit4AnalyzerTests
         CollectionAssert.AllItemsAreUnique(collection);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreUnique_Failure_OldAssertion_1()
     {
         // arrange
@@ -1348,7 +1442,8 @@ public class Nunit4AnalyzerTests
         Assert.That(collection, Is.Unique);
     }
 
-    [Test, ExpectedAssertionException]
+    [Test]
+    [ExpectedAssertionException]
     public void CollectionAssertAllItemsAreUnique_Failure_NewAssertion()
     {
         // arrange
