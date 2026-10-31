@@ -13,13 +13,16 @@ public static class Program
     private sealed class MsTestDocsGenerator : DocsGenerator
     {
         protected override Assembly TestAssembly { get; } = typeof(Program).Assembly;
+
         protected override string TestAttribute => "TestMethod"; // Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute
+
         protected override string TestFile => Path.Join(Environment.CurrentDirectory, "MsTestAnalyzerTests.cs");
     }
-    
+
     private sealed class MsTestDocsVerifier : DocsVerifier
     {
         protected override string TestAttribute => "TestMethod"; // Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute
+
         protected override string TestFile => Path.Join(Environment.CurrentDirectory, "MsTestAnalyzerTests.cs");
     }
 }

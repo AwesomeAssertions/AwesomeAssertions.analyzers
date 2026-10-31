@@ -1,14 +1,18 @@
 using System.Collections.Immutable;
 using System.Composition;
+using AwesomeAssertions.Analyzers.Tips.Editing;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
+using Microsoft.CodeAnalysis.Editing;
 using Microsoft.CodeAnalysis.Operations;
 using CreateChangedDocument = System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task<Microsoft.CodeAnalysis.Document>>;
 using SF = Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace AwesomeAssertions.Analyzers;
+namespace AwesomeAssertions.Analyzers.Tips;
 
-[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(XunitCodeFixProvider)), Shared]
+#pragma warning disable AV1555 // Avoid using non-(nullable-)boolean named arguments: at the moment better for clarity
+[Shared]
+[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(XunitCodeFixProvider))]
 public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
 {
     public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(RuleIdentifiers.XunitRule);
@@ -30,25 +34,24 @@ public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
             case "Equivalent" when ArgumentsCount(invocation, 2): // Assert.Equivalent(object? expected, object? actual)
                 return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "BeEquivalentTo", subjectIndex: 1, argumentsToRemove: []);
             case "Equivalent" when ArgumentsCount(invocation, 3): // Assert.Equivalent(object? expected, object? actual, bool strict = false)
+                if (invocation.Arguments[2].Value is ILiteralOperation literal)
                 {
-                    if (invocation.Arguments[2].Value is ILiteralOperation literal)
+                    return literal.ConstantValue.Value switch
                     {
-                        return literal.ConstantValue.Value switch
-                        {
-                            false => DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "BeEquivalentTo", subjectIndex: 1, argumentsToRemove: literal.IsImplicit ? [] : [2]),
-                            _ => null
-                        };
-                    }
-
-                    return null; // passing a reference for the "strict" argument
+                        false => DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "BeEquivalentTo", subjectIndex: 1, argumentsToRemove: literal.IsImplicit ? [] : [2]),
+                        _ => null
+                    };
                 }
+
+                return null; // passing a reference for the "strict" argument
+
             case "Equal" when ArgumentsAreTypeOf(invocation, t.Float, t.Float, t.Float): // Assert.Equal(float expected, float actual, float tolerance)
             case "Equal" when ArgumentsAreTypeOf(invocation, t.Double, t.Double, t.Double): // Assert.Equal(double expected, double actual, double tolerance)
                 return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "BeApproximately", subjectIndex: 1, argumentsToRemove: []);
             case "Equal" when ArgumentsAreTypeOf(invocation, t.Float, t.Float, t.Int32): // Assert.Equal(float expected, float actual, int precision)
             case "Equal" when ArgumentsAreTypeOf(invocation, t.Double, t.Double, t.Int32): // Assert.Equal(double expected, double actual, int precision)
             case "Equal" when ArgumentsAreTypeOf(invocation, t.Decimal, t.Decimal, t.Int32): // Assert.Equal(decimal expected, decimal actual, int precision)
-                break; // TODO: support this
+                break;
             case "Equal" when ArgumentsAreTypeOf(invocation, t.DateTime, t.DateTime): // Assert.Equal(DateTime expected, DateTime actual)
             case "Equal" when ArgumentsAreTypeOf(invocation, t.String, t.String): // Assert.Equal(string expected, string actual)
             case "Equal" when ArgumentsAreTypeOf(invocation, t.Object, t.Object): // Assert.Equal(object expected, object actual)
@@ -63,7 +66,7 @@ public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
             case "NotEqual" when ArgumentsAreTypeOf(invocation, t.Float, t.Float, t.Int32): // Assert.NotEqual(float expected, float actual, int precision)
             case "NotEqual" when ArgumentsAreTypeOf(invocation, t.Double, t.Double, t.Int32): // Assert.NotEqual(double expected, double actual, int precision)
             case "NotEqual" when ArgumentsAreTypeOf(invocation, t.Decimal, t.Decimal, t.Int32): // Assert.NotEqual(decimal expected, decimal actual, int precision)
-                break; // TODO: support this
+                break;
             case "NotEqual" when ArgumentsAreTypeOf(invocation, t.DateTime, t.DateTime): // Assert.NotEqual(DateTime expected, DateTime actual)
             case "NotEqual" when ArgumentsAreTypeOf(invocation, t.String, t.String): // Assert.NotEqual(string expected, string actual)
             case "NotEqual" when ArgumentsAreTypeOf(invocation, t.Object, t.Object): // Assert.NotEqual(object expected, object actual)
@@ -83,11 +86,11 @@ public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
             case "Contains" when ArgumentsCount(invocation, arguments: 2): // Assert.Contains<T>(T expected, IEnumerable<T> collection)
                 return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "Contain", subjectIndex: 1, argumentsToRemove: []);
             case "Contains" when ArgumentsAreGenericTypeOf(invocation, t.Identity, t.IEnumerableOfT1, t.IEqualityComparerOfT1): // Assert.Contains<T>(T expected, IEnumerable<T> collection, IEqualityComparer<T> comparer)
-                break; // TODO: support this
+                break;
             case "DoesNotContain" when ArgumentsCount(invocation, arguments: 2): // Assert.DoesNotContain(string expectedSubstring, string? actualString)
                 return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "NotContain", subjectIndex: 1, argumentsToRemove: []);
             case "DoesNotContain" when ArgumentsAreGenericTypeOf(invocation, t.Identity, t.IEnumerableOfT1, t.IEqualityComparerOfT1): // Assert.DoesNotContain<T>(T expected, IEnumerable<T> collection, IEqualityComparer<T> comparer)
-                break; // TODO: support this
+                break;
             case "Matches" when ArgumentsAreTypeOf(invocation, t.String, t.String): // Assert.Matches(string regexPattern, string? actualString)
             case "Matches" when ArgumentsAreTypeOf(invocation, t.Regex, t.String): // Assert.Matches(Regex regexPattern, string? actualString)
                 return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "MatchRegex", subjectIndex: 1, argumentsToRemove: []);
@@ -96,7 +99,6 @@ public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
                 return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "NotMatchRegex", subjectIndex: 1, argumentsToRemove: []);
             case "Empty" when ArgumentsCount(invocation, arguments: 1): // Assert.Empty(string value) | Assert.Empty(IEnumerable collection)
                 return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "BeEmpty", subjectIndex: 0, argumentsToRemove: []);
-            // TODO: support NotEmpty
             case "EndsWith" when ArgumentsAreTypeOf(invocation, t.String, t.String): // Assert.EndsWith(string expectedEndString, string? actualString)
                 return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "EndWith", subjectIndex: 1, argumentsToRemove: []);
             case "StartsWith" when ArgumentsAreTypeOf(invocation, t.String, t.String): // Assert.StartsWith(string expectedStartString, string? actualString)
@@ -105,7 +107,7 @@ public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
                 return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "BeSubsetOf", subjectIndex: 1, argumentsToRemove: []);
             case "IsAssignableFrom" when ArgumentsCount(invocation, arguments: 1): // Assert.IsAssignableFrom<T>(object? @object)
                 return DocumentEditorUtils.RenameGenericMethodToSubjectShouldGenericAssertion(invocation, context, "BeAssignableTo", subjectIndex: 0, argumentsToRemove: []);
-            case "IsAssignableFrom" when ArgumentsCount(invocation, arguments: 2): // Assert.IsAssignableFrom(Type expectedType, object? @object) 
+            case "IsAssignableFrom" when ArgumentsCount(invocation, arguments: 2): // Assert.IsAssignableFrom(Type expectedType, object? @object)
                 {
                     if (invocation.Arguments[0].Value is not ITypeOfOperation typeOf)
                     {
@@ -114,9 +116,10 @@ public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
 
                     return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(typeOf.TypeOperand), context, "BeAssignableTo", subjectIndex: 1, argumentsToRemove: [0]);
                 }
+
             case "IsNotAssignableFrom" when ArgumentsCount(invocation, arguments: 1): // Assert.IsNotAssignableFrom<T>(object? @object)
                 return DocumentEditorUtils.RenameGenericMethodToSubjectShouldGenericAssertion(invocation, context, "NotBeAssignableTo", subjectIndex: 0, argumentsToRemove: []);
-            case "IsNotAssignableFrom" when ArgumentsCount(invocation, arguments: 2): // Assert.IsNotAssignableFrom(Type expectedType, object? @object) 
+            case "IsNotAssignableFrom" when ArgumentsCount(invocation, arguments: 2): // Assert.IsNotAssignableFrom(Type expectedType, object? @object)
                 {
                     if (invocation.Arguments[0].Value is not ITypeOfOperation typeOf)
                     {
@@ -125,9 +128,10 @@ public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
 
                     return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(typeOf.TypeOperand), context, "NotBeAssignableTo", subjectIndex: 1, argumentsToRemove: [0]);
                 }
+
             case "IsType" when ArgumentsCount(invocation, 1): // Assert.IsType<T>(object @object)
                 return DocumentEditorUtils.RenameGenericMethodToSubjectShouldGenericAssertion(invocation, context, "BeOfType", subjectIndex: 0, argumentsToRemove: []);
-            case "IsType" when ArgumentsCount(invocation, arguments: 2): // Assert.IsType(Type expectedType, object? @object) 
+            case "IsType" when ArgumentsCount(invocation, arguments: 2): // Assert.IsType(Type expectedType, object? @object)
                 {
                     if (invocation.Arguments[0].Value is not ITypeOfOperation typeOf)
                     {
@@ -136,9 +140,10 @@ public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
 
                     return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(typeOf.TypeOperand), context, "BeOfType", subjectIndex: 1, argumentsToRemove: [0]);
                 }
+
             case "IsNotType" when ArgumentsCount(invocation, 1): // Assert.IsNotType<T>(object @object)
                 return DocumentEditorUtils.RenameGenericMethodToSubjectShouldGenericAssertion(invocation, context, "NotBeOfType", subjectIndex: 0, argumentsToRemove: []);
-            case "IsNotType" when ArgumentsCount(invocation, arguments: 2): // Assert.IsNotType(Type expectedType, object? @object) 
+            case "IsNotType" when ArgumentsCount(invocation, arguments: 2): // Assert.IsNotType(Type expectedType, object? @object)
                 {
                     if (invocation.Arguments[0].Value is not ITypeOfOperation typeOf)
                     {
@@ -147,6 +152,7 @@ public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
 
                     return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(typeOf.TypeOperand), context, "NotBeOfType", subjectIndex: 1, argumentsToRemove: [0]);
                 }
+
             case "InRange" when ArgumentsCount(invocation, 3): // Assert.InRange<T>(T actual, T low, T high)
                 return DocumentEditorUtils.RenameMethodToSubjectShouldAssertion(invocation, context, "BeInRange", subjectIndex: 0, argumentsToRemove: []);
             case "NotInRange" when ArgumentsCount(invocation, 3): // Assert.NotInRange<T>(T actual, T low, T high)
@@ -162,6 +168,7 @@ public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
 
                     return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(typeOf.TypeOperand), context, "ThrowExactly", subjectIndex: 1, argumentsToRemove: [0]);
                 }
+
             case "Throws" when ArgumentsAreTypeOf(invocation, t.String, t.Action): // Assert.Throws(string paramName, Action testCode)
                 return RewriteThrowArgumentExceptionAssertion("ThrowExactly");
             case "ThrowsAsync" when ArgumentsCount(invocation, 1): // Assert.ThrowsAsync<T>(Func<Task> testCode) where T : Exception
@@ -175,6 +182,7 @@ public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
 
                     return DocumentEditorUtils.RenameMethodToSubjectShouldGenericAssertion(invocation, ImmutableArray.Create(typeOf.TypeOperand), context, "ThrowExactlyAsync", subjectIndex: 1, argumentsToRemove: [0]);
                 }
+
             case "ThrowsAsync" when ArgumentsAreTypeOf(invocation, t.String, t.FuncOfTask): // Assert.ThrowsAsync(string paramName, Func<Task> testCode)
                 return RewriteThrowArgumentExceptionAssertion("ThrowExactlyAsync");
             case "ThrowsAny" when ArgumentsCount(invocation, 1): // Assert.ThrowsAny<T>(Action testCode) where T : Exception
@@ -182,6 +190,7 @@ public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
             case "ThrowsAnyAsync" when ArgumentsCount(invocation, 1): // Assert.ThrowsAnyAsync<T>(Func<Task> testCode) where T : Exception
                 return DocumentEditorUtils.RenameGenericMethodToSubjectShouldGenericAssertion(invocation, context, "ThrowAsync", subjectIndex: 0, argumentsToRemove: []);
         }
+
         return null;
 
         CreateChangedDocument RewriteThrowArgumentExceptionAssertion(string newName)
@@ -190,9 +199,9 @@ public class XunitCodeFixProvider : TestingFrameworkCodeFixProvider
                 EditAction.SubjectShouldGenericAssertion(argumentIndex: 1, newName, invocation.TargetMethod.TypeArguments),
                 (editActionContext) =>
                 {
-                    var generator = editActionContext.Editor.Generator;
-                    var withParameterName = generator.MemberAccessExpression(editActionContext.AwesomeAssertion.WithArgumentList(SF.ArgumentList()), "WithParameterName");
-                    var chainedAssertion = generator.InvocationExpression(withParameterName, editActionContext.InvocationExpression.ArgumentList.Arguments[0]);
+                    SyntaxGenerator generator = editActionContext.Editor.Generator;
+                    SyntaxNode withParameterName = generator.MemberAccessExpression(editActionContext.AwesomeAssertion.WithArgumentList(SF.ArgumentList()), "WithParameterName");
+                    SyntaxNode chainedAssertion = generator.InvocationExpression(withParameterName, editActionContext.InvocationExpression.ArgumentList.Arguments[0]);
 
                     editActionContext.Editor.ReplaceNode(editActionContext.InvocationExpression, chainedAssertion);
                 }

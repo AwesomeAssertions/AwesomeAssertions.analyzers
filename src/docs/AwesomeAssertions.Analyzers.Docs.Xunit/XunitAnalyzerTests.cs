@@ -1,17 +1,17 @@
+#pragma warning disable // These tests show migrations, also for older methods. `ExpectedException` is used as marker to find failing tests and extract code
 using System;
 using System.Collections.Generic;
-using AwesomeAssertions;
 using Xunit;
 
 namespace AwesomeAssertions.Analyzers.Docs;
 
-public class XunitAnalyzerTests
+public sealed class XunitAnalyzerTests
 {
     [Fact]
     public void AssertTrue()
     {
         // arrange
-        var flag = true;
+        const bool flag = true;
 
         // old assertion:
         Assert.True(flag);
@@ -20,21 +20,23 @@ public class XunitAnalyzerTests
         flag.Should().BeTrue();
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertTrue_Failure_OldAssertion()
     {
         // arrange
-        var flag = false;
+        const bool flag = false;
 
         // old assertion:
         Assert.True(flag);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertTrue_Failure_NewAssertion()
     {
         // arrange
-        var flag = false;
+        const bool flag = false;
 
         // new assertion:
         flag.Should().BeTrue();
@@ -44,7 +46,7 @@ public class XunitAnalyzerTests
     public void AssertFalse()
     {
         // arrange
-        var flag = false;
+        const bool flag = false;
 
         // old assertion:
         Assert.False(flag);
@@ -53,21 +55,23 @@ public class XunitAnalyzerTests
         flag.Should().BeFalse();
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertFalse_Failure_OldAssertion()
     {
         // arrange
-        var flag = true;
+        const bool flag = true;
 
         // old assertion:
         Assert.False(flag);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertFalse_Failure_NewAssertion()
     {
         // arrange
-        var flag = true;
+        const bool flag = true;
 
         // new assertion:
         flag.Should().BeFalse();
@@ -87,7 +91,8 @@ public class XunitAnalyzerTests
         obj1.Should().BeSameAs(obj2);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertSame_Failure_OldAssertion()
     {
         // arrange
@@ -98,7 +103,8 @@ public class XunitAnalyzerTests
         Assert.Same(obj1, obj2);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertSame_Failure_NewAssertion()
     {
         // arrange
@@ -123,7 +129,8 @@ public class XunitAnalyzerTests
         obj1.Should().NotBeSameAs(obj2);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertNotSame_Failure_OldAssertion()
     {
         // arrange
@@ -134,7 +141,8 @@ public class XunitAnalyzerTests
         Assert.NotSame(obj1, obj2);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertNotSame_Failure_NewAssertion()
     {
         // arrange
@@ -149,9 +157,9 @@ public class XunitAnalyzerTests
     public void AssertDoubleEqual()
     {
         // arrange
-        double actual = 3.14;
-        double expected = 3.141;
-        double tolerance = 0.00159;
+        const double actual = 3.14;
+        const double expected = 3.141;
+        const double tolerance = 0.00159;
 
         // old assertion:
         Assert.Equal(expected, actual, tolerance);
@@ -160,25 +168,27 @@ public class XunitAnalyzerTests
         actual.Should().BeApproximately(expected, tolerance);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertDoubleEqual_Failure_OldAssertion()
     {
         // arrange
-        double actual = 3.14;
-        double expected = 4.2;
-        double tolerance = 0.0001;
+        const double actual = 3.14;
+        const double expected = 4.2;
+        const double tolerance = 0.0001;
 
         // old assertion:
         Assert.Equal(expected, actual, tolerance);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertDoubleEqual_Failure_NewAssertion()
     {
         // arrange
-        double actual = 3.14;
-        double expected = 4.2;
-        double tolerance = 0.0001;
+        const double actual = 3.14;
+        const double expected = 4.2;
+        const double tolerance = 0.0001;
 
         // new assertion:
         actual.Should().BeApproximately(expected, tolerance);
@@ -198,7 +208,8 @@ public class XunitAnalyzerTests
         actual.Should().BeCloseTo(expected, TimeSpan.FromDays(3));
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertDateTimeEqual_Failure_OldAssertion()
     {
         // arrange
@@ -209,7 +220,8 @@ public class XunitAnalyzerTests
         Assert.Equal(expected, actual, TimeSpan.FromHours(3));
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertDateTimeEqual_Failure_NewAssertion()
     {
         // arrange
@@ -234,7 +246,8 @@ public class XunitAnalyzerTests
         actual.Should().Be(expected);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertObjectEqual_Failure_OldAssertion()
     {
         // arrange
@@ -245,7 +258,8 @@ public class XunitAnalyzerTests
         Assert.Equal(expected, actual);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertObjectEqual_Failure_NewAssertion()
     {
         // arrange
@@ -270,7 +284,8 @@ public class XunitAnalyzerTests
         actual.Should().BeEquivalentTo(expected, options => options.Using(EqualityComparer<object>.Default));
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertObjectEqualWithComparer_Failure_OldAssertion()
     {
         // arrange
@@ -281,7 +296,8 @@ public class XunitAnalyzerTests
         Assert.Equal(expected, actual, EqualityComparer<object>.Default);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertObjectEqualWithComparer_Failure_NewAssertion()
     {
         // arrange
@@ -306,7 +322,8 @@ public class XunitAnalyzerTests
         actual.Should().NotBe(expected);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertObjectNotEqual_Failure_OldAssertion()
     {
         // arrange
@@ -317,7 +334,8 @@ public class XunitAnalyzerTests
         Assert.NotEqual(expected, actual);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertObjectNotEqual_Failure_NewAssertion()
     {
         // arrange
@@ -342,7 +360,8 @@ public class XunitAnalyzerTests
         actual.Should().NotBeEquivalentTo(expected, options => options.Using(EqualityComparer<object>.Default));
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertObjectNotEqualWithComparer_Failure_OldAssertion()
     {
         // arrange
@@ -353,7 +372,8 @@ public class XunitAnalyzerTests
         Assert.NotEqual(expected, actual, EqualityComparer<object>.Default);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertObjectNotEqualWithComparer_Failure_NewAssertion()
     {
         // arrange
@@ -378,7 +398,8 @@ public class XunitAnalyzerTests
         actual.Should().Be(expected);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertStrictEqual_Failure_OldAssertion()
     {
         // arrange
@@ -389,7 +410,8 @@ public class XunitAnalyzerTests
         Assert.StrictEqual(expected, actual);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertStrictEqual_Failure_NewAssertion()
     {
         // arrange
@@ -414,7 +436,8 @@ public class XunitAnalyzerTests
         actual.Should().NotBe(expected);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertNotStrictEqual_Failure_OldAssertion()
     {
         // arrange
@@ -425,7 +448,8 @@ public class XunitAnalyzerTests
         Assert.NotStrictEqual(expected, actual);
     }
 
-    [Fact, ExpectedAssertionException]
+    [Fact]
+    [ExpectedAssertionException]
     public void AssertNotStrictEqual_Failure_NewAssertion()
     {
         // arrange

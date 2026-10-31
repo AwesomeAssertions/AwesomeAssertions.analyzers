@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,39 +12,40 @@ using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.CodeAnalysis.Simplification;
 
-namespace AwesomeAssertions.Analyzers;
+namespace AwesomeAssertions.Analyzers.Tips;
 
-public abstract class TestingFrameworkCodeFixProvider<TTestContext> : CodeFixProviderBase<TTestContext> where TTestContext : TestingFrameworkCodeFixProvider.TestingFrameworkCodeFixContext
+public abstract class TestingFrameworkCodeFixProvider<TTestContext> : CodeFixProviderBase<TTestContext>
+    where TTestContext : TestingFrameworkCodeFixProvider.TestingFrameworkCodeFixContext
 {
     protected override string Title => "Replace with AwesomeAssertions";
 
     protected override Func<CancellationToken, Task<Document>> TryComputeFix(IInvocationOperation invocation, CodeFixContext context, TTestContext t, Diagnostic diagnostic)
     {
-        var fix = TryComputeFixCore(invocation, context, t, diagnostic);
+        Func<CancellationToken, Task<Document>> fix = TryComputeFixCore(invocation, context, t, diagnostic);
         if (fix is null)
         {
             return null;
         }
 
-        return async ctx =>
+        return async token =>
         {
             const string AwesomeAssertionNamespace = "AwesomeAssertions";
-            var document = await fix(ctx);
+            Document document = await fix(token);
 
-            var model = await document.GetSemanticModelAsync();
-            var scopes = model.GetImportScopes(diagnostic.Location.SourceSpan.Start);
+            SemanticModel model = await document.GetSemanticModelAsync(token);
+            ImmutableArray<IImportScope> scopes = model.GetImportScopes(diagnostic.Location.SourceSpan.Start, token);
 
-            var hasAwesomeAssertionImport = scopes.Any(scope => scope.Imports.Any(import => import.NamespaceOrType.ToString().Equals(AwesomeAssertionNamespace)));
+            var hasAwesomeAssertionImport = scopes.Any(scope => scope.Imports.Any(import => import.NamespaceOrType.ToString().Equals(AwesomeAssertionNamespace, StringComparison.Ordinal)));
             if (hasAwesomeAssertionImport)
             {
                 return document;
             }
 
-            var root = (CompilationUnitSyntax)await document.GetSyntaxRootAsync();
+            var root = (CompilationUnitSyntax)await document.GetSyntaxRootAsync(token);
             root = root.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(AwesomeAssertionNamespace)).WithAdditionalAnnotations(Simplifier.AddImportsAnnotation));
 
             document = document.WithSyntaxRoot(root);
-            document = await Formatter.OrganizeImportsAsync(document);
+            document = await Formatter.OrganizeImportsAsync(document, token);
 
             return document;
         };
@@ -52,6 +54,7 @@ public abstract class TestingFrameworkCodeFixProvider<TTestContext> : CodeFixPro
     protected abstract Func<CancellationToken, Task<Document>> TryComputeFixCore(IInvocationOperation invocation, CodeFixContext context, TTestContext t, Diagnostic diagnostic);
 
     protected static bool ArgumentsAreTypeOf(IInvocationOperation invocation, params ITypeSymbol[] types) => ArgumentsAreTypeOf(invocation, 0, types);
+
     protected static bool ArgumentsAreTypeOf(IInvocationOperation invocation, int startFromIndex, params ITypeSymbol[] types)
     {
         if (invocation.TargetMethod.Parameters.Length != types.Length + startFromIndex)
@@ -83,7 +86,7 @@ public abstract class TestingFrameworkCodeFixProvider<TTestContext> : CodeFixPro
             return false;
         }
 
-        var genericType = invocation.TargetMethod.TypeArguments[0];
+        ITypeSymbol genericType = invocation.TargetMethod.TypeArguments[0];
 
         for (int i = 0; i < types.Length; i++)
         {
@@ -111,41 +114,63 @@ public abstract class TestingFrameworkCodeFixProvider<TTestContext> : CodeFixPro
     {
         return invocation.TargetMethod.Parameters.Length == arguments;
     }
-
 }
 
+#pragma warning disable AV1704 // Identifier contains one or more digits in its name: Correct here because it matches the type name
 public abstract class TestingFrameworkCodeFixProvider : TestingFrameworkCodeFixProvider<TestingFrameworkCodeFixProvider.TestingFrameworkCodeFixContext>
 {
     protected override TestingFrameworkCodeFixContext CreateTestContext(SemanticModel semanticModel) => new(semanticModel.Compilation);
 
-
     public class TestingFrameworkCodeFixContext(Compilation compilation)
     {
         public INamedTypeSymbol Object { get; } = compilation.ObjectType;
+
         public INamedTypeSymbol String { get; } = compilation.GetTypeByMetadataName("System.String");
+
         public INamedTypeSymbol Int32 { get; } = compilation.GetTypeByMetadataName("System.Int32");
+
         public INamedTypeSymbol UInt32 { get; } = compilation.GetTypeByMetadataName("System.UInt32");
+
         public INamedTypeSymbol Long { get; } = compilation.GetTypeByMetadataName("System.Int64");
+
         public INamedTypeSymbol ULong { get; } = compilation.GetTypeByMetadataName("System.UInt64");
+
         public INamedTypeSymbol Float { get; } = compilation.GetTypeByMetadataName("System.Single");
+
         public INamedTypeSymbol Double { get; } = compilation.GetTypeByMetadataName("System.Double");
+
         public INamedTypeSymbol Decimal { get; } = compilation.GetTypeByMetadataName("System.Decimal");
+
         public INamedTypeSymbol Boolean { get; } = compilation.GetTypeByMetadataName("System.Boolean");
+
         public INamedTypeSymbol Action { get; } = compilation.GetTypeByMetadataName("System.Action");
+
         public INamedTypeSymbol Type { get; } = compilation.GetTypeByMetadataName("System.Type");
+
         public INamedTypeSymbol DateTime { get; } = compilation.GetTypeByMetadataName("System.DateTime");
+
         public INamedTypeSymbol TimeSpan { get; } = compilation.GetTypeByMetadataName("System.TimeSpan");
+
         public INamedTypeSymbol FuncOfObject { get; } = compilation.GetTypeByMetadataName("System.Func`1").Construct(compilation.ObjectType);
+
         public INamedTypeSymbol FuncOfTask { get; } = compilation.GetTypeByMetadataName("System.Func`1").Construct(compilation.GetTypeByMetadataName("System.Threading.Tasks.Task"));
+
         public IArrayTypeSymbol ObjectArray { get; } = compilation.CreateArrayTypeSymbol(compilation.ObjectType);
+
         public INamedTypeSymbol CultureInfo { get; } = compilation.GetTypeByMetadataName("System.Globalization.CultureInfo");
+
         public INamedTypeSymbol StringComparison { get; } = compilation.GetTypeByMetadataName("System.StringComparison");
+
         public INamedTypeSymbol Regex { get; } = compilation.GetTypeByMetadataName("System.Text.RegularExpressions.Regex");
+
         public INamedTypeSymbol ICollection { get; } = compilation.GetTypeByMetadataName("System.Collections.ICollection");
+
         public INamedTypeSymbol IComparer { get; } = compilation.GetTypeByMetadataName("System.Collections.IComparer");
+
         public INamedTypeSymbol IEqualityComparerOfT1 { get; } = compilation.GetTypeByMetadataName("System.Collections.Generic.IEqualityComparer`1");
+
         public INamedTypeSymbol IEnumerableOfT1 { get; } = compilation.GetTypeByMetadataName("System.Collections.Generic.IEnumerable`1");
 
-        public INamedTypeSymbol Identity { get; } = null;
+        public INamedTypeSymbol Identity { get; }
     }
 }

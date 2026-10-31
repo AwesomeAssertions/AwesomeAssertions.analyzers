@@ -10,21 +10,21 @@ namespace AwesomeAssertions.Analyzers.Docs;
 /// Based on https://github.com/nunit/nunit-csharp-samples/blob/master/ExpectedExceptionExample/ExpectedExceptionAttribute.cs
 /// </summary>
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-public class ExpectedAssertionExceptionAttribute : NUnitAttribute, IWrapTestMethod
+public sealed class ExpectedAssertionExceptionAttribute : NUnitAttribute, IWrapTestMethod
 {
     public TestCommand Wrap(TestCommand command)
     {
         return new ExpectedExceptionCommand(command, typeof(AssertionException));
     }
 
-    private class ExpectedExceptionCommand : DelegatingTestCommand
+    private sealed class ExpectedExceptionCommand : DelegatingTestCommand
     {
-        private readonly Type _expectedType;
+        private readonly Type expectedType;
 
         public ExpectedExceptionCommand(TestCommand innerCommand, Type expectedType)
             : base(innerCommand)
         {
-            _expectedType = expectedType;
+            this.expectedType = expectedType;
         }
 
         public override TestResult Execute(TestExecutionContext context)
@@ -38,18 +38,27 @@ public class ExpectedAssertionExceptionAttribute : NUnitAttribute, IWrapTestMeth
             catch (Exception ex)
             {
                 if (ex is NUnitException)
+                {
                     ex = ex.InnerException;
+                }
+
                 caughtType = ex.GetType();
             }
 
-            if (caughtType == _expectedType)
+            if (caughtType == expectedType)
+            {
                 context.CurrentResult.SetResult(ResultState.Success);
+            }
             else if (caughtType != null)
+            {
                 context.CurrentResult.SetResult(ResultState.Failure,
-                    $"Expected {_expectedType.Name} but got {caughtType.Name}");
+                    $"Expected {expectedType.Name} but got {caughtType.Name}");
+            }
             else
+            {
                 context.CurrentResult.SetResult(ResultState.Failure,
-                    $"Expected {_expectedType.Name} but no exception was thrown");
+                    $"Expected {expectedType.Name} but no exception was thrown");
+            }
 
             return context.CurrentResult;
         }

@@ -3,35 +3,30 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 
-namespace AwesomeAssertions.Analyzers;
+namespace AwesomeAssertions.Analyzers.Tips.Editing;
 
-public class SubjectShouldAssertionAction
+public class SubjectShouldAssertionAction(int argumentIndex, string assertion)
 {
-    private readonly int _argumentIndex;
-    protected readonly string _assertion;
+    private readonly int argumentIndex = argumentIndex;
 
-    public SubjectShouldAssertionAction(int argumentIndex, string assertion)
-    {
-        _argumentIndex = argumentIndex;
-        _assertion = assertion;
-    }
+    protected string Assertion { get; } = assertion;
 
     public void Apply(EditActionContext context)
     {
-        var generator = context.Editor.Generator;
-        var arguments = context.InvocationExpression.ArgumentList.Arguments;
+        SyntaxGenerator generator = context.Editor.Generator;
+        SeparatedSyntaxList<ArgumentSyntax> arguments = context.InvocationExpression.ArgumentList.Arguments;
 
-        var subject = arguments[_argumentIndex];
-        var should = generator.InvocationExpression(generator.MemberAccessExpression(subject.Expression, "Should"));
+        ArgumentSyntax subject = arguments[argumentIndex];
+        SyntaxNode should = generator.InvocationExpression(generator.MemberAccessExpression(subject.Expression, "Should"));
         context.Editor.RemoveNode(subject);
 
-        var memberAccess = (MemberAccessExpressionSyntax) generator.MemberAccessExpression(should, GenerateAssertion(generator)).WithTriviaFrom(context.InvocationExpression.Expression);
+        var memberAccess = (MemberAccessExpressionSyntax)generator.MemberAccessExpression(should, GenerateAssertion(generator)).WithTriviaFrom(context.InvocationExpression.Expression);
 
         context.Editor.ReplaceNode(context.InvocationExpression.Expression, memberAccess);
         context.AwesomeAssertion = context.InvocationExpression
             .WithExpression(memberAccess)
-            .WithArgumentList(SyntaxFactory.ArgumentList(arguments.RemoveAt(_argumentIndex)));
+            .WithArgumentList(SyntaxFactory.ArgumentList(arguments.RemoveAt(argumentIndex)));
     }
 
-    protected virtual SyntaxNode GenerateAssertion(SyntaxGenerator generator) => generator.IdentifierName(_assertion);
+    protected virtual SyntaxNode GenerateAssertion(SyntaxGenerator generator) => generator.IdentifierName(Assertion);
 }

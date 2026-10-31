@@ -15,9 +15,9 @@ public static class ProgramUtils
 
         return args switch
         {
-        ["generate"] => new TDocsGenerator().Execute(),
-        ["verify"] => new TDocsVerifier().Execute(),
-            _ => throw new ArgumentException("Invalid arguments, use 'generate' or 'verify' as argument.")
+            ["generate"] => new TDocsGenerator().Execute(),
+            ["verify"] => new TDocsVerifier().Execute(),
+            _ => throw new ArgumentException("Invalid arguments, use 'generate' or 'verify' as argument.", nameof(args))
         };
     }
 }

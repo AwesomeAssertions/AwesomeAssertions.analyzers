@@ -1,6 +1,9 @@
-using Microsoft.CodeAnalysis.Diagnostics;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using AwesomeAssertions.Analyzers.Tips;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace AwesomeAssertions.Analyzers.TestUtils;
 
@@ -12,10 +15,10 @@ public static class CodeAnalyzersUtils
 
     private static DiagnosticAnalyzer[] CreateAllAnalyzers()
     {
-        var assembly = typeof(AwesomeAssertionsAnalyzer).Assembly;
-        var analyzersTypes = assembly.GetTypes()
+        Assembly assembly = typeof(AwesomeAssertionsAnalyzer).Assembly;
+        IEnumerable<Type> analyzersTypes = assembly.GetTypes()
             .Where(type => !type.IsAbstract && typeof(DiagnosticAnalyzer).IsAssignableFrom(type));
-        var analyzers = analyzersTypes.Select(type => (DiagnosticAnalyzer)Activator.CreateInstance(type));
+        IEnumerable<DiagnosticAnalyzer> analyzers = analyzersTypes.Select(type => (DiagnosticAnalyzer)Activator.CreateInstance(type));
 
         return analyzers.ToArray();
     }
