@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1791049158087,
+  "lastUpdate": 1793460851570,
   "repoUrl": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers",
   "entries": {
     "AwesomeAssertions.Analyzers Benchmark": [
@@ -16448,6 +16448,42 @@ window.BENCHMARK_DATA = {
             "value": 194.70554962158204,
             "unit": "ns",
             "range": "± 1.2687897396443812"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "2921215+cbersch@users.noreply.github.com",
+            "name": "Christoph Bersch",
+            "username": "cbersch"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "90c18862de12b99039e95968e6c32113af927474",
+          "message": "Fix docs generation (#163)\n\n* Fix generate-docs script to fail upon error\n* Fix DocsGenerator to create correct docs for multiple old assertions which have one new assertion\n* Fix generation of NUnit4 docs",
+          "timestamp": "2026-10-31T16:32:36+01:00",
+          "tree_id": "05e130de4508b573906241c5850935bf99d5f812",
+          "url": "https://github.com/AwesomeAssertions/AwesomeAssertions.analyzers/commit/90c18862de12b99039e95968e6c32113af927474"
+        },
+        "date": 1793460850770,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.MinimalCompilation_SingleSource_ObjectStatement_Analyzing",
+            "value": 174.99004379908243,
+            "unit": "ns",
+            "range": "± 1.7486507863429757"
+          },
+          {
+            "name": "AwesomeAssertions.Analyzers.BenchmarkTests.AwesomeAssertionsBenchmarks.SmallCompilation_MultipleSources_StringAssertions_Analyzing",
+            "value": 194.25156636799082,
+            "unit": "ns",
+            "range": "± 3.949966113783897"
           }
         ]
       }
