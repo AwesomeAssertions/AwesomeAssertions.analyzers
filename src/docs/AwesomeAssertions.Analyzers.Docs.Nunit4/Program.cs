@@ -20,8 +20,6 @@ public class Program
         {
             var testContext = typeof(NUnit.Framework.Internal.TestExecutionContext);
             testContext.GetProperty("CurrentContext").SetValue(null, new NUnit.Framework.Internal.TestExecutionContext.AdhocContext());
-
-            NUnit.Framework.Internal.TestExecutionContext.CurrentContext.CurrentResult.AssertionResults.Clear();
         }
     }
     private class Nunit4DocsVerifier : DocsVerifier
