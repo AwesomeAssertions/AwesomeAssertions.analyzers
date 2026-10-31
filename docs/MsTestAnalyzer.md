@@ -1,5 +1,5 @@
 <!--
-This is a generated file, please edit src\AwesomeAssertions.Analyzers.Docs.Generator\DocsGenerator.cs to change the contents
+This is a generated file, please edit src\docs\AwesomeAssertions.Analyzers.Docs.Generator\DocsGenerator.cs to change the contents
 -->
 
 # MsTest Analyzer Docs
@@ -199,7 +199,7 @@ Assert.IsNotInstanceOfType(obj, typeof(List<object>)); /* fail message: Assert.I
 Assert.IsNotInstanceOfType<List<object>>(obj); /* fail message: Assert.IsNotInstanceOfType failed. Wrong Type:<System.Collections.Generic.List`1[System.Object]>. Actual type:<System.Collections.Generic.List`1[System.Object]>.  */
 
 // new assertion:
-obj.Should().NotBeOfType<List<object>>(); /* fail message: Expected type not to be [System.Collections.Generic.List`1[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e], but it is. */
+obj.Should().NotBeOfType<List<object>>(); /* fail message: Expected type not to be [System.Collections.Generic.List`1[[System.Object, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e], but it is. */
 ```
 
 ### scenario: AssertObjectAreEqual
@@ -248,7 +248,10 @@ obj1.Should().Be("foo");
 object obj1 = "foo";
 
 // old assertion:
-Assert.AreEqual(obj1, "bar"); /* fail message: Assert.AreEqual failed. Expected:<foo>. Actual:<bar>.  */
+Assert.AreEqual(obj1, "bar"); /* fail message: Assert.AreEqual failed. String lengths are both 3 but differ at index 0.
+Expected: "foo"
+But was:  "bar"
+-----------^ */
 
 // new assertion:
 obj1.Should().Be("bar"); /* fail message: Expected obj1 to be "bar", but found "foo". */
@@ -389,12 +392,19 @@ string str1 = "foo";
 string str2 = "FoO";
 
 // old assertion:
-Assert.AreEqual(str2, str1); /* fail message: Assert.AreEqual failed. Expected:<FoO>. Actual:<foo>.  */
-Assert.AreEqual(str2, str1, ignoreCase: false); /* fail message: Assert.AreEqual failed. Expected:<FoO>. Actual:<foo>.  */
-Assert.AreEqual(str2, str1, ignoreCase: false, culture: CultureInfo.CurrentCulture); /* fail message: Assert.AreEqual failed. Expected:<FoO>. Actual:<foo>.  */
+Assert.AreEqual(str2, str1); /* fail message: Assert.AreEqual failed. String lengths are both 3 but differ at index 0.
+Expected: "FoO"
+But was:  "foo"
+-----------^ */
+Assert.AreEqual(str2, str1, ignoreCase: false); /* fail message: Assert.AreEqual failed. Expected:<FoO>. Case is different for actual value:<foo>.  */
+Assert.AreEqual(str2, str1, ignoreCase: false, culture: CultureInfo.CurrentCulture); /* fail message: Assert.AreEqual failed. Expected:<FoO>. Case is different for actual value:<foo>.  */
 
 // new assertion:
-str1.Should().Be(str2); /* fail message: Expected str1 to be "FoO", but "foo" differs near "foo" (index 0). */
+str1.Should().Be(str2); /* fail message: Expected str1 to be the same string, but they differ at index 0:
+   ↓ (actual)
+  "foo"
+  "FoO"
+   ↑ (expected). */
 ```
 
 ### scenario: AssertStringAreEqual_IgnoreCase
@@ -419,11 +429,21 @@ string str1 = "foo";
 string str2 = "bar";
 
 // old assertion:
-Assert.AreEqual(str2, str1, ignoreCase: true); /* fail message: Assert.AreEqual failed. Expected:<bar>. Actual:<foo>.  */
-Assert.AreEqual(str2, str1, ignoreCase: true, culture: CultureInfo.CurrentCulture); /* fail message: Assert.AreEqual failed. Expected:<bar>. Actual:<foo>.  */
+Assert.AreEqual(str2, str1, ignoreCase: true); /* fail message: Assert.AreEqual failed. String lengths are both 3 but differ at index 0.
+Expected: "bar"
+But was:  "foo"
+-----------^ */
+Assert.AreEqual(str2, str1, ignoreCase: true, culture: CultureInfo.CurrentCulture); /* fail message: Assert.AreEqual failed. String lengths are both 3 but differ at index 0.
+Expected: "bar"
+But was:  "foo"
+-----------^ */
 
 // new assertion:
-str1.Should().BeEquivalentTo(str2); /* fail message: Expected str1 to be equivalent to "bar", but "foo" differs near "foo" (index 0). */
+str1.Should().BeEquivalentTo(str2); /* fail message: Expected str1 to be equivalent to the same string, but they differ at index 0:
+   ↓ (actual)
+  "foo"
+  "bar"
+   ↑ (expected). */
 ```
 
 ### scenario: AssertObjectAreNotEqual
@@ -698,7 +718,9 @@ var list1 = new List<int> { 1, 2, 3 };
 var list2 = new List<int> { 1, 2, 4 };
 
 // old assertion:
-CollectionAssert.AreEqual(list2, list1); /* fail message: CollectionAssert.AreEqual failed. (Element at index 2 do not match.) */
+CollectionAssert.AreEqual(list2, list1); /* fail message: CollectionAssert.AreEqual failed. Element at index 2 do not match.
+Expected: 4
+Actual: 3 */
 
 // new assertion:
 list1.Should().Equal(list2); /* fail message: Expected list1 to be equal to {1, 2, 4}, but {1, 2, 3} differs at index 2. */
@@ -725,7 +747,7 @@ var list1 = new List<int> { 1, 2, 3 };
 var list2 = new List<int> { 1, 2, 3 };
 
 // old assertion:
-CollectionAssert.AreNotEqual(list2, list1); /* fail message: CollectionAssert.AreNotEqual failed. (Both collection contain same elements.) */
+CollectionAssert.AreNotEqual(list2, list1); /* fail message: CollectionAssert.AreNotEqual failed. Both collection contain same elements. */
 
 // new assertion:
 list1.Should().NotEqual(list2); /* fail message: Did not expect collections {1, 2, 3} and {1, 2, 3} to be equal. */
@@ -920,7 +942,7 @@ var list1 = new List<int> { 1, 2, 3, 4 };
 var list2 = new List<int> { 2, 3, 5 };
 
 // old assertion:
-CollectionAssert.IsSubsetOf(list2, list1); /* fail message: CollectionAssert.IsSubsetOf failed.  */
+CollectionAssert.IsSubsetOf(list2, list1); /* fail message: CollectionAssert.IsSubsetOf failed. Element(s) <5> is/are not present in the collection. */
 
 // new assertion:
 list2.Should().BeSubsetOf(list1); /* fail message: Expected list2 to be a subset of {1, 2, 3, 4}, but items {5} are not part of the superset. */
@@ -1001,7 +1023,7 @@ static Task ThrowExceptionAsync() => throw new InvalidOperationException();
 Func<Task> action = ThrowExceptionAsync;
 
 // old assertion:
-await Assert.ThrowsExceptionAsync<ArgumentException>(action); /* fail message: Assert.ThrowsException failed. Expected exception type:<System.ArgumentException>. Actual exception type:<System.InvalidOperationException>.  */
+await Assert.ThrowsExceptionAsync<ArgumentException>(action); /* fail message: Assert.ThrowsExceptionAsync failed. Expected exception type:<System.ArgumentException>. Actual exception type:<System.InvalidOperationException>.  */
 
 // new assertion:
 await action.Should().ThrowExactlyAsync<ArgumentException>(); /* fail message: Expected type to be System.ArgumentException, but found System.InvalidOperationException. */
@@ -1051,10 +1073,14 @@ str.Should().StartWith("fo");
 var str = "foo";
 
 // old assertion:
-StringAssert.StartsWith(str, "oo"); /* fail message: StringAssert.StartsWith failed. String 'foo' does not start with string 'oo'. . */
+StringAssert.StartsWith(str, "oo"); /* fail message: StringAssert.StartsWith failed. String 'foo' does not start with string 'oo'.  */
 
 // new assertion:
-str.Should().StartWith("oo"); /* fail message: Expected str to start with "oo", but "foo" differs near "foo" (index 0). */
+str.Should().StartWith("oo"); /* fail message: Expected str to start with the same string, but they differ at index 0:
+   ↓ (actual)
+  "foo"
+  "oo"
+   ↑ (expected). */
 ```
 
 ### scenario: StringAssertEndsWith
@@ -1076,10 +1102,14 @@ str.Should().EndWith("oo");
 var str = "foo";
 
 // old assertion:
-StringAssert.EndsWith(str, "fo"); /* fail message: StringAssert.EndsWith failed. String 'foo' does not end with string 'fo'. . */
+StringAssert.EndsWith(str, "fo"); /* fail message: StringAssert.EndsWith failed. String 'foo' does not end with string 'fo'.  */
 
 // new assertion:
-str.Should().EndWith("fo"); /* fail message: Expected str to end with "fo", but "foo" differs near "foo" (index 0). */
+str.Should().EndWith("fo"); /* fail message: Expected str to end with the same string, but they differ before index 2:
+    ↓ (actual)
+  "foo"
+   "fo"
+    ↑ (expected). */
 ```
 
 ### scenario: StringAssertMatches
@@ -1103,7 +1133,7 @@ var str = "foo";
 var pattern = new Regex("b.r");
 
 // old assertion:
-StringAssert.Matches(str, pattern); /* fail message: StringAssert.Matches failed. String 'foo' does not match pattern 'b.r'. . */
+StringAssert.Matches(str, pattern); /* fail message: StringAssert.Matches failed. String 'foo' does not match pattern 'b.r'.  */
 
 // new assertion:
 str.Should().MatchRegex(pattern); /* fail message: Expected str to match regex "b.r", but "foo" does not match. */
@@ -1130,7 +1160,7 @@ var str = "foo";
 var pattern = new Regex("f.o");
 
 // old assertion:
-StringAssert.DoesNotMatch(str, pattern); /* fail message: StringAssert.DoesNotMatch failed. String 'foo' matches pattern 'f.o'. . */
+StringAssert.DoesNotMatch(str, pattern); /* fail message: StringAssert.DoesNotMatch failed. String 'foo' matches pattern 'f.o'.  */
 
 // new assertion:
 str.Should().NotMatchRegex(pattern); /* fail message: Did not expect str to match regex "f.o", but "foo" matches. */

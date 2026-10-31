@@ -32,7 +32,7 @@ public abstract class DocsGenerator
         var scenarios = new StringBuilder();
 
         docs.AppendLine("<!--");
-        docs.AppendLine("This is a generated file, please edit src\\AwesomeAssertions.Analyzers.Docs.Generator\\DocsGenerator.cs to change the contents");
+        docs.AppendLine("This is a generated file, please edit src\\docs\\AwesomeAssertions.Analyzers.Docs.Generator\\DocsGenerator.cs to change the contents");
         docs.AppendLine("-->");
         docs.AppendLine();
 
@@ -74,7 +74,7 @@ public abstract class DocsGenerator
             {
                 var testMethodWithFailure = classType.GetMethod(testWithFailure.Identifier.Text);
 
-                var exceptionMessageLines = GetMethodExceptionMessageLines(classInstance, testMethodWithFailure);
+                var failureMessages = SplitAssertionFailureMessages(GetMethodExceptionMessage(classInstance, testMethodWithFailure));
 
                 var bodyLines = testWithFailure.Body.ToFullString().Split(Environment.NewLine)[2..^2];
                 var paddingToRemove = bodyLines[0].IndexOf(bodyLines[0].TrimStart());
@@ -84,9 +84,34 @@ public abstract class DocsGenerator
 
                 var statements = testWithFailure.Body.Statements.OfType<ExpressionStatementSyntax>();
 
-                var oldAssertions = statements.Where(x => x.Span.CompareTo(oldAssertionComment.Span) > 0 && x.Span.CompareTo(newAssertionComment.Span) < 0)
-                    .Select((x, i) => x.ToString().TrimStart() + " \t// fail message: " + exceptionMessageLines[i]);
-                var newAssertion = statements.Single(x => x.Span.CompareTo(newAssertionComment.Span) > 0).ToString().TrimStart() + " \t// fail message: " + exceptionMessageLines[^1];
+                var oldAssertionStatements = statements.Where(x => x.Span.CompareTo(oldAssertionComment.Span) > 0 && x.Span.CompareTo(newAssertionComment.Span) < 0).ToArray();
+                var newAssertionStatement = statements.Single(x => x.Span.CompareTo(newAssertionComment.Span) > 0);
+                string[] oldFailureMessages;
+                string newFailureMessage;
+                if (failureMessages.Length == oldAssertionStatements.Length + 1)
+                {
+                    oldFailureMessages = failureMessages[..^1];
+                    newFailureMessage = failureMessages[^1];
+                }
+                else if (failureMessages.Length == oldAssertionStatements.Length && failureMessages[^1].StartsWith("Expected exception message ", StringComparison.Ordinal))
+                {
+                    var oldMessagesBeforeDuplicate = failureMessages[..^1];
+                    oldFailureMessages = oldMessagesBeforeDuplicate.Append(oldMessagesBeforeDuplicate[^1]).ToArray();
+                    newFailureMessage = failureMessages[^1];
+                }
+                else if (failureMessages.Length == oldAssertionStatements.Length)
+                {
+                    oldFailureMessages = failureMessages;
+                    newFailureMessage = failureMessages[^1];
+                }
+                else
+                {
+                    throw new InvalidOperationException($"Expected one failure message per assertion in {testWithFailure.Identifier}, but found {failureMessages.Length} messages for {oldAssertionStatements.Length + 1} assertions.");
+                }
+
+                var oldAssertions = oldAssertionStatements
+                    .Select((x, i) => x.ToString().TrimStart() + " \t// fail message: " + string.Join($"{Environment.NewLine}// ", oldFailureMessages[i].Split(Environment.NewLine)));
+                var newAssertion = newAssertionStatement.ToString().TrimStart() + " \t// fail message: " + string.Join($"{Environment.NewLine}// ", newFailureMessage.Split(Environment.NewLine));
 
                 var arrange = bodyLines.TakeWhile(x => !string.IsNullOrEmpty(x))
                     .Select(l => l.Length > paddingToRemove ? l.Substring(paddingToRemove) : l).Aggregate((a, b) => $"{a}{Environment.NewLine}{b}");
@@ -154,14 +179,12 @@ public abstract class DocsGenerator
         docs.AppendLine();
         docs.AppendLine(scenarios.ToString());
 
-        var docsPath = Path.Combine(Environment.CurrentDirectory, "..", "..", "docs", docsName);
+        var docsPath = Path.Combine(Environment.CurrentDirectory, "..", "..", "..", "docs", docsName);
         Directory.CreateDirectory(Path.GetDirectoryName(docsPath));
         await File.WriteAllTextAsync(docsPath, docs.ToString());
 
     }
 
-    private string[] GetMethodExceptionMessageLines(object instance, MethodInfo method)
-        => GetMethodExceptionMessage(instance, method).Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
     private string GetMethodExceptionMessage(object instance, MethodInfo method)
     {
         ResetTestFramework();
@@ -184,6 +207,20 @@ public abstract class DocsGenerator
         }
 
         throw new InvalidOperationException($"Method {instance.GetType().Name}.{method.Name} did not throw an exception");
+    }
+
+    private static string[] SplitAssertionFailureMessages(string exceptionMessage)
+    {
+        var lines = exceptionMessage.Split(Environment.NewLine);
+        var failureStartIndexes = Enumerable.Range(0, lines.Length)
+            .Where(index => lines[index].StartsWith("Expected ", StringComparison.Ordinal) || lines[index].StartsWith("Did not expect ", StringComparison.Ordinal))
+            .ToArray();
+
+        return failureStartIndexes.Select((start, index) =>
+        {
+            var end = index + 1 < failureStartIndexes.Length ? failureStartIndexes[index + 1] : lines.Length;
+            return string.Join(Environment.NewLine, lines[start..end]).TrimEnd();
+        }).ToArray();
     }
 
     protected virtual void ResetTestFramework()
