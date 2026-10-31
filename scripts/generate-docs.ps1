@@ -3,6 +3,27 @@ param (
     [switch]$ValidateNoChanges
 )
 
+function GenerateDocs {
+    param (
+        [string]$project
+    )
+
+    Push-Location src/docs
+    Push-Location $project
+    dotnet run generate
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to generate docs for project $project"
+    }
+    Pop-Location
+    Pop-Location
+}
+
+GenerateDocs -project AwesomeAssertions.Analyzers.Docs
+GenerateDocs -project AwesomeAssertions.Analyzers.Docs.MSTest3
+GenerateDocs -project AwesomeAssertions.Analyzers.Docs.Nunit4
+GenerateDocs -project AwesomeAssertions.Analyzers.Docs.Nunit3
+GenerateDocs -project AwesomeAssertions.Analyzers.Docs.Xunit
+
 if ($ValidateNoChanges) {
     $output = git status --porcelain=v1 -- docs
     if ($output) {
@@ -13,21 +34,3 @@ if ($ValidateNoChanges) {
         }
     }
 }
-
-function GenerateDocs {
-    param (
-        [string]$project
-    )
-
-    Push-Location src/docs
-    Push-Location $project
-    dotnet run generate
-    Pop-Location
-    Pop-Location
-}
-
-GenerateDocs -project AwesomeAssertions.Analyzers.Docs
-GenerateDocs -project AwesomeAssertions.Analyzers.Docs.MSTest3
-GenerateDocs -project AwesomeAssertions.Analyzers.Docs.Nunit4
-GenerateDocs -project AwesomeAssertions.Analyzers.Docs.Nunit3
-GenerateDocs -project AwesomeAssertions.Analyzers.Docs.Xunit

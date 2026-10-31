@@ -1,5 +1,5 @@
 <!--
-This is a generated file, please edit src\AwesomeAssertions.Analyzers.Docs.Generator\DocsGenerator.cs to change the contents
+This is a generated file, please edit src\docs\AwesomeAssertions.Analyzers.Docs.Generator\DocsGenerator.cs to change the contents
 -->
 
 # AwesomeAssertions Analyzer Docs
@@ -76,7 +76,11 @@ var expected = "wrong";
 actual.StartsWith(expected).Should().BeTrue(); 	// fail message: Expected actual.StartsWith(expected) to be True, but found False.
 
 // new assertion:
-actual.Should().StartWith(expected); 	// fail message: Expected actual to start with "wrong", but "actual" differs near "act" (index 0).
+actual.Should().StartWith(expected); 	// fail message: Expected actual to start with the same string, but they differ at index 0:
+//    ↓ (actual)
+//   "actual"
+//   "wrong"
+//    ↑ (expected).
 ```
 
 ### scenario: StringShouldEndWith
@@ -104,7 +108,11 @@ var expected = "wrong";
 actual.EndsWith(expected).Should().BeTrue(); 	// fail message: Expected actual.EndsWith(expected) to be True, but found False.
 
 // new assertion:
-actual.Should().EndWith(expected); 	// fail message: Expected actual to end with "wrong", but "actual" differs near "act" (index 0).
+actual.Should().EndWith(expected); 	// fail message: Expected actual to end with the same string, but they differ before index 6:
+//         ↓ (actual)
+//   "actual"
+//    "wrong"
+//         ↑ (expected).
 ```
 
 ### scenario: StringShouldNotBeNullOrEmpty
@@ -940,8 +948,16 @@ static void ThrowException() => throw new Exception("wrong");
 Action action = ThrowException;
 
 // old assertion:
-action.Should().Throw<Exception>().And.Message.Should().Be("message"); 	// fail message: Expected action to be "message" with a length of 7, but "wrong" has a length of 5, differs near "wro" (index 0).
-action.Should().Throw<Exception>().Which.Message.Should().Be("message"); 	// fail message: Expected action to be "message" with a length of 7, but "wrong" has a length of 5, differs near "wro" (index 0).
+action.Should().Throw<Exception>().And.Message.Should().Be("message"); 	// fail message: Expected action to be the same string, but they differ at index 0:
+//    ↓ (actual)
+//   "wrong"
+//   "message"
+//    ↑ (expected).
+action.Should().Throw<Exception>().Which.Message.Should().Be("message"); 	// fail message: Expected action to be the same string, but they differ at index 0:
+//    ↓ (actual)
+//   "wrong"
+//   "message"
+//    ↑ (expected).
 
 // new assertion:
 action.Should().Throw<Exception>().WithMessage("message"); 	// fail message: Expected exception message to match the equivalent of "message", but "wrong" does not.
@@ -1000,8 +1016,16 @@ static void ThrowException() => throw new Exception("wrong");
 Action action = ThrowException;
 
 // old assertion:
-action.Should().Throw<Exception>().And.Message.Should().EndWith("age"); 	// fail message: Expected action to end with "age", but "wrong" differs near "wro" (index 0).
-action.Should().Throw<Exception>().Which.Message.Should().EndWith("age"); 	// fail message: Expected action to end with "age", but "wrong" differs near "wro" (index 0).
+action.Should().Throw<Exception>().And.Message.Should().EndWith("age"); 	// fail message: Expected action to end with the same string, but they differ before index 5:
+//        ↓ (actual)
+//   "wrong"
+//     "age"
+//        ↑ (expected).
+action.Should().Throw<Exception>().Which.Message.Should().EndWith("age"); 	// fail message: Expected action to end with the same string, but they differ before index 5:
+//        ↓ (actual)
+//   "wrong"
+//     "age"
+//        ↑ (expected).
 
 // new assertion:
 action.Should().Throw<Exception>().WithMessage("*age"); 	// fail message: Expected exception message to match the equivalent of "*age", but "wrong" does not.
@@ -1030,8 +1054,16 @@ static void ThrowException() => throw new Exception("wrong");
 Action action = ThrowException;
 
 // old assertion:
-action.Should().Throw<Exception>().And.Message.Should().StartWith("mes"); 	// fail message: Expected action to start with "mes", but "wrong" differs near "wro" (index 0).
-action.Should().Throw<Exception>().Which.Message.Should().StartWith("mes"); 	// fail message: Expected action to start with "mes", but "wrong" differs near "wro" (index 0).
+action.Should().Throw<Exception>().And.Message.Should().StartWith("mes"); 	// fail message: Expected action to start with the same string, but they differ at index 0:
+//    ↓ (actual)
+//   "wrong"
+//   "mes"
+//    ↑ (expected).
+action.Should().Throw<Exception>().Which.Message.Should().StartWith("mes"); 	// fail message: Expected action to start with the same string, but they differ at index 0:
+//    ↓ (actual)
+//   "wrong"
+//   "mes"
+//    ↑ (expected).
 
 // new assertion:
 action.Should().Throw<Exception>().WithMessage("mes*"); 	// fail message: Expected exception message to match the equivalent of "mes*", but "wrong" does not.
@@ -1060,8 +1092,16 @@ static void ThrowException() => throw new ArgumentException("wrong");
 Action action = ThrowException;
 
 // old assertion:
-action.Should().ThrowExactly<ArgumentException>().And.Message.Should().Be("message"); 	// fail message: Expected action to be "message" with a length of 7, but "wrong" has a length of 5, differs near "wro" (index 0).
-action.Should().ThrowExactly<ArgumentException>().Which.Message.Should().Be("message"); 	// fail message: Expected action to be "message" with a length of 7, but "wrong" has a length of 5, differs near "wro" (index 0).
+action.Should().ThrowExactly<ArgumentException>().And.Message.Should().Be("message"); 	// fail message: Expected action to be the same string, but they differ at index 0:
+//    ↓ (actual)
+//   "wrong"
+//   "message"
+//    ↑ (expected).
+action.Should().ThrowExactly<ArgumentException>().Which.Message.Should().Be("message"); 	// fail message: Expected action to be the same string, but they differ at index 0:
+//    ↓ (actual)
+//   "wrong"
+//   "message"
+//    ↑ (expected).
 
 // new assertion:
 action.Should().ThrowExactly<ArgumentException>().WithMessage("message"); 	// fail message: Expected exception message to match the equivalent of "message", but "wrong" does not.
@@ -1120,8 +1160,16 @@ static void ThrowException() => throw new ArgumentException("wrong");
 Action action = ThrowException;
 
 // old assertion:
-action.Should().ThrowExactly<ArgumentException>().And.Message.Should().EndWith("age"); 	// fail message: Expected action to end with "age", but "wrong" differs near "wro" (index 0).
-action.Should().ThrowExactly<ArgumentException>().Which.Message.Should().EndWith("age"); 	// fail message: Expected action to end with "age", but "wrong" differs near "wro" (index 0).
+action.Should().ThrowExactly<ArgumentException>().And.Message.Should().EndWith("age"); 	// fail message: Expected action to end with the same string, but they differ before index 5:
+//        ↓ (actual)
+//   "wrong"
+//     "age"
+//        ↑ (expected).
+action.Should().ThrowExactly<ArgumentException>().Which.Message.Should().EndWith("age"); 	// fail message: Expected action to end with the same string, but they differ before index 5:
+//        ↓ (actual)
+//   "wrong"
+//     "age"
+//        ↑ (expected).
 
 // new assertion:
 action.Should().ThrowExactly<ArgumentException>().WithMessage("*age"); 	// fail message: Expected exception message to match the equivalent of "*age", but "wrong" does not.
@@ -1150,8 +1198,16 @@ static void ThrowException() => throw new ArgumentException("wrong");
 Action action = ThrowException;
 
 // old assertion:
-action.Should().ThrowExactly<ArgumentException>().And.Message.Should().StartWith("mes"); 	// fail message: Expected action to start with "mes", but "wrong" differs near "wro" (index 0).
-action.Should().ThrowExactly<ArgumentException>().Which.Message.Should().StartWith("mes"); 	// fail message: Expected action to start with "mes", but "wrong" differs near "wro" (index 0).
+action.Should().ThrowExactly<ArgumentException>().And.Message.Should().StartWith("mes"); 	// fail message: Expected action to start with the same string, but they differ at index 0:
+//    ↓ (actual)
+//   "wrong"
+//   "mes"
+//    ↑ (expected).
+action.Should().ThrowExactly<ArgumentException>().Which.Message.Should().StartWith("mes"); 	// fail message: Expected action to start with the same string, but they differ at index 0:
+//    ↓ (actual)
+//   "wrong"
+//   "mes"
+//    ↑ (expected).
 
 // new assertion:
 action.Should().ThrowExactly<ArgumentException>().WithMessage("mes*"); 	// fail message: Expected exception message to match the equivalent of "mes*", but "wrong" does not.
