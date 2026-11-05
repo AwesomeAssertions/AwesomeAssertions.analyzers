@@ -25,43 +25,45 @@
 
 using System;
 using System.Collections.Immutable;
+using System.Linq;
 using AwesomeAssertions.Analyzers.Utilities;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
 
-namespace AwesomeAssertions.Analyzers;
+namespace AwesomeAssertions.Analyzers.Tips;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AssertAnalyzer : DiagnosticAnalyzer
 {
     public static readonly string Message = "Use AwesomeAssertions equivalent";
+
     public static readonly DiagnosticDescriptor XunitRule = new(
        RuleIdentifiers.XunitRule,
        title: "Replace Xunit assertion with Fluent Assertions equivalent",
        messageFormat: Message,
-       description: "",
        category: Constants.Tips.Category,
-       defaultSeverity: DiagnosticSeverity.Info, // TODO: change to DiagnosticSeverity.Warning,
-       isEnabledByDefault: true);
+       defaultSeverity: DiagnosticSeverity.Info,
+       isEnabledByDefault: true,
+       description: "");
 
     public static readonly DiagnosticDescriptor MSTestsRule = new(
        RuleIdentifiers.MsTestRule,
        title: "Replace MSTests assertion with Fluent Assertions equivalent",
        messageFormat: Message,
-       description: "",
        category: Constants.Tips.Category,
-       defaultSeverity: DiagnosticSeverity.Info, // TODO: change to DiagnosticSeverity.Warning,
-       isEnabledByDefault: true);
+       defaultSeverity: DiagnosticSeverity.Info,
+       isEnabledByDefault: true,
+       description: "");
 
     public static readonly DiagnosticDescriptor NUnitRule = new(
        RuleIdentifiers.NunitRule,
        title: "Replace NUnit assertion with Fluent Assertions equivalent",
        messageFormat: Message,
-       description: "",
        category: Constants.Tips.Category,
-       defaultSeverity: DiagnosticSeverity.Info, // TODO: change to DiagnosticSeverity.Warning,
-       isEnabledByDefault: true);
+       defaultSeverity: DiagnosticSeverity.Info,
+       isEnabledByDefault: true,
+       description: "");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(XunitRule, MSTestsRule, NUnitRule);
 
@@ -73,7 +75,9 @@ public sealed class AssertAnalyzer : DiagnosticAnalyzer
         context.RegisterCompilationStartAction(context =>
         {
             if (context.Compilation.GetTypeByMetadataName("AwesomeAssertions.AssertionExtensions") is null)
+            {
                 return;
+            }
 
             var analyzerContext = new AnalyzerContext(context.Compilation);
 
@@ -99,67 +103,67 @@ public sealed class AssertAnalyzer : DiagnosticAnalyzer
 
     private sealed class AnalyzerContext(Compilation compilation)
     {
-        private readonly INamedTypeSymbol _xunitAssertSymbol = compilation.GetTypeByMetadataName("Xunit.Assert");
+        private readonly INamedTypeSymbol xunitAssertSymbol = compilation.GetTypeByMetadataName("Xunit.Assert");
 
-        private readonly INamedTypeSymbol _msTestsAssertSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.Assert");
-        private readonly INamedTypeSymbol _msTestsStringAssertSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.StringAssert");
-        private readonly INamedTypeSymbol _msTestsCollectionAssertSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert");
-        private readonly INamedTypeSymbol _msTestsUnitTestAssertExceptionSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.UnitTestAssertException");
-        private readonly INamedTypeSymbol _msTestsAssertInconclusiveExceptionSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.AssertInconclusiveException");
+        private readonly INamedTypeSymbol msTestsAssertSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.Assert");
+        private readonly INamedTypeSymbol msTestsStringAssertSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.StringAssert");
+        private readonly INamedTypeSymbol msTestsCollectionAssertSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert");
+        private readonly INamedTypeSymbol msTestsUnitTestAssertExceptionSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.UnitTestAssertException");
+        private readonly INamedTypeSymbol msTestsAssertInconclusiveExceptionSymbol = compilation.GetTypeByMetadataName("Microsoft.VisualStudio.TestTools.UnitTesting.AssertInconclusiveException");
 
-        private readonly INamedTypeSymbol _nunitAssertionExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.AssertionException");
-        private readonly INamedTypeSymbol _nunitAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.Assert");
-        private readonly INamedTypeSymbol _nunitCollectionAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.CollectionAssert") ?? compilation.GetTypeByMetadataName("NUnit.Framework.Legacy.CollectionAssert");
-        private readonly INamedTypeSymbol _nunitDirectoryAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.DirectoryAssert");
-        private readonly INamedTypeSymbol _nunitFileAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.FileAssert");
-        private readonly INamedTypeSymbol _nunitStringAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.StringAssert");
-        private readonly INamedTypeSymbol _nunitClassicAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.Legacy.ClassicAssert");
-        private readonly INamedTypeSymbol _nunitResultStateExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.ResultStateException");
-        private readonly INamedTypeSymbol _nunitSuccessExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.SuccessException");
-        private readonly INamedTypeSymbol _nunitIgnoreExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.IgnoreException");
-        private readonly INamedTypeSymbol _nunitInconclusiveExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.InconclusiveException");
+        private readonly INamedTypeSymbol nunitAssertionExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.AssertionException");
+        private readonly INamedTypeSymbol nunitAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.Assert");
+        private readonly INamedTypeSymbol nunitCollectionAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.CollectionAssert") ?? compilation.GetTypeByMetadataName("NUnit.Framework.Legacy.CollectionAssert");
+        private readonly INamedTypeSymbol nunitDirectoryAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.DirectoryAssert");
+        private readonly INamedTypeSymbol nunitFileAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.FileAssert");
+        private readonly INamedTypeSymbol nunitStringAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.StringAssert");
+        private readonly INamedTypeSymbol nunitClassicAssertSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.Legacy.ClassicAssert");
+        private readonly INamedTypeSymbol nunitResultStateExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.ResultStateException");
+        private readonly INamedTypeSymbol nunitSuccessExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.SuccessException");
+        private readonly INamedTypeSymbol nunitIgnoreExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.IgnoreException");
+        private readonly INamedTypeSymbol nunitInconclusiveExceptionSymbol = compilation.GetTypeByMetadataName("NUnit.Framework.InconclusiveException");
 
-        public bool IsMSTestsAvailable => _msTestsAssertSymbol is not null;
-        public bool IsNUnitAvailable => _nunitAssertionExceptionSymbol is not null;
-        public bool IsXUnitAvailable => _xunitAssertSymbol is not null;
+        public bool IsMSTestsAvailable => msTestsAssertSymbol is not null;
+
+        public bool IsNUnitAvailable => nunitAssertionExceptionSymbol is not null;
+
+        public bool IsXUnitAvailable => xunitAssertSymbol is not null;
 
         private static readonly char[] SymbolsSeparators = ['|'];
 
         private bool IsMethodExcluded(AnalyzerOptions options, IInvocationOperation operation)
         {
-            var location = operation.Syntax.GetLocation().SourceTree;
+            SyntaxTree location = operation.Syntax.GetLocation().SourceTree;
             if (location is null)
-                return false;
-
-            var fileOptions = options.AnalyzerConfigOptionsProvider.GetOptions(location);
-            if (fileOptions is null)
-                return false;
-
-            if (!fileOptions.TryGetValue("ffa_excluded_methods", out var symbolDocumentationIds))
-                return false;
-
-            var parts = symbolDocumentationIds.Split(SymbolsSeparators, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var part in parts)
             {
-                var symbols = DocumentationCommentId.GetSymbolsForDeclarationId(part, compilation);
-                foreach (var symbol in symbols)
-                {
-                    if (operation.TargetMethod.EqualsSymbol(symbol))
-                        return true;
-                }
+                return false;
             }
 
-            return false;
+            AnalyzerConfigOptions fileOptions = options.AnalyzerConfigOptionsProvider.GetOptions(location);
+            if (fileOptions is null)
+            {
+                return false;
+            }
+
+            if (!fileOptions.TryGetValue("ffa_excluded_methods", out var symbolDocumentationIds))
+            {
+                return false;
+            }
+
+            return symbolDocumentationIds.Split(SymbolsSeparators, StringSplitOptions.RemoveEmptyEntries)
+                .Any(part => DocumentationCommentId.GetSymbolsForDeclarationId(part, compilation).Any(operation.TargetMethod.EqualsSymbol));
         }
 
         public void AnalyzeXunitInvocation(OperationAnalysisContext context)
         {
             var op = (IInvocationOperation)context.Operation;
 
-            if (op.TargetMethod.ContainingType.EqualsSymbol(_xunitAssertSymbol) && !IsMethodExcluded(context.Options, op))
+            if (op.TargetMethod.ContainingType.EqualsSymbol(xunitAssertSymbol) && !IsMethodExcluded(context.Options, op))
             {
                 if (op.TargetMethod.Name is "Skip" or "SkipWhen" or "SkipUnless")
+                {
                     return;
+                }
 
                 context.ReportDiagnostic(Diagnostic.Create(XunitRule, op.Syntax.GetLocation()));
             }
@@ -170,8 +174,11 @@ public sealed class AssertAnalyzer : DiagnosticAnalyzer
             var op = (IInvocationOperation)context.Operation;
             if (IsMsTestAssertClass(op.TargetMethod.ContainingType) && !IsMethodExcluded(context.Options, op))
             {
-                if (op.TargetMethod.Name is "Fail" or "Inconclusive" && op.TargetMethod.ContainingType.EqualsSymbol(_msTestsAssertSymbol))
+                if (op.TargetMethod.Name is "Fail" or "Inconclusive" && op.TargetMethod.ContainingType.EqualsSymbol(msTestsAssertSymbol))
+                {
                     return;
+                }
+
                 context.ReportDiagnostic(Diagnostic.Create(MSTestsRule, op.Syntax.GetLocation()));
             }
         }
@@ -181,9 +188,9 @@ public sealed class AssertAnalyzer : DiagnosticAnalyzer
             var op = (IThrowOperation)context.Operation;
             ITypeSymbol exceptionSymbol = op.Exception?.UnwrapConversion().Type;
 
-            if (exceptionSymbol is not null && 
-                exceptionSymbol.IsOrInheritsFrom(_msTestsUnitTestAssertExceptionSymbol) &&
-                !exceptionSymbol.EqualsSymbol(_msTestsAssertInconclusiveExceptionSymbol))
+            if (exceptionSymbol is not null &&
+                exceptionSymbol.IsOrInheritsFrom(msTestsUnitTestAssertExceptionSymbol) &&
+                !exceptionSymbol.EqualsSymbol(msTestsAssertInconclusiveExceptionSymbol))
             {
                 context.ReportDiagnostic(Diagnostic.Create(MSTestsRule, op.Syntax.GetLocation()));
             }
@@ -194,8 +201,10 @@ public sealed class AssertAnalyzer : DiagnosticAnalyzer
             var op = (IInvocationOperation)context.Operation;
             if (IsNunitAssertClass(op.TargetMethod.ContainingType) && !IsMethodExcluded(context.Options, op))
             {
-                if (op.TargetMethod.Name is "Inconclusive" or "Ignore" or "Pass" or "Warn" or "Charlie" && op.TargetMethod.ContainingType.EqualsSymbol(_nunitAssertSymbol))
+                if (op.TargetMethod.Name is "Inconclusive" or "Ignore" or "Pass" or "Warn" or "Charlie" && op.TargetMethod.ContainingType.EqualsSymbol(nunitAssertSymbol))
+                {
                     return;
+                }
 
                 context.ReportDiagnostic(Diagnostic.Create(NUnitRule, op.Syntax.GetLocation()));
             }
@@ -206,9 +215,11 @@ public sealed class AssertAnalyzer : DiagnosticAnalyzer
             var op = (IDynamicInvocationOperation)context.Operation;
 
             if (op.Arguments.Length < 2)
+            {
                 return;
+            }
 
-            var containingType = ((op.Arguments[1]
+            ITypeSymbol containingType = ((op.Arguments[1]
                         .Parent as IDynamicInvocationOperation)?
                         .Operation as IDynamicMemberReferenceOperation)?
                         .ContainingType;
@@ -221,14 +232,14 @@ public sealed class AssertAnalyzer : DiagnosticAnalyzer
         public void AnalyzeNunitThrow(OperationAnalysisContext context)
         {
             var op = (IThrowOperation)context.Operation;
-            var exceptionType = op.Exception?.UnwrapConversion().Type;
+            ITypeSymbol exceptionType = op.Exception?.UnwrapConversion().Type;
 
-            // some NUnit exception don't have have an AA equivalent. Though they might probably 
+            // some NUnit exception don't have have an AA equivalent. Though they might probably
             // better used with e.g. Assert.Ignore, it is valid to use them.
-            if (exceptionType.IsOrInheritsFrom(_nunitResultStateExceptionSymbol)
-                && !exceptionType.IsOrInheritsFrom(_nunitIgnoreExceptionSymbol)
-                && !exceptionType.IsOrInheritsFrom(_nunitInconclusiveExceptionSymbol)
-                && !exceptionType.IsOrInheritsFrom(_nunitSuccessExceptionSymbol))
+            if (exceptionType.IsOrInheritsFrom(nunitResultStateExceptionSymbol)
+                && !exceptionType.IsOrInheritsFrom(nunitIgnoreExceptionSymbol)
+                && !exceptionType.IsOrInheritsFrom(nunitInconclusiveExceptionSymbol)
+                && !exceptionType.IsOrInheritsFrom(nunitSuccessExceptionSymbol))
             {
                 context.ReportDiagnostic(Diagnostic.Create(NUnitRule, op.Syntax.GetLocation()));
             }
@@ -237,24 +248,28 @@ public sealed class AssertAnalyzer : DiagnosticAnalyzer
         private bool IsMsTestAssertClass(ITypeSymbol typeSymbol)
         {
             if (typeSymbol is null)
+            {
                 return false;
+            }
 
-            return typeSymbol.EqualsSymbol(_msTestsAssertSymbol)
-                || typeSymbol.EqualsSymbol(_msTestsStringAssertSymbol)
-                || typeSymbol.EqualsSymbol(_msTestsCollectionAssertSymbol);
+            return typeSymbol.EqualsSymbol(msTestsAssertSymbol)
+                || typeSymbol.EqualsSymbol(msTestsStringAssertSymbol)
+                || typeSymbol.EqualsSymbol(msTestsCollectionAssertSymbol);
         }
 
         private bool IsNunitAssertClass(ITypeSymbol typeSymbol)
         {
             if (typeSymbol is null)
+            {
                 return false;
+            }
 
-            return typeSymbol.EqualsSymbol(_nunitAssertSymbol)
-                || typeSymbol.EqualsSymbol(_nunitCollectionAssertSymbol)
-                || typeSymbol.EqualsSymbol(_nunitDirectoryAssertSymbol)
-                || typeSymbol.EqualsSymbol(_nunitFileAssertSymbol)
-                || typeSymbol.EqualsSymbol(_nunitStringAssertSymbol)
-                || typeSymbol.EqualsSymbol(_nunitClassicAssertSymbol);
+            return typeSymbol.EqualsSymbol(nunitAssertSymbol)
+                || typeSymbol.EqualsSymbol(nunitCollectionAssertSymbol)
+                || typeSymbol.EqualsSymbol(nunitDirectoryAssertSymbol)
+                || typeSymbol.EqualsSymbol(nunitFileAssertSymbol)
+                || typeSymbol.EqualsSymbol(nunitStringAssertSymbol)
+                || typeSymbol.EqualsSymbol(nunitClassicAssertSymbol);
         }
     }
 }

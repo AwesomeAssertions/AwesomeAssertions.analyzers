@@ -1,6 +1,6 @@
+#pragma warning disable // These tests show migrations, also for older methods. `ExpectedException` is used as marker to find failing tests and extract code
 using System;
 using System.Collections.Generic;
-using AwesomeAssertions;
 using Xunit;
 
 namespace AwesomeAssertions.Analyzers.Docs;

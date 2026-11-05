@@ -1,3 +1,4 @@
+#pragma warning disable // These tests show tips. `ExpectedException` is used as marker to find failing tests and extract code
 using System;
 using System.Collections.Generic;
 using System.Linq;

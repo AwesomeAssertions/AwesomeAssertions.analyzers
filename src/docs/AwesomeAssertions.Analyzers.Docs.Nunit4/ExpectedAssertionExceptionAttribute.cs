@@ -1,3 +1,4 @@
+#pragma warning disable
 using System;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;

@@ -6,19 +6,23 @@ using AwesomeAssertions.Analyzers.Docs.Generator;
 
 namespace AwesomeAssertions.Analyzers.Docs;
 
-public class Program
+public static class Program
 {
     public static Task Main(string[] args) => ProgramUtils.RunMain<XunitDocsGenerator, XunitDocsVerifier>(args);
 
-    private class XunitDocsGenerator : DocsGenerator
+    private sealed class XunitDocsGenerator : DocsGenerator
     {
         protected override Assembly TestAssembly { get; } = typeof(Program).Assembly;
+
         protected override string TestAttribute => "Fact"; // Xunit.FactAttribute
+
         protected override string TestFile => Path.Join(Environment.CurrentDirectory, "XunitAnalyzerTests.cs");
     }
-    private class XunitDocsVerifier : DocsVerifier
+
+    private sealed class XunitDocsVerifier : DocsVerifier
     {
         protected override string TestAttribute => "Fact"; // Xunit.FactAttribute
+
         protected override string TestFile => Path.Join(Environment.CurrentDirectory, "XunitAnalyzerTests.cs");
     }
 }

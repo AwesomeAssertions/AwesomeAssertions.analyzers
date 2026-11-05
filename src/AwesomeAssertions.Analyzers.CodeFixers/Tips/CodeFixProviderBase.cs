@@ -6,9 +6,10 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Operations;
 using CreateChangedDocument = System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task<Microsoft.CodeAnalysis.Document>>;
 
-namespace AwesomeAssertions.Analyzers;
+namespace AwesomeAssertions.Analyzers.Tips;
 
-public abstract class CodeFixProviderBase<TTestContext> : CodeFixProvider where TTestContext : class
+public abstract class CodeFixProviderBase<TTestContext> : CodeFixProvider
+    where TTestContext : class
 {
     public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
@@ -16,28 +17,28 @@ public abstract class CodeFixProviderBase<TTestContext> : CodeFixProvider where 
 
     public override async Task RegisterCodeFixesAsync(CodeFixContext context)
     {
-        var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken);
-        var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken);
+        SyntaxNode root = await context.Document.GetSyntaxRootAsync(context.CancellationToken);
+        SemanticModel semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken);
 
-        var testContext = CreateTestContext(semanticModel);
-        foreach (var diagnostic in context.Diagnostics)
+        TTestContext testContext = CreateTestContext(semanticModel);
+        foreach (Diagnostic diagnostic in context.Diagnostics)
         {
-            var node = root.FindNode(diagnostic.Location.SourceSpan);
+            SyntaxNode node = root.FindNode(diagnostic.Location.SourceSpan);
             if (node is not InvocationExpressionSyntax invocationExpression)
             {
                 continue;
             }
 
-            var operation = semanticModel.GetOperation(invocationExpression, context.CancellationToken);
+            IOperation operation = semanticModel.GetOperation(invocationExpression, context.CancellationToken);
             if (operation is not IInvocationOperation invocation)
             {
                 continue;
             }
 
-            var fix = TryComputeFix(invocation, context, testContext, diagnostic);
+            CreateChangedDocument fix = TryComputeFix(invocation, context, testContext, diagnostic);
             if (fix is not null)
             {
-                context.RegisterCodeFix(CodeAction.Create(Title, fix, equivalenceKey: Title), diagnostic);
+                context.RegisterCodeFix(CodeAction.Create(Title, fix, Title), diagnostic);
             }
         }
     }

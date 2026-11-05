@@ -1,3 +1,4 @@
+#pragma warning disable
 using System;
 using System.IO;
 using System.Linq;
@@ -47,11 +48,20 @@ public abstract class DocsGenerator
         var classDef = root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
         var methods = root.DescendantNodes().OfType<MethodDeclarationSyntax>();
         var methodsMap = methods.ToDictionary(m => m.Identifier.Text);
+        var testMethods = methods.Where(method =>
+        {
+            var attributes = method.AttributeLists.SelectMany(list => list.Attributes)
+                .Select(attribute => attribute.Name.ToString())
+                .ToArray();
+            return attributes.Contains(TestAttribute)
+                && !attributes.Contains("ExpectedAssertionException")
+                && !attributes.Contains("ExpectedException");
+        });
 
         var classType = TestAssembly.GetType($"AwesomeAssertions.Analyzers.Docs.{classDef.Identifier.Text}");
         var classInstance = Activator.CreateInstance(classType);
 
-        foreach (var method in methods.Where(m => m.AttributeLists.Any(list => list.Attributes.Count is 1 && list.Attributes[0].Name.ToString() == TestAttribute)))
+        foreach (var method in testMethods)
         {
             // success scenario:
             {
@@ -181,7 +191,11 @@ public abstract class DocsGenerator
 
         var docsPath = Path.Combine(Environment.CurrentDirectory, "..", "..", "..", "docs", docsName);
         Directory.CreateDirectory(Path.GetDirectoryName(docsPath));
-        await File.WriteAllTextAsync(docsPath, docs.ToString());
+        
+        var docsContent = docs.ToString()
+            .Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Replace("\n", Environment.NewLine, StringComparison.Ordinal);
+        await File.WriteAllTextAsync(docsPath, docsContent);
 
     }
 

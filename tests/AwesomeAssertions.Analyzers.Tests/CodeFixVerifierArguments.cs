@@ -5,28 +5,28 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace AwesomeAssertions.Analyzers.Tests;
 
-public class CodeFixVerifierArguments : CsProjectArguments
+public sealed class CodeFixVerifierArguments : CsProjectArguments
 {
-    public List<string> FixedSources { get; } = new();
+    public List<string> FixedSources { get; } = [];
 
-    public List<DiagnosticAnalyzer> DiagnosticAnalyzers { get; } = new();
+    public List<DiagnosticAnalyzer> DiagnosticAnalyzers { get; } = [];
 
-    public List<CodeFixProvider> CodeFixProviders { get; } = new();
+    public List<CodeFixProvider> CodeFixProviders { get; } = [];
 
-    public CodeFixVerifierArguments() { }
-
-    public CodeFixVerifierArguments WithDiagnosticAnalyzer<TDiagnosticAnalyzer>() where TDiagnosticAnalyzer : DiagnosticAnalyzer, new()
+    public CodeFixVerifierArguments WithDiagnosticAnalyzer<TDiagnosticAnalyzer>()
+        where TDiagnosticAnalyzer : DiagnosticAnalyzer, new()
     {
         DiagnosticAnalyzers.Add(new TDiagnosticAnalyzer());
         return this;
     }
 
-    public CodeFixVerifierArguments WithCodeFixProvider<TCodeFixProvider>() where TCodeFixProvider : CodeFixProvider, new()
+    public CodeFixVerifierArguments WithCodeFixProvider<TCodeFixProvider>()
+        where TCodeFixProvider : CodeFixProvider, new()
     {
         CodeFixProviders.Add(new TCodeFixProvider());
         return this;
     }
-    
+
     public CodeFixVerifierArguments WithFixedSources(params string[] fixedSources)
     {
         FixedSources.AddRange(fixedSources);

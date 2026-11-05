@@ -1,3 +1,4 @@
+#pragma warning disable
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -15,8 +16,8 @@ public static class ProgramUtils
 
         return args switch
         {
-        ["generate"] => new TDocsGenerator().Execute(),
-        ["verify"] => new TDocsVerifier().Execute(),
+            ["generate"] => new TDocsGenerator().Execute(),
+            ["verify"] => new TDocsVerifier().Execute(),
             _ => throw new ArgumentException("Invalid arguments, use 'generate' or 'verify' as argument.")
         };
     }
