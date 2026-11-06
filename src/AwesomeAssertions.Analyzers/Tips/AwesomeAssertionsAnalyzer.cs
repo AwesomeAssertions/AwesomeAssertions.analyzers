@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
 
-namespace AwesomeAssertions.Analyzers;
+namespace AwesomeAssertions.Analyzers.Tips;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
@@ -16,7 +16,7 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
     public const string DiagnosticId = RuleIdentifiers.AwesomeAssertionsTips;
     public const string Message = "Clean up AwesomeAssertion usage";
 
-    protected static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, Message, Constants.Tips.Category, DiagnosticSeverity.Info, true);
+    protected static readonly DiagnosticDescriptor Rule = new(DiagnosticId, Title, Message, Constants.Tips.Category, DiagnosticSeverity.Info, isEnabledByDefault: true);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
@@ -51,13 +51,13 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
 
         if (HasConditionalAccessAncestor(invocation))
         {
-            var expressionStatement = invocation.GetFirstAncestor<IExpressionStatementOperation>();
+            IExpressionStatementOperation expressionStatement = invocation.GetFirstAncestor<IExpressionStatementOperation>();
             context.ReportDiagnostic(CreateDiagnostic(expressionStatement, DiagnosticMetadata.NullConditionalMayNotExecute));
             return;
         }
 
-        var subjectArgument = invocation.Arguments[0];
-        var subject = subjectArgument.Value;
+        IArgumentOperation subjectArgument = invocation.Arguments[0];
+        IOperation subject = subjectArgument.Value;
 
         switch (assertion.TargetMethod.Name)
         {
@@ -86,9 +86,12 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                 return;
             case "NotBeEmpty" when assertion.IsContainedInType(metadata.GenericCollectionAssertionsOfT3):
                 {
-                    if (assertion.TryGetChainedInvocationAfterAndConstraint("NotBeNull", out var chainedInvocation))
+                    if (assertion.TryGetChainedInvocationAfterAndConstraint("NotBeNull", out IInvocationOperation chainedInvocation))
                     {
-                        if (!assertion.HasEmptyBecauseAndReasonArgs() && !chainedInvocation.HasEmptyBecauseAndReasonArgs()) return;
+                        if (!assertion.HasEmptyBecauseAndReasonArgs() && !chainedInvocation.HasEmptyBecauseAndReasonArgs())
+                        {
+                            return;
+                        }
 
                         if (chainedInvocation.IsContainedInType(metadata.ReferenceTypeAssertionsOfT2))
                         {
@@ -96,7 +99,7 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                             return;
                         }
                     }
-                    else if (invocation.TryGetFirstDescendent<IInvocationOperation>(out var invocationBeforeShould))
+                    else if (invocation.TryGetFirstDescendent(out IInvocationOperation invocationBeforeShould))
                     {
                         switch (invocationBeforeShould.TargetMethod.Name)
                         {
@@ -108,13 +111,18 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 return;
                         }
                     }
+
                     return;
                 }
+
             case "NotBeEmpty" when assertion.IsContainedInType(metadata.StringAssertionsOfT1):
                 {
-                    if (assertion.TryGetChainedInvocationAfterAndConstraint("NotBeNull", out var chainedInvocation))
+                    if (assertion.TryGetChainedInvocationAfterAndConstraint("NotBeNull", out IInvocationOperation chainedInvocation))
                     {
-                        if (!assertion.HasEmptyBecauseAndReasonArgs() && !chainedInvocation.HasEmptyBecauseAndReasonArgs()) return;
+                        if (!assertion.HasEmptyBecauseAndReasonArgs() && !chainedInvocation.HasEmptyBecauseAndReasonArgs())
+                        {
+                            return;
+                        }
 
                         if (chainedInvocation.IsContainedInType(metadata.ReferenceTypeAssertionsOfT2))
                         {
@@ -123,10 +131,11 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                         }
                     }
                 }
+
                 return;
             case "BeEmpty" when assertion.IsContainedInType(metadata.GenericCollectionAssertionsOfT3):
                 {
-                    if (invocation.TryGetFirstDescendent<IInvocationOperation>(out var invocationBeforeShould))
+                    if (invocation.TryGetFirstDescendent(out IInvocationOperation invocationBeforeShould))
                     {
                         switch (invocationBeforeShould.TargetMethod.Name)
                         {
@@ -138,28 +147,43 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 return;
                         }
                     }
+
                     return;
                 }
+
             case "NotBeNull" when assertion.IsContainedInType(metadata.ReferenceTypeAssertionsOfT2):
                 {
-                    if (!assertion.TryGetChainedInvocationAfterAndConstraint("NotBeEmpty", out var chainedInvocation)) return;
-                    if (!assertion.HasEmptyBecauseAndReasonArgs() && !chainedInvocation.HasEmptyBecauseAndReasonArgs()) return;
+                    if (!assertion.TryGetChainedInvocationAfterAndConstraint("NotBeEmpty", out IInvocationOperation chainedInvocation))
+                    {
+                        return;
+                    }
+
+                    if (!assertion.HasEmptyBecauseAndReasonArgs() && !chainedInvocation.HasEmptyBecauseAndReasonArgs())
+                    {
+                        return;
+                    }
 
                     if (chainedInvocation.IsContainedInType(metadata.GenericCollectionAssertionsOfT3))
                     {
                         context.ReportDiagnostic(CreateDiagnostic(chainedInvocation, DiagnosticMetadata.CollectionShouldNotBeNullOrEmpty_ShouldNotBeNullAndNotBeEmpty));
                         return;
                     }
+
                     if (chainedInvocation.IsContainedInType(metadata.StringAssertionsOfT1))
                     {
                         context.ReportDiagnostic(CreateDiagnostic(chainedInvocation, DiagnosticMetadata.StringShouldNotBeNullOrEmpty_StringShouldNotBeNullAndNotBeEmpty));
                         return;
                     }
                 }
+
                 return;
             case "NotContainNulls" when assertion.IsContainedInType(metadata.GenericCollectionAssertionsOfT3):
                 {
-                    if (!invocation.TryGetFirstDescendent<IInvocationOperation>(out var invocationBeforeShould)) return;
+                    if (!invocation.TryGetFirstDescendent(out IInvocationOperation invocationBeforeShould))
+                    {
+                        return;
+                    }
+
                     switch (invocationBeforeShould.TargetMethod.Name)
                     {
                         case nameof(Enumerable.Select) when IsEnumerableMethodWithPredicate(invocationBeforeShould, metadata):
@@ -167,10 +191,15 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                             return;
                     }
                 }
+
                 return;
             case "Equal" when assertion.IsContainedInType(metadata.GenericCollectionAssertionsOfT3):
                 {
-                    if (!invocation.TryGetFirstDescendent<IInvocationOperation>(out var invocationBeforeShould)) return;
+                    if (!invocation.TryGetFirstDescendent(out IInvocationOperation invocationBeforeShould))
+                    {
+                        return;
+                    }
+
                     switch (invocationBeforeShould.TargetMethod.Name)
                     {
                         case nameof(Enumerable.OrderBy) when IsEnumerableMethodWithPredicate(invocationBeforeShould, metadata) && invocationBeforeShould.Arguments[0].IsSameArgumentReference(assertion.Arguments[0]):
@@ -185,10 +214,11 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                             return;
                     }
                 }
+
                 return;
             case "BeTrue" when assertion.IsContainedInType(metadata.BooleanAssertionsOfT1):
                 {
-                    if (invocation.TryGetFirstDescendent<IInvocationOperation>(out var invocationBeforeShould))
+                    if (invocation.TryGetFirstDescendent(out IInvocationOperation invocationBeforeShould))
                     {
                         switch (invocationBeforeShould.TargetMethod.Name)
                         {
@@ -223,6 +253,7 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 return;
                         }
                     }
+
                     if (subject is IInvocationOperation shouldArgumentInvocation)
                     {
                         switch (shouldArgumentInvocation.TargetMethod.Name)
@@ -236,10 +267,11 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                         }
                     }
                 }
+
                 return;
             case "BeFalse" when assertion.IsContainedInType(metadata.BooleanAssertionsOfT1):
                 {
-                    if (invocation.TryGetFirstDescendent<IInvocationOperation>(out var invocationBeforeShould))
+                    if (invocation.TryGetFirstDescendent(out IInvocationOperation invocationBeforeShould))
                     {
                         switch (invocationBeforeShould.TargetMethod.Name)
                         {
@@ -263,6 +295,7 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 return;
                         }
                     }
+
                     if (subject is IInvocationOperation shouldArgumentInvocation)
                     {
                         switch (shouldArgumentInvocation.TargetMethod.Name)
@@ -276,10 +309,11 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                         }
                     }
                 }
+
                 return;
             case "HaveCount" when assertion.IsContainedInType(metadata.GenericCollectionAssertionsOfT3) && assertion.Arguments[0].IsLiteralValue(1):
                 {
-                    if (invocation.TryGetFirstDescendent<IInvocationOperation>(out var invocationBeforeShould))
+                    if (invocation.TryGetFirstDescendent(out IInvocationOperation invocationBeforeShould))
                     {
                         switch (invocationBeforeShould.TargetMethod.Name)
                         {
@@ -291,6 +325,7 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
 
                     context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldContainSingle_ShouldHaveCount1));
                 }
+
                 return;
             case "HaveCount" when assertion.IsContainedInType(metadata.GenericCollectionAssertionsOfT3) && assertion.Arguments[0].IsLiteralValue(0):
                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldBeEmpty_ShouldHaveCount0));
@@ -304,7 +339,11 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                 return;
             case "OnlyHaveUniqueItems" when assertion.IsContainedInType(metadata.GenericCollectionAssertionsOfT3):
                 {
-                    if (!invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould)) return;
+                    if (!invocation.TryGetSingleArgumentAs(out IInvocationOperation invocationBeforeShould))
+                    {
+                        return;
+                    }
+
                     switch (invocationBeforeShould.TargetMethod.Name)
                     {
                         case nameof(Enumerable.Select) when IsEnumerableMethodWithPredicate(invocationBeforeShould, metadata):
@@ -312,14 +351,14 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                             return;
                     }
                 }
+
                 return;
             case "Be" when assertion.IsContainedInType(metadata.NumericAssertionsBaseOfT3):
                 {
-                    if (invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould))
+                    if (invocation.TryGetSingleArgumentAs(out IInvocationOperation invocationBeforeShould))
                     {
                         switch (invocationBeforeShould.TargetMethod.Name)
                         {
-                            // TODO: add support for Enumerable.LongCount
                             case nameof(Enumerable.Count) when IsEnumerableMethodWithoutArguments(invocationBeforeShould, metadata):
                                 if (assertion.Arguments[0].IsLiteralValue(1))
                                 {
@@ -333,12 +372,12 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 {
                                     context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCount_CountShouldBe));
                                 }
-                                return;
 
+                                return;
                         }
                     }
 
-                    if (invocation.TryGetSingleArgumentAs<IPropertyReferenceOperation>(out var propertyBeforeShould))
+                    if (invocation.TryGetSingleArgumentAs(out IPropertyReferenceOperation propertyBeforeShould))
                     {
                         switch (propertyBeforeShould.Property.Name)
                         {
@@ -355,6 +394,7 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 {
                                     context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCount_LengthShouldBe));
                                 }
+
                                 return;
                             case nameof(string.Length) when propertyBeforeShould.IsContainedInType(SpecialType.System_String):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.StringShouldHaveLength_LengthShouldBe));
@@ -372,33 +412,37 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 {
                                     context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCount_CountShouldBe));
                                 }
+
                                 return;
                         }
                     }
+
                     if (subject is IPropertyReferenceOperation propertyReference && propertyReference.Property.Name is WellKnownMemberNames.Indexer
                         && (propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IListOfT) || propertyReference.Instance.Type.ImplementsOrIsInterface(metadata.IReadonlyListOfT)))
                     {
                         context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveElementAt_IndexerShouldBe));
                     }
+
                     return;
                 }
+
             case "Be" when assertion.IsContainedInType(metadata.ObjectAssertionsOfT2):
                 {
-                    if (invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould))
+                    if (invocation.TryGetSingleArgumentAs(out IInvocationOperation invocationBeforeShould))
                     {
                         switch (invocationBeforeShould.TargetMethod.Name)
                         {
-                            // TODO: add support when element type is Numeric
                             case nameof(Enumerable.ElementAt) when invocationBeforeShould.IsContainedInType(metadata.Enumerable) && invocationBeforeShould.Arguments.Length is 2:
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveElementAt_ElementAtIndexShouldBe));
                                 return;
                             case nameof(Enumerable.First) when IsEnumerableMethodWithoutArguments(invocationBeforeShould, metadata):
                                 {
-                                    if (invocationBeforeShould.TryGetFirstDescendent<IInvocationOperation>(out var skipInvocation) && skipInvocation.TargetMethod.Name is nameof(Enumerable.Skip))
+                                    if (invocationBeforeShould.TryGetFirstDescendent(out IInvocationOperation skipInvocation) && skipInvocation.TargetMethod.Name is nameof(Enumerable.Skip))
                                     {
                                         context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveElementAt_SkipFirstShouldBe));
                                     }
                                 }
+
                                 return;
                         }
                     }
@@ -413,16 +457,16 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                         context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveElementAt_IndexerShouldBe));
                     }
                 }
+
                 return;
             case "NotBe" when assertion.IsContainedInType(metadata.NumericAssertionsBaseOfT3):
                 {
-                    if (invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould))
+                    if (invocation.TryGetSingleArgumentAs(out IInvocationOperation invocationBeforeShould))
                     {
                         switch (invocationBeforeShould.TargetMethod.Name)
                         {
-                            // TODO: add support for Enumerable.LongCount
                             case nameof(Enumerable.Count) when IsEnumerableMethodWithoutArguments(invocationBeforeShould, metadata):
-                                if (assertion.TryGetFirstArgumentAs<IInvocationOperation>(out var assertionInvocation) && IsEnumerableMethodWithoutArguments(assertionInvocation, metadata))
+                                if (assertion.TryGetFirstArgumentAs(out IInvocationOperation assertionInvocation) && IsEnumerableMethodWithoutArguments(assertionInvocation, metadata))
                                 {
                                     context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldNotHaveSameCount_CountShouldNotBeOtherCollectionCount));
                                 }
@@ -430,25 +474,26 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 {
                                     context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldNotHaveCount_CountShouldNotBe));
                                 }
+
                                 return;
                         }
                     }
                 }
+
                 return;
             case "BeGreaterThanOrEqualTo" when assertion.IsContainedInType(metadata.NumericAssertionsBaseOfT3):
                 {
-                    if (invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould))
+                    if (invocation.TryGetSingleArgumentAs(out IInvocationOperation invocationBeforeShould))
                     {
                         switch (invocationBeforeShould.TargetMethod.Name)
                         {
-                            // TODO: add support for Enumerable.LongCount
                             case nameof(Enumerable.Count) when IsEnumerableMethodWithoutArguments(invocationBeforeShould, metadata):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCountGreaterThanOrEqualTo_CountShouldBeGreaterThanOrEqualTo));
                                 return;
                         }
                     }
 
-                    if (invocation.TryGetSingleArgumentAs<IPropertyReferenceOperation>(out var propertyBeforeShould))
+                    if (invocation.TryGetSingleArgumentAs(out IPropertyReferenceOperation propertyBeforeShould))
                     {
                         switch (propertyBeforeShould.Property.Name)
                         {
@@ -459,70 +504,76 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                         }
                     }
 
-                    if (assertion.TryGetChainedInvocationAfterAndConstraint("BeLessThanOrEqualTo", out var chainedInvocation))
+                    if (assertion.TryGetChainedInvocationAfterAndConstraint("BeLessThanOrEqualTo", out IInvocationOperation chainedInvocation))
                     {
-                        if (!assertion.HasEmptyBecauseAndReasonArgs(startingIndex: 1) && !chainedInvocation.HasEmptyBecauseAndReasonArgs(startingIndex: 1)) return;
+                        if (!assertion.HasEmptyBecauseAndReasonArgs(startingIndex: 1) && !chainedInvocation.HasEmptyBecauseAndReasonArgs(startingIndex: 1))
+                        {
+                            return;
+                        }
 
                         context.ReportDiagnostic(CreateDiagnostic(chainedInvocation, DiagnosticMetadata.NumericShouldBeInRange_BeGreaterThanOrEqualToAndBeLessThanOrEqualTo));
                         return;
                     }
                 }
+
                 return;
             case "BeGreaterThan" when assertion.IsContainedInType(metadata.NumericAssertionsBaseOfT3):
                 {
-                    if (invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould))
+                    if (invocation.TryGetSingleArgumentAs(out IInvocationOperation invocationBeforeShould))
                     {
                         switch (invocationBeforeShould.TargetMethod.Name)
                         {
-                            // TODO: add support for Enumerable.LongCount
                             case nameof(Enumerable.Count) when IsEnumerableMethodWithoutArguments(invocationBeforeShould, metadata):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCountGreaterThan_CountShouldBeGreaterThan));
                                 return;
                         }
                     }
+
                     if (assertion.Arguments[0].IsLiteralValue(0))
                     {
                         context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.NumericShouldBePositive_ShouldBeGreaterThan));
                         return;
                     }
                 }
+
                 return;
             case "BeLessThanOrEqualTo" when assertion.IsContainedInType(metadata.NumericAssertionsBaseOfT3):
                 {
-                    if (invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould))
+                    if (invocation.TryGetSingleArgumentAs(out IInvocationOperation invocationBeforeShould))
                     {
                         switch (invocationBeforeShould.TargetMethod.Name)
                         {
-                            // TODO: add support for Enumerable.LongCount
                             case nameof(Enumerable.Count) when IsEnumerableMethodWithoutArguments(invocationBeforeShould, metadata):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCountLessThanOrEqualTo_CountShouldBeLessThanOrEqualTo));
                                 return;
                             case nameof(Math.Abs) when invocationBeforeShould.IsContainedInType(metadata.Math) && (
                                     assertion.Arguments[0].IsReferenceOfType(SpecialType.System_Double)
                                     || assertion.Arguments[0].IsReferenceOfType(SpecialType.System_Single)
-                                    || assertion.Arguments[0].IsReferenceOfType(SpecialType.System_Decimal)
-                                ):
+                                    || assertion.Arguments[0].IsReferenceOfType(SpecialType.System_Decimal)):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.NumericShouldBeApproximately_MathAbsShouldBeLessThanOrEqualTo));
                                 return;
                         }
                     }
 
-                    if (assertion.TryGetChainedInvocationAfterAndConstraint("BeGreaterThanOrEqualTo", out var chainedInvocation))
+                    if (assertion.TryGetChainedInvocationAfterAndConstraint("BeGreaterThanOrEqualTo", out IInvocationOperation chainedInvocation))
                     {
-                        if (!assertion.HasEmptyBecauseAndReasonArgs(startingIndex: 1) && !chainedInvocation.HasEmptyBecauseAndReasonArgs(startingIndex: 1)) return;
+                        if (!assertion.HasEmptyBecauseAndReasonArgs(startingIndex: 1) && !chainedInvocation.HasEmptyBecauseAndReasonArgs(startingIndex: 1))
+                        {
+                            return;
+                        }
 
                         context.ReportDiagnostic(CreateDiagnostic(chainedInvocation, DiagnosticMetadata.NumericShouldBeInRange_BeLessThanOrEqualToAndBeGreaterThanOrEqualTo));
                         return;
                     }
                 }
+
                 return;
             case "BeLessThan" when assertion.IsContainedInType(metadata.NumericAssertionsBaseOfT3):
                 {
-                    if (invocation.TryGetSingleArgumentAs<IInvocationOperation>(out var invocationBeforeShould))
+                    if (invocation.TryGetSingleArgumentAs(out IInvocationOperation invocationBeforeShould))
                     {
                         switch (invocationBeforeShould.TargetMethod.Name)
                         {
-                            // TODO: add support for Enumerable.LongCount
                             case nameof(Enumerable.Count) when IsEnumerableMethodWithoutArguments(invocationBeforeShould, metadata):
                                 context.ReportDiagnostic(CreateDiagnostic(assertion, DiagnosticMetadata.CollectionShouldHaveCountLessThan_CountShouldBeLessThan));
                                 return;
@@ -535,12 +586,16 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                         return;
                     }
                 }
+
                 return;
             case "ContainKey" when assertion.IsContainedInType(metadata.GenericDictionaryAssertionsOfT4):
                 {
-                    if (assertion.TryGetChainedInvocationAfterAndConstraint("ContainValue", out var chainedInvocation))
+                    if (assertion.TryGetChainedInvocationAfterAndConstraint("ContainValue", out IInvocationOperation chainedInvocation))
                     {
-                        if (!assertion.HasEmptyBecauseAndReasonArgs(startingIndex: 1) && !chainedInvocation.HasEmptyBecauseAndReasonArgs(startingIndex: 1)) return;
+                        if (!assertion.HasEmptyBecauseAndReasonArgs(startingIndex: 1) && !chainedInvocation.HasEmptyBecauseAndReasonArgs(startingIndex: 1))
+                        {
+                            return;
+                        }
 
                         if (assertion.Arguments[0].Value is IPropertyReferenceOperation { Property.Name: nameof(KeyValuePair<,>.Key) } firstPropertyReference
                         && chainedInvocation.Arguments[0].Value is IPropertyReferenceOperation { Property.Name: nameof(KeyValuePair<,>.Value) } secondPropertyReference)
@@ -550,22 +605,26 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 context.ReportDiagnostic(CreateDiagnostic(chainedInvocation, DiagnosticMetadata.DictionaryShouldContainPair_ShouldContainKeyAndContainValue));
                                 return;
                             }
-                            // TODO: report here
                         }
                         else
                         {
                             context.ReportDiagnostic(CreateDiagnostic(chainedInvocation, DiagnosticMetadata.DictionaryShouldContainKeyAndValue_ShouldContainKeyAndContainValue));
                             return;
                         }
+
                         return;
                     }
                 }
+
                 return;
             case "ContainValue" when assertion.IsContainedInType(metadata.GenericDictionaryAssertionsOfT4):
                 {
-                    if (assertion.TryGetChainedInvocationAfterAndConstraint("ContainKey", out var chainedInvocation))
+                    if (assertion.TryGetChainedInvocationAfterAndConstraint("ContainKey", out IInvocationOperation chainedInvocation))
                     {
-                        if (!assertion.HasEmptyBecauseAndReasonArgs(startingIndex: 1) && !chainedInvocation.HasEmptyBecauseAndReasonArgs(startingIndex: 1)) return;
+                        if (!assertion.HasEmptyBecauseAndReasonArgs(startingIndex: 1) && !chainedInvocation.HasEmptyBecauseAndReasonArgs(startingIndex: 1))
+                        {
+                            return;
+                        }
 
                         if (assertion.Arguments[0].Value is IPropertyReferenceOperation { Property.Name: nameof(KeyValuePair<,>.Value) } firstPropertyReference
                         && chainedInvocation.Arguments[0].Value is IPropertyReferenceOperation { Property.Name: nameof(KeyValuePair<,>.Key) } secondPropertyReference)
@@ -575,20 +634,25 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                                 context.ReportDiagnostic(CreateDiagnostic(chainedInvocation, DiagnosticMetadata.DictionaryShouldContainPair_ShouldContainValueAndContainKey));
                                 return;
                             }
-                            // TODO: report here
                         }
                         else
                         {
                             context.ReportDiagnostic(CreateDiagnostic(chainedInvocation, DiagnosticMetadata.DictionaryShouldContainKeyAndValue_ShouldContainValueAndContainKey));
                             return;
                         }
+
                         return;
                     }
                 }
+
                 return;
             case "Throw" when assertion.IsContainedInType(metadata.DelegateAssertionsOfT2):
                 {
-                    if (!TryGetExceptionPropertyAssertion(assertion, out var awesomeAssertionProperty, out var exceptionProperty, out var nextAssertion)) return;
+                    if (!TryGetExceptionPropertyAssertion(assertion, out var awesomeAssertionProperty, out var exceptionProperty, out IInvocationOperation nextAssertion))
+                    {
+                        return;
+                    }
+
                     switch ((awesomeAssertionProperty, exceptionProperty, nextAssertion.TargetMethod.Name))
                     {
                         case ("And", nameof(Exception.Message), "Contain"):
@@ -629,10 +693,15 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                             return;
                     }
                 }
+
                 return;
             case "ThrowExactly" when assertion.IsContainedInType(metadata.DelegateAssertionsOfT2):
                 {
-                    if (!TryGetExceptionPropertyAssertion(assertion, out var awesomeAssertionProperty, out var exceptionProperty, out var nextAssertion)) return;
+                    if (!TryGetExceptionPropertyAssertion(assertion, out var awesomeAssertionProperty, out var exceptionProperty, out IInvocationOperation nextAssertion))
+                    {
+                        return;
+                    }
+
                     switch ((awesomeAssertionProperty, exceptionProperty, nextAssertion.TargetMethod.Name))
                     {
                         case ("And", nameof(Exception.Message), "Contain"):
@@ -673,20 +742,18 @@ public partial class AwesomeAssertionsAnalyzer : DiagnosticAnalyzer
                             return;
                     }
                 }
+
                 return;
         }
     }
 
-    static Diagnostic CreateDiagnostic(IOperation operation, DiagnosticMetadata metadata)
+    private static Diagnostic CreateDiagnostic(IOperation operation, DiagnosticMetadata metadata)
     {
-        var properties = ImmutableDictionary<string, string>.Empty
+        ImmutableDictionary<string, string> properties = ImmutableDictionary<string, string>.Empty
             .Add(Constants.DiagnosticProperties.VisitorName, metadata.Name)
             .Add(Constants.DiagnosticProperties.HelpLink, metadata.HelpLink);
-        var newRule = new DiagnosticDescriptor(Rule.Id, Rule.Title, metadata.Message, Rule.Category, Rule.DefaultSeverity, true,
-            helpLinkUri: metadata.HelpLink);
-        return Diagnostic.Create(
-            descriptor: newRule,
-            location: operation.Syntax.GetLocation(),
-            properties: properties);
+        var newRule = new DiagnosticDescriptor(Rule.Id, Rule.Title, metadata.Message, Rule.Category, Rule.DefaultSeverity,
+            isEnabledByDefault: true, helpLinkUri: metadata.HelpLink);
+        return Diagnostic.Create(newRule, operation.Syntax.GetLocation(), properties);
     }
 }

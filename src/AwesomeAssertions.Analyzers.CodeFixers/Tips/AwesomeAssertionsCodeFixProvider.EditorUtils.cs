@@ -1,11 +1,13 @@
 using System;
+using AwesomeAssertions.Analyzers.Utilities;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 using Microsoft.CodeAnalysis.Operations;
 using CreateChangedDocument = System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task<Microsoft.CodeAnalysis.Document>>;
 
-namespace AwesomeAssertions.Analyzers;
+namespace AwesomeAssertions.Analyzers.Tips;
 
 public sealed partial class AwesomeAssertionsCodeFixProvider
 {
@@ -14,18 +16,18 @@ public sealed partial class AwesomeAssertionsCodeFixProvider
     {
         var assertionExpression = (InvocationExpressionSyntax)assertion.Syntax;
 
-        assertion.TryGetFirstDescendent<IInvocationOperation>(out var should);
-        var subject = should?.Arguments[0].Value.UnwrapConversion();
+        assertion.TryGetFirstDescendent(out IInvocationOperation should);
+        IOperation subject = should?.Arguments[0].Value.UnwrapConversion();
 
         IInvocationOperation invocationBeforeShould = default;
         should?.TryGetFirstDescendent(out invocationBeforeShould);
 
         var actionContext = new AwesomeAssertionEditActionContext(assertion, assertionExpression, should, subject, invocationBeforeShould);
 
-        return async ctx =>
+        return async token =>
         {
-            var editor = await DocumentEditor.CreateAsync(context.Document, ctx);
-            foreach (var action in actions)
+            DocumentEditor editor = await DocumentEditor.CreateAsync(context.Document, token);
+            foreach (Action<DocumentEditor, AwesomeAssertionEditActionContext> action in actions)
             {
                 action(editor, actionContext);
             }
@@ -39,22 +41,22 @@ public sealed partial class AwesomeAssertionsCodeFixProvider
     {
         var assertionExpressionB = (InvocationExpressionSyntax)assertionB.Syntax;
 
-        assertionB.TryGetFirstDescendent<IPropertyReferenceOperation>(out var andOrWhich);
+        assertionB.TryGetFirstDescendent(out IPropertyReferenceOperation andOrWhich);
 
-        andOrWhich.TryGetFirstDescendent<IInvocationOperation>(out var assertionA);
+        andOrWhich.TryGetFirstDescendent(out IInvocationOperation assertionA);
 
         var assertionExpressionA = (InvocationExpressionSyntax)assertionA.Syntax;
 
-        assertionA.TryGetFirstDescendent<IInvocationOperation>(out var should);
+        assertionA.TryGetFirstDescendent(out IInvocationOperation should);
 
-        var subject = should?.Arguments[0].Value;
+        IOperation subject = should?.Arguments[0].Value;
 
         var actionContext = new FluentChainedAssertionEditActionContext(assertionA, assertionExpressionA, andOrWhich, assertionB, assertionExpressionB, should, subject);
 
-        return async ctx =>
+        return async token =>
         {
-            var editor = await DocumentEditor.CreateAsync(context.Document, ctx);
-            foreach (var action in actions)
+            DocumentEditor editor = await DocumentEditor.CreateAsync(context.Document, token);
+            foreach (Action<DocumentEditor, FluentChainedAssertionEditActionContext> action in actions)
             {
                 action(editor, actionContext);
             }

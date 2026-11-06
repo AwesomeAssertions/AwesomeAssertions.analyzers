@@ -1,11 +1,10 @@
-#pragma warning disable MSTEST0006 // Avoid '[ExpectedException]': Used as marker to find failing tests and extract code
-#pragma warning disable MSTEST0039 // Use newer methods to assert exceptions: These tests show migrations, also for older methods
+#pragma warning disable // These tests show migrations, also for older methods. `ExpectedException` is used as marker to find failing tests and extract code
+using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AwesomeAssertions.Analyzers.Docs;
 

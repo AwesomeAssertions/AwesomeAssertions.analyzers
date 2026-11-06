@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <GenerateProgramFile>false</GenerateProgramFile>
+    <RootNamespace>AwesomeAssertions.Analyzers.Docs</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

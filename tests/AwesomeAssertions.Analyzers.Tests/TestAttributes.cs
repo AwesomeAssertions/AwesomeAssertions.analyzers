@@ -1,11 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AwesomeAssertions.Analyzers.Tests;
 
+#pragma warning disable SA1649 // File name should match first type name: Keep all attributes to gether, for the moment
 [AttributeUsage(AttributeTargets.Method)]
 public class NotImplementedAttribute : TestCategoryBaseAttribute
 {
@@ -32,7 +33,7 @@ public class AssertionDiagnosticAttribute : Attribute, ITestDataSource
     public AssertionDiagnosticAttribute(string assertion, params string[] additionalParameters)
     {
         Assertion = assertion;
-        AdditionalParameters = additionalParameters ?? Array.Empty<string>();
+        AdditionalParameters = additionalParameters ?? [];
     }
 
     public IEnumerable<object[]> GetData(MethodInfo methodInfo)
@@ -58,19 +59,21 @@ public class IgnoreAssertionDiagnosticAttribute : Attribute
 public class AssertionCodeFixAttribute : Attribute, ITestDataSource
 {
     public string OldAssertion { get; }
+
     public string NewAssertion { get; }
+
     public string[] AdditionalParameters { get; }
 
     public AssertionCodeFixAttribute(string oldAssertion, string newAssertion, params string[] additionalParameters)
     {
         OldAssertion = oldAssertion;
         NewAssertion = newAssertion;
-        AdditionalParameters = additionalParameters ?? Array.Empty<string>();
+        AdditionalParameters = additionalParameters ?? [];
     }
 
     public IEnumerable<object[]> GetData(MethodInfo methodInfo)
     {
-        foreach (var (oldAssertion, newAssertion) in TestCasesInputUtils.GetTestCases(OldAssertion, NewAssertion))
+        foreach ((string oldAssertion, string newAssertion) in TestCasesInputUtils.GetTestCases(OldAssertion, NewAssertion))
         {
             yield return new object[] { oldAssertion, newAssertion }.Concat(AdditionalParameters).ToArray();
         }
@@ -91,6 +94,7 @@ public class AssertionCodeFixAttribute : Attribute, ITestDataSource
 public class IgnoreAssertionCodeFixAttribute : Attribute
 {
     public string OldAssertion { get; }
+
     public string NewAssertion { get; }
 
     public IgnoreAssertionCodeFixAttribute(string oldAssertion, string newAssertion) => (OldAssertion, NewAssertion) = (oldAssertion, newAssertion);
@@ -100,7 +104,9 @@ public class IgnoreAssertionCodeFixAttribute : Attribute
 public class AssertionMethodCodeFixAttribute : Attribute, ITestDataSource
 {
     public string MethodArguments { get; }
+
     public string OldAssertion { get; }
+
     public string NewAssertion { get; }
 
     public AssertionMethodCodeFixAttribute(string methodArguments, string oldAssertion, string newAssertion)
@@ -108,7 +114,7 @@ public class AssertionMethodCodeFixAttribute : Attribute, ITestDataSource
 
     public IEnumerable<object[]> GetData(MethodInfo methodInfo)
     {
-        foreach (var (oldAssertion, newAssertion) in TestCasesInputUtils.GetTestCases(OldAssertion, NewAssertion))
+        foreach ((string oldAssertion, string newAssertion) in TestCasesInputUtils.GetTestCases(OldAssertion, NewAssertion))
         {
             yield return new object[] { MethodArguments, oldAssertion, newAssertion };
         }
@@ -121,7 +127,9 @@ public class AssertionMethodCodeFixAttribute : Attribute, ITestDataSource
 public class IgnoreAssertionMethodCodeFixAttribute : Attribute
 {
     public string MethodArguments { get; }
+
     public string OldAssertion { get; }
+
     public string NewAssertion { get; }
 
     public IgnoreAssertionMethodCodeFixAttribute(string methodArguments, string oldAssertion, string newAssertion)
@@ -130,9 +138,9 @@ public class IgnoreAssertionMethodCodeFixAttribute : Attribute
 
 public static class TestCasesInputUtils
 {
-    private static readonly string Empty = string.Empty;
-    private static readonly string Because = "\"because it's possible\"";
-    private static readonly string FormattedBecause = "\"because message with {0} placeholders {1} at {2}\", 3, \"is awesome\", DateTime.Now.Add(2.Seconds())";
+    private const string Because = "\"because it's possible\"";
+    private const string FormattedBecause = "\"because message with {0} placeholders {1} at {2}\", 3, \"is awesome\", DateTime.Now.Add(2.Seconds())";
+
     public static IEnumerable<string> GetTestCases(string assertion)
     {
         if (!assertion.Contains("{0}"))
@@ -141,10 +149,11 @@ public static class TestCasesInputUtils
             yield break;
         }
 
-        yield return SafeFormat(assertion, Empty);
+        yield return SafeFormat(assertion, string.Empty);
         yield return SafeFormat(assertion, Because);
         yield return SafeFormat(assertion, FormattedBecause);
     }
+
     public static IEnumerable<(string oldAssertion, string newAssertion)> GetTestCases(string oldAssertion, string newAssertion)
     {
         if (!oldAssertion.Contains("{0}") && !newAssertion.Contains("{0}"))
@@ -153,7 +162,7 @@ public static class TestCasesInputUtils
             yield break;
         }
 
-        yield return (SafeFormat(oldAssertion, Empty), SafeFormat(newAssertion, Empty));
+        yield return (SafeFormat(oldAssertion, string.Empty), SafeFormat(newAssertion, string.Empty));
         yield return (SafeFormat(oldAssertion, Because), SafeFormat(newAssertion, Because));
         yield return (SafeFormat(oldAssertion, FormattedBecause), SafeFormat(newAssertion, FormattedBecause));
     }
@@ -161,6 +170,8 @@ public static class TestCasesInputUtils
     /// <summary>
     /// Adds an comma before the additional argument if needed.
     /// </summary>
+    /// <param name="assertion"></param>
+    /// <param name="arg"></param>
     private static string SafeFormat(string assertion, string arg)
     {
         var index = assertion.IndexOf("{0}");
@@ -168,6 +179,7 @@ public static class TestCasesInputUtils
         {
             return string.Format(assertion, ", " + arg);
         }
+
         return string.Format(assertion, arg);
     }
 }

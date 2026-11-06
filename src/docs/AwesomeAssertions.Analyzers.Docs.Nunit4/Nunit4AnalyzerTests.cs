@@ -1,3 +1,4 @@
+#pragma warning disable // These tests show migrations, also for older methods. `ExpectedException` is used as marker to find failing tests and extract code
 using System.Collections.Generic;
 using AwesomeAssertions;
 using NUnit.Framework;
@@ -5,7 +6,7 @@ using NUnit.Framework.Legacy;
 
 namespace AwesomeAssertions.Analyzers.Docs;
 
-public class Nunit4AnalyzerTests
+public sealed class Nunit4AnalyzerTests
 {
     [Test]
     public void AssertIsTrue()
@@ -663,7 +664,7 @@ public class Nunit4AnalyzerTests
         // old assertion:
         Assert.That(number, Is.GreaterThanOrEqualTo(2));
     }
-    
+
     [Test, ExpectedAssertionException]
     public void AssertGreaterOrEqual_Failure_OldAssertion_2()
     {
@@ -972,7 +973,7 @@ public class Nunit4AnalyzerTests
         // old assertion:
         CollectionAssert.Contains(collection, item);
     }
-    
+
     [Test, ExpectedAssertionException]
     public void CollectionAssertContains_WithCasting_Failure_OldAssertion_1()
     {
@@ -1283,7 +1284,7 @@ public class Nunit4AnalyzerTests
         // old assertion:
         CollectionAssert.AllItemsAreNotNull(collection);
     }
-    
+
     [Test, ExpectedAssertionException]
     public void CollectionAssertAllItemsAreNotNull_Failure_OldAssertion_1()
     {
